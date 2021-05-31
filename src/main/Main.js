@@ -2,6 +2,7 @@ import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import Search from "./search/Search";
 import Recipes from "./recipes/Recipes";
+import {Container} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
@@ -20,8 +21,10 @@ function Main(props) {
     return (
         <main className={classes.content}>
             <div className={classes.toolbar} />
+            <Container maxWidth="md">
             <Search handleDrawerToggle={props.handleDrawerToggle} />
-            <Recipes />
+                <Recipes />
+            </Container>
         </main>
     );
 }

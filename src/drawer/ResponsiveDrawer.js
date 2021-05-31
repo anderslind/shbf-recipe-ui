@@ -8,10 +8,14 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        [theme.breakpoints.down('md')]: {
+            width: '100%',
+        },
         color: '#fff',
         backgroundColor: theme.palette.primary.main
     },
     drawer: {
+        flexShrink: 0,
         [theme.breakpoints.up('sm')]: {
             width: drawerWidth,
             flexShrink: 0,
@@ -41,10 +45,11 @@ function ResponsiveDrawer(props) {
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-        <nav className={classes.drawer} aria-label="search">
+        <div className={classes.drawer} aria-label="search">
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
             <Hidden smUp implementation="css">
                 <Drawer
+                    className={classes.drawer}
                     container={container}
                     variant="temporary"
                     anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -71,7 +76,7 @@ function ResponsiveDrawer(props) {
                     {drawer}
                 </Drawer>
             </Hidden>
-        </nav>
+        </div>
     );
 }
 

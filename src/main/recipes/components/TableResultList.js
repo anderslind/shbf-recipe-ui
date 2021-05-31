@@ -1,6 +1,7 @@
 import React from "react";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
+import ColorIcon from "../../../components/ColorIcon";
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -26,7 +27,6 @@ function TableResultList(props) {
                         <TableCell style={{ width: 60 }} align="right">IBU</TableCell>
                         <TableCell style={{ width: 60 }} align="right">Färg</TableCell>
                         <TableCell style={{ width: 60 }} align="right">Pla</TableCell>
-                        <TableCell align="right">Vis</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -39,9 +39,8 @@ function TableResultList(props) {
                             <TableCell style={{ width: 60 }} align="right">{row.fg}</TableCell>
                             <TableCell style={{ width: 60 }} align="right">{row.abv}</TableCell>
                             <TableCell style={{ width: 60 }} align="right">{row.ibu}</TableCell>
-                            <TableCell style={{ width: 60 }} align="right">{row.color}</TableCell>
+                            <TableCell style={{ width: 60 }} align="right"><ColorIcon ebc={row.ebc} size="small" /></TableCell>
                             <TableCell style={{ width: 60 }} align="right">{row.placing}</TableCell>
-                            <TableCell align="right">{row.views}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

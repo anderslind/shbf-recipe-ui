@@ -7,7 +7,7 @@ import ResponsiveDrawer from "./drawer/ResponsiveDrawer";
 import {makeStyles} from "@material-ui/core/styles";
 import Main from "./main/Main";
 
-export const drawerWidth = 240;
+export const drawerWidth = 300;
 
 const useStyles = makeStyles((theme) => ({
     root: {
