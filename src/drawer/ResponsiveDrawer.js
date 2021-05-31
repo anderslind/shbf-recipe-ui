@@ -5,18 +5,22 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {drawerWidth} from "../App";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
+import {Paper} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        backgroundColor: theme.palette.primary.main,
         [theme.breakpoints.down('md')]: {
             width: '100%',
         },
+    },
+    toolbar: theme.mixins.toolbar,
+    toolbar_ext: {
         color: '#fff',
         backgroundColor: theme.palette.primary.main
     },
     drawer: {
-        flexShrink: 0,
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             width: drawerWidth,
             flexShrink: 0,
         },
@@ -24,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     drawerPaper: {
         width: drawerWidth,
+        backgroundColor: '#fafafa'
+    },
+    drawerContent: {
+        backgroundColor: '#fafafa'
     },
 }));
 
@@ -39,6 +47,7 @@ function ResponsiveDrawer(props) {
                     Filter
                 </Typography>
             </Toolbar>
+            <div className={classes.drawerContent}>Content</div>
         </div>
     );
 
@@ -47,7 +56,7 @@ function ResponsiveDrawer(props) {
     return (
         <div className={classes.drawer} aria-label="search">
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-            <Hidden smUp implementation="css">
+            <Hidden mdUp implementation="css">
                 <Drawer
                     className={classes.drawer}
                     container={container}
@@ -65,7 +74,7 @@ function ResponsiveDrawer(props) {
                     {drawer}
                 </Drawer>
             </Hidden>
-            <Hidden xsDown implementation="css">
+            <Hidden smDown implementation="css">
                 <Drawer
                     classes={{
                         paper: classes.drawerPaper,

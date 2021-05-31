@@ -36,7 +36,7 @@ function Search(props) {
             <IconButton type="submit" className={classes.iconButton} aria-label="search">
                 <SearchIcon />
             </IconButton>
-            <Hidden smUp>
+            <Hidden mdUp>
                 <Divider className={classes.divider} orientation="vertical" />
                 <IconButton color="primary" className={classes.iconButton} edge="end" aria-label="Visa filter" onClick={() => props.handleDrawerToggle()}>
                     <FilterList className={classes.filterIcon}/>

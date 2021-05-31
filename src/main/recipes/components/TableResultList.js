@@ -20,7 +20,7 @@ function TableResultList(props) {
                     <TableRow>
                         <TableCell>Namn</TableCell>
                         <TableCell align="right">Stil</TableCell>
-                        <TableCell align="right">Storlek</TableCell>
+                        {/*<TableCell align="right">Storlek</TableCell>*/}
                         <TableCell style={{ width: 60 }} align="right">OG</TableCell>
                         <TableCell style={{ width: 60 }} align="right">FG</TableCell>
                         <TableCell style={{ width: 60 }} align="right">ABV</TableCell>
@@ -34,7 +34,7 @@ function TableResultList(props) {
                         <TableRow key={row.name}>
                             <TableCell component="th" scope="row">{row.name}</TableCell>
                             <TableCell align="right">{row.style}</TableCell>
-                            <TableCell align="right">{row.size}</TableCell>
+                            {/*<TableCell align="right">{row.size}</TableCell>*/}
                             <TableCell style={{ width: 60 }} align="right">{row.og}</TableCell>
                             <TableCell style={{ width: 60 }} align="right">{row.fg}</TableCell>
                             <TableCell style={{ width: 60 }} align="right">{row.abv}</TableCell>

@@ -22,7 +22,7 @@ function Main(props) {
         <main className={classes.content}>
             <div className={classes.toolbar} />
             <Container maxWidth="md">
-            <Search handleDrawerToggle={props.handleDrawerToggle} />
+                <Search handleDrawerToggle={props.handleDrawerToggle} />
                 <Recipes />
             </Container>
         </main>

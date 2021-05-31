@@ -4,17 +4,35 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import ResponsiveDrawer from "./drawer/ResponsiveDrawer";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles, MuiThemeProvider} from "@material-ui/core/styles";
 import Main from "./main/Main";
+import {createMuiTheme} from "@material-ui/core";
 
 export const drawerWidth = 300;
+
+const customTheme = createMuiTheme({
+    breakpoints: {
+        // Define custom breakpoint values.
+        // These will apply to Material-UI components that use responsive
+        // breakpoints, such as `Grid` and `Hidden`. You can also use the
+        // theme breakpoint functions `up`, `down`, and `between` to create
+        // media queries for these breakpoints
+        values: {
+            xs: 0,
+            sm: 760,
+            md: 1060,
+            lg: 1280,
+            xl: 1920
+        }
+    }
+});
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
     appBar: {
-        [theme.breakpoints.up('sm')]: {
+        [customTheme.breakpoints.up('md')]: {
             width: `calc(100% - ${drawerWidth}px)`,
             marginLeft: drawerWidth,
         },
@@ -30,18 +48,20 @@ function App() {
     };
 
     return (
-        <div className={classes.root}>
-            <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar variant="dense">
-                    <Typography variant="h6" noWrap>
-                        SHBF Receptsök
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <ResponsiveDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-            <Main handleDrawerToggle={handleDrawerToggle} />
-        </div>
+        <MuiThemeProvider theme={customTheme}>
+            <div className={classes.root}>
+                <CssBaseline />
+                <AppBar position="fixed" className={classes.appBar}>
+                    <Toolbar variant="dense">
+                        <Typography variant="h6" noWrap>
+                            SHBF Receptsök
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <ResponsiveDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                <Main handleDrawerToggle={handleDrawerToggle} />
+            </div>
+        </MuiThemeProvider>
     );
 }
 

@@ -27,10 +27,10 @@ function Recipes(props) {
 
     return (
         <div className={classes.recipes}>
-            <Hidden smDown>
+            <Hidden xsDown>
                 <TableResultList rows={rows} />
             </Hidden>
-            <Hidden mdUp>
+            <Hidden smUp>
                 <CardResultList rows={rows} />
             </Hidden>
         </div>
