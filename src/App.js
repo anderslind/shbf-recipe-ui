@@ -3,10 +3,10 @@ import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import ResponsiveDrawer from "./drawer/ResponsiveDrawer";
+import ResponsiveDrawer from "./components/ResponsiveDrawer";
 import {makeStyles, MuiThemeProvider} from "@material-ui/core/styles";
-import Main from "./main/Main";
 import {createMuiTheme} from "@material-ui/core";
+import Routes from "./components/Routes";
 
 export const drawerWidth = 300;
 
@@ -59,7 +59,7 @@ function App() {
                     </Toolbar>
                 </AppBar>
                 <ResponsiveDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                <Main handleDrawerToggle={handleDrawerToggle} />
+                <Routes handleDrawerToggle={handleDrawerToggle}/>
             </div>
         </MuiThemeProvider>
     );

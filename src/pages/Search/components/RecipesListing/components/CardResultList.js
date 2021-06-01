@@ -1,12 +1,14 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {Card, CardContent, CardHeader, IconButton} from "@material-ui/core";
+import {div, Card, CardContent, CardHeader, IconButton} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import {RadioButtonUnchecked} from "@material-ui/icons";
-import ColorIcon from "../../../components/ColorIcon";
+import ColorIcon from "../../../../../components/ColorIcon";
+import useLocation from "wouter/use-location";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        cursor: 'pointer',
         '& .MuiCardHeader-root': {
             padding: '5px',
         },
@@ -18,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
     stats: {
         display: "flex",
         flexWrap: 'wrap',
-        '& box:not(:last-child)': {
-            marginRight: '1rem',
+        '& div:not(:last-child)': {
+            marginRight: '0.7rem',
         }
     }
 }));
@@ -37,12 +39,18 @@ const useStyles = makeStyles((theme) => ({
 * */
 function CardResultList(props) {
     const classes = useStyles();
-    const rows = props.rows;
+    const [, setLocation] = useLocation();
+
+    const handleClick = (id)  => {
+        setLocation('/recipe-details');
+    }
+
+    const rows = props.recipes;
 
     return (
         <div>
             {rows.map((row) => (
-                <Card className={classes.root} variant="outlined">
+                <Card className={classes.root} variant="outlined" key={row.uuid} onClick={() => handleClick(row.uuid)}>
                     <CardHeader
                         avatar={
                             <ColorIcon ebc={row.ebc} size="large" />
@@ -58,13 +66,13 @@ function CardResultList(props) {
                     />
                     <CardContent>
                         <Typography className={classes.stats} variant="overline">
-                            <box><b>ABV</b> {row.abv}%</box>
-                            <box><b>OG</b> {row.og}</box>
-                            <box><b>FG</b> {row.fg}</box>
-                            <box><b>IBU</b> {row.ibu}</box>
+                            <div><b>ABV</b> {row.abv}%</div>
+                            <div><b>OG</b> {row.og}</div>
+                            <div><b>FG</b> {row.fg}</div>
+                            <div><b>IBU</b> {row.ibu}</div>
                         </Typography>
                         <Typography className={classes.stats} variant="overline">
-                            <box><b>Placering</b> {row.placing}</box>
+                            <div><b>Placering</b> {row.placing}</div>
                         </Typography>
                     </CardContent>
                 </Card>

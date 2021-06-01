@@ -1,7 +1,7 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import Search from "./search/Search";
-import Recipes from "./recipes/Recipes";
+import SearchBar from "./components/SearchBar/SearchBar";
+import Recipes from "./components/RecipesListing/Recipes";
 import {Container} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -15,18 +15,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Main(props) {
+function Search(props) {
     const classes = useStyles();
 
     return (
         <main className={classes.content}>
             <div className={classes.toolbar} />
             <Container maxWidth="md">
-                <Search handleDrawerToggle={props.handleDrawerToggle} />
+                <SearchBar handleDrawerToggle={props.handleDrawerToggle} />
                 <Recipes />
             </Container>
         </main>
     );
 }
 
-export default Main;
+export default Search;

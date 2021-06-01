@@ -5,20 +5,16 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {drawerWidth} from "../App";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
-import {Paper} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        color: theme.palette.primary.contrastText,
         backgroundColor: theme.palette.primary.main,
         [theme.breakpoints.down('md')]: {
             width: '100%',
         },
     },
     toolbar: theme.mixins.toolbar,
-    toolbar_ext: {
-        color: '#fff',
-        backgroundColor: theme.palette.primary.main
-    },
     drawer: {
         [theme.breakpoints.up('md')]: {
             width: drawerWidth,
@@ -31,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#fafafa'
     },
     drawerContent: {
-        backgroundColor: '#fafafa'
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.background.default
     },
 }));
 

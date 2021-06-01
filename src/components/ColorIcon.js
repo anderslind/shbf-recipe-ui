@@ -1,15 +1,7 @@
 import React from "react";
-import {makeStyles} from "@material-ui/core/styles";
 import {LocalDrink} from "@material-ui/icons";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        color: '#cbb11f'
-    },
-}));
-
 function ColorIcon(props) {
-    const classes = useStyles();
 
     const ebuToColor = (ebc) => {
         if (ebc < 12)
