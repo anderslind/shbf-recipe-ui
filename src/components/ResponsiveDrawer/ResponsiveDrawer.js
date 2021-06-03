@@ -2,9 +2,12 @@ import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import {drawerWidth} from "../App";
+import {drawerWidth} from "../../App";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
+import SearchFilter from "./components/SearchFilter/SearchFilter";
+import {AppBar, IconButton, Paper} from "@material-ui/core";
+import {Close} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,14 +24,15 @@ const useStyles = makeStyles((theme) => ({
             flexShrink: 0,
         },
     },
-    // necessary for content to be below app bar
     drawerPaper: {
         width: drawerWidth,
-        backgroundColor: '#fafafa'
     },
     drawerContent: {
         color: theme.palette.primary.main,
         backgroundColor: theme.palette.background.default
+    },
+    title: {
+        flexGrow: 1,
     },
 }));
 
@@ -37,14 +41,27 @@ function ResponsiveDrawer(props) {
     const classes = useStyles();
     const theme = useTheme();
 
-    const drawer = (
+    const drawer = (showCloseButton) => (
         <div className={classes.root}>
-            <Toolbar variant="dense">
-                <Typography variant="h6" noWrap>
-                    Filter
-                </Typography>
-            </Toolbar>
-            <div className={classes.drawerContent}>Content</div>
+            <AppBar position="relative" className={classes.appBar}>
+                <Toolbar variant="dense">
+                    <Typography variant="h6" className={classes.title} noWrap>
+                        Filter
+                    </Typography>
+                    {
+                        showCloseButton
+                        &&
+                        <IconButton onClick={() => props.handleDrawerToggle()}>
+                            <Close style={{ color: '#fff'}} />
+                        </IconButton>
+                    }
+                </Toolbar>
+            </AppBar>
+            <Paper>
+            <div className={classes.drawerContent}>
+                <SearchFilter />
+            </div>
+            </Paper>
         </div>
     );
 
@@ -55,7 +72,6 @@ function ResponsiveDrawer(props) {
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
             <Hidden mdUp implementation="css">
                 <Drawer
-                    className={classes.drawer}
                     container={container}
                     variant="temporary"
                     anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -68,7 +84,7 @@ function ResponsiveDrawer(props) {
                         keepMounted: true, // Better open performance on mobile.
                     }}
                 >
-                    {drawer}
+                    {drawer(true)}
                 </Drawer>
             </Hidden>
             <Hidden smDown implementation="css">
@@ -79,7 +95,7 @@ function ResponsiveDrawer(props) {
                     variant="permanent"
                     open
                 >
-                    {drawer}
+                    {drawer(false)}
                 </Drawer>
             </Hidden>
         </div>

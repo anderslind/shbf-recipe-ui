@@ -1,13 +1,18 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {div, Card, CardContent, CardHeader, IconButton} from "@material-ui/core";
+import {div, Card, CardContent, CardHeader, IconButton, Box} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import {RadioButtonUnchecked} from "@material-ui/icons";
-import ColorIcon from "../../../../../components/ColorIcon";
+import ColorIcon from "../../../../../components/ColorIcon/ColorIcon";
 import useLocation from "wouter/use-location";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        '& .MuiPaper-root': {
+            marginBottom: theme.spacing(1),
+        },
+    },
+    card: {
         cursor: 'pointer',
         '& .MuiCardHeader-root': {
             padding: '5px',
@@ -42,15 +47,15 @@ function CardResultList(props) {
     const [, setLocation] = useLocation();
 
     const handleClick = (id)  => {
-        setLocation('/recipe-details');
+        setLocation(`/recipe-details/${id}`);
     }
 
     const rows = props.recipes;
 
     return (
-        <div>
+        <Box className={classes.root}>
             {rows.map((row) => (
-                <Card className={classes.root} variant="outlined" key={row.uuid} onClick={() => handleClick(row.uuid)}>
+                <Card className={classes.card} variant="outlined" key={row.uuid} onClick={() => handleClick(row.uuid)}>
                     <CardHeader
                         avatar={
                             <ColorIcon ebc={row.ebc} size="large" />
@@ -77,7 +82,7 @@ function CardResultList(props) {
                     </CardContent>
                 </Card>
             ))}
-        </div>
+        </Box>
     );
 }
 

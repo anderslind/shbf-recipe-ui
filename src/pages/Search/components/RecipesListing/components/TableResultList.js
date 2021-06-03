@@ -11,7 +11,7 @@ import {
     Box
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import ColorIcon from "../../../../../components/ColorIcon";
+import ColorIcon from "../../../../../components/ColorIcon/ColorIcon";
 import useLocation from "wouter/use-location";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,10 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 450,
         '& tbody': {
             cursor: 'pointer',
-        }
+            '& tr:hover': {
+                backgroundColor: '#eef'
+            }
+        },
     },
 }));
 

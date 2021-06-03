@@ -17,4 +17,5 @@ function load(uuid) {
     return rows.find(row => row.uuid === uuid);
 };
 
-export default {search, load};
+const def = {search, load}
+export default def;
