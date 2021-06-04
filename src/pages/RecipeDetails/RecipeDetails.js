@@ -46,7 +46,7 @@ function RecipeDetails(props) {
                 <Grid
                     justify="space-between" // Add it here :)
                     container
-                    spacing={24}
+                    spacing={2}
                 >
                     <Grid item>
                         <Typography variant="h6" noWrap>

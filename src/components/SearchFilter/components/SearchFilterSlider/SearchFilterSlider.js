@@ -11,22 +11,23 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchFilterSlider(props) {
     const classes = useStyles();
-    const {start, end, label, valueText, ...rest} = props;
-    const [value, setValue] = useState([0, props.max]);
+    const {start, end, label, valueText, onUpdate, value, ...rest} = props;
+
+
 
     const valuetext = (value) => {
         return valueText(value);
     }
 
     const handleChange = (event, value) => {
-        setValue(value);
+        onUpdate(label, value);
     }
     return (
         <FormControl component="fieldset" className={classes.formControl} fullWidth={true}>
             <Box display={'flex'}>
                 <Box flexGrow={1}>
                     <Typography>
-                        {label}
+                        {label.toUpperCase()}
                     </Typography>
                 </Box>
                 <Box>
@@ -37,11 +38,11 @@ function SearchFilterSlider(props) {
             </Box>
             <Slider
                 name="my-input"
-                value={value}
                 onChange={handleChange}
                 valueLabelDisplay="auto"
                 aria-labelledby="og-range-slider"
                 getAriaValueText={valuetext}
+                value={value}
                 {...rest}
             />
         </FormControl>

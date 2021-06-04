@@ -7,6 +7,7 @@ import ResponsiveDrawer from "./components/ResponsiveDrawer/ResponsiveDrawer";
 import {makeStyles, MuiThemeProvider} from "@material-ui/core/styles";
 import {createMuiTheme} from "@material-ui/core";
 import Routes from "./components/Routes/Routes";
+import SearchFilter from "./components/SearchFilter/SearchFilter";
 
 export const drawerWidth = 375;
 
@@ -58,7 +59,9 @@ function App() {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <ResponsiveDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                <ResponsiveDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
+                    <SearchFilter handleDrawerToggle={handleDrawerToggle} />
+                </ResponsiveDrawer>
                 <Routes handleDrawerToggle={handleDrawerToggle}/>
             </div>
         </MuiThemeProvider>

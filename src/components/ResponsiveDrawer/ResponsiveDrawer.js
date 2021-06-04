@@ -5,7 +5,6 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {drawerWidth} from "../../App";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
-import SearchFilter from "./components/SearchFilter/SearchFilter";
 import {AppBar, IconButton, Paper} from "@material-ui/core";
 import {Close} from "@material-ui/icons";
 
@@ -59,7 +58,7 @@ function ResponsiveDrawer(props) {
             </AppBar>
             <Paper>
             <div className={classes.drawerContent}>
-                <SearchFilter />
+                {props.children}
             </div>
             </Paper>
         </div>

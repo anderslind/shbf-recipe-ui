@@ -8,7 +8,7 @@ import useLocation from "wouter/use-location";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        '& .MuiPaper-root': {
+        '& div.MuiPaper-root': {
             marginBottom: theme.spacing(1),
         },
     },
@@ -30,18 +30,7 @@ const useStyles = makeStyles((theme) => ({
         }
     }
 }));
-/*
-    Namn,
-    Stil,
-    Storlek,
-    OG,
-    FG,
-    IBU,
-    Färg,
-    ABV,
-    Placering,
-    Visningar
-* */
+
 function CardResultList(props) {
     const classes = useStyles();
     const [, setLocation] = useLocation();
@@ -72,9 +61,9 @@ function CardResultList(props) {
                     <CardContent>
                         <Typography className={classes.stats} variant="overline">
                             <div><b>ABV</b> {row.abv}%</div>
-                            <div><b>OG</b> {row.og}</div>
-                            <div><b>FG</b> {row.fg}</div>
-                            <div><b>IBU</b> {row.ibu}</div>
+                            <div><b>OG</b> {row.og.toFixed(3)}</div>
+                            <div><b>FG</b> {row.fg.toFixed(3)}</div>
+                            <div><b>IBU</b> {row.ibu.toFixed(3)}</div>
                         </Typography>
                         <Typography className={classes.stats} variant="overline">
                             <div><b>Placering</b> {row.placing}</div>

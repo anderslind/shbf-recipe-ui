@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import TableResultList from "./components/TableResultList";
 import Hidden from "@material-ui/core/Hidden";
 import CardResultList from "./components/CardResultList";
 import RecipeService from '../../../../services/RecipeService/RecipeService';
+import {GlobalState} from "../../../../global_state/store";
 
 const useStyles = makeStyles((theme) => ({
     recipes: {
@@ -13,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Recipes(props) {
     const classes = useStyles();
-    const recipes = RecipeService.search();
+    const [state] = useContext(GlobalState);
+    const recipes = RecipeService.search(state);
 
     return (
         <div className={classes.recipes}>

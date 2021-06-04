@@ -72,10 +72,10 @@ function TableResultList(props) {
                                     <TableCell component="th" scope="row">{row.name}</TableCell>
                                     <TableCell align="right">{row.style}</TableCell>
                                     {/*<TableCell align="right">{row.size}</TableCell>*/}
-                                    <TableCell style={{ width: 60 }} align="right">{row.og}</TableCell>
-                                    <TableCell style={{ width: 60 }} align="right">{row.fg}</TableCell>
-                                    <TableCell style={{ width: 60 }} align="right">{row.abv}</TableCell>
-                                    <TableCell style={{ width: 60 }} align="right">{row.ibu}</TableCell>
+                                    <TableCell style={{ width: 60 }} align="right">{row.og.toFixed(3)}</TableCell>
+                                    <TableCell style={{ width: 60 }} align="right">{row.fg.toFixed(3)}</TableCell>
+                                    <TableCell style={{ width: 60 }} align="right">{row.abv.toFixed(3)}</TableCell>
+                                    <TableCell style={{ width: 60 }} align="right">{row.ibu.toFixed(3)}</TableCell>
                                     <TableCell style={{ width: 60 }} align="right"><ColorIcon ebc={row.ebc} size="small" /></TableCell>
                                     <TableCell style={{ width: 60 }} align="right">{row.placing}</TableCell>
                                 </TableRow>
