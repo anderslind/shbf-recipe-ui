@@ -2,15 +2,20 @@ import React, {createContext, useReducer} from "react";
 import SearchReducer from "./reducers/SearchReducer";
 
 export const EMPTY_STATE = {
-    og: [0, 200],
-    fg: [0, 50],
-    abv: [0, 15],
-    ibu: [0, 80],
+    og: [],
+    fg: [],
+    abv: [],
+    ibu: [],
+    size: [],
+    style: [],
+    hops: [],
+    yeast: [],
 }
 
 const initialState = {
     freetext: '',
-    filter: Object.assign({}, EMPTY_STATE)
+    filter: Object.assign({}, EMPTY_STATE),
+    count: 0,
 };
 
 const Store = ({children}) => {

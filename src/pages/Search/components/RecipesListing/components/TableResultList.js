@@ -7,8 +7,7 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    TablePagination,
-    Box
+    TablePagination
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import ColorIcon from "../../../../../components/ColorIcon/ColorIcon";
@@ -49,7 +48,6 @@ function TableResultList(props) {
 
     return (
         <>
-            <Box>Sökträffar 1230</Box>
             <Paper className={classes.table}>
                 <TableContainer>
                     <Table className={classes.table} size="small" aria-label="Sökresultat">
@@ -74,8 +72,8 @@ function TableResultList(props) {
                                     {/*<TableCell align="right">{row.size}</TableCell>*/}
                                     <TableCell style={{ width: 60 }} align="right">{row.og.toFixed(3)}</TableCell>
                                     <TableCell style={{ width: 60 }} align="right">{row.fg.toFixed(3)}</TableCell>
-                                    <TableCell style={{ width: 60 }} align="right">{row.abv.toFixed(3)}</TableCell>
-                                    <TableCell style={{ width: 60 }} align="right">{row.ibu.toFixed(3)}</TableCell>
+                                    <TableCell style={{ width: 60 }} align="right">{row.abv.toFixed(1)}</TableCell>
+                                    <TableCell style={{ width: 60 }} align="right">{row.ibu.toFixed(0)}</TableCell>
                                     <TableCell style={{ width: 60 }} align="right"><ColorIcon ebc={row.ebc} size="small" /></TableCell>
                                     <TableCell style={{ width: 60 }} align="right">{row.placing}</TableCell>
                                 </TableRow>

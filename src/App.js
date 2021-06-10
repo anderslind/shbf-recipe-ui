@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,10 +8,23 @@ import {makeStyles, MuiThemeProvider} from "@material-ui/core/styles";
 import {createMuiTheme} from "@material-ui/core";
 import Routes from "./components/Routes/Routes";
 import SearchFilter from "./components/SearchFilter/SearchFilter";
+import {EMPTY_STATE, GlobalState} from "./global_state/store";
+import SHBFLogo from './icons/SHBFLogo';
 
 export const drawerWidth = 375;
 
 const customTheme = createMuiTheme({
+    typography: {
+        fontFamily: 'Roboto Condensed'
+    },
+    palette: {
+        primary: {
+            // light: will be calculated from palette.primary.main,
+            main: '#da3301',
+            // dark: will be calculated from palette.primary.main,
+            // contrastText: will be calculated to contrast with palette.primary.main
+        }
+    },
     breakpoints: {
         // Define custom breakpoint values.
         // These will apply to Material-UI components that use responsive
@@ -25,14 +38,24 @@ const customTheme = createMuiTheme({
             lg: 1280,
             xl: 1920
         }
+    },
+    theme: {
+        mixins: {
+            toolbar: {
+                minHeight: 58
+            }
+        }
     }
 });
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        overflow: 'hidden',
     },
     appBar: {
+        '& .MuiToolbar-dense': {
+        },
         [customTheme.breakpoints.up('md')]: {
             width: `calc(100% - ${drawerWidth}px)`,
             marginLeft: drawerWidth,
@@ -43,14 +66,24 @@ const useStyles = makeStyles((theme) => ({
 function App() {
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [globalFilter, dispatch] = useContext(GlobalState);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+    const onClearFilter = (part) => {
+        if (part) {
+            const params = globalFilter;
+            Object.assign(params, {[part]: EMPTY_STATE[part]});
+            dispatch({type: 'UPDATE_FILTER', payload: Object.assign({}, params)});
+        } else {
+            dispatch({type: 'UPDATE_FILTER', payload: Object.assign({}, EMPTY_STATE)});
+        }
+    };
 
     return (
         <MuiThemeProvider theme={customTheme}>
-            <div className={classes.root}>
+            <div className={classes.root} displayname={'App'}>
                 <CssBaseline />
                 <AppBar position="fixed" className={classes.appBar}>
                     <Toolbar variant="dense">
@@ -59,7 +92,7 @@ function App() {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <ResponsiveDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
+                <ResponsiveDrawer mobileOpen={mobileOpen} onClearFilter={onClearFilter} handleDrawerToggle={handleDrawerToggle}>
                     <SearchFilter handleDrawerToggle={handleDrawerToggle} />
                 </ResponsiveDrawer>
                 <Routes handleDrawerToggle={handleDrawerToggle}/>

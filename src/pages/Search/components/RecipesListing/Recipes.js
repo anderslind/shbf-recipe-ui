@@ -5,6 +5,7 @@ import Hidden from "@material-ui/core/Hidden";
 import CardResultList from "./components/CardResultList";
 import RecipeService from '../../../../services/RecipeService/RecipeService';
 import {GlobalState} from "../../../../global_state/store";
+import {Box} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     recipes: {
@@ -14,11 +15,12 @@ const useStyles = makeStyles((theme) => ({
 
 function Recipes(props) {
     const classes = useStyles();
-    const [state] = useContext(GlobalState);
-    const recipes = RecipeService.search(state);
+    const [globalState] = useContext(GlobalState);
+    const recipes = RecipeService.search(globalState);
 
     return (
         <div className={classes.recipes}>
+            <Box>Sökträffar {globalState.count}</Box>
             <Hidden xsDown>
                 <TableResultList recipes={recipes} />
             </Hidden>

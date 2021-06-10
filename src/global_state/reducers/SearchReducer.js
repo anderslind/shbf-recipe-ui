@@ -1,4 +1,5 @@
 const SearchReducer = (state, action) => {
+
     switch (action.type) {
         case 'UPDATE_FREETEXT_SEARCH':
             return {
@@ -9,6 +10,11 @@ const SearchReducer = (state, action) => {
             return {
                 ...state,
                 filter: action.payload
+            };
+        case 'COUNT':
+            return {
+                ...state,
+                count: action.payload
             };
         default: return state;
     }

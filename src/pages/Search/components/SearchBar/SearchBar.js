@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {IconButton, InputBase, Paper} from "@material-ui/core";
+import {Badge, IconButton, InputBase, Paper} from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
 import {Clear, FilterList} from "@material-ui/icons";
 import Hidden from "@material-ui/core/Hidden";
 import Delay from "../../../../utils/DelayedCallWithCancel";
+import {GlobalState} from "../../../../global_state/store";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
     filterIcon: {
         color: '#fff',
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.action.active,
         borderRadius: '4px',
     },
 }));
@@ -32,7 +33,9 @@ const delay = new Delay(750);
 
 function SearchBar(props) {
     const classes = useStyles();
+    const [globalState] = useContext(GlobalState);
     const [searchText, setSearchText] = useState('');
+
 
     const onChange = (event) => {
         const value = event.target.value;
@@ -46,7 +49,7 @@ function SearchBar(props) {
         setSearchText('');
         props.onClear();
     };
-
+    const filterCount = Object.values(globalState.filter).reduce((a, arr) => arr.length > 0 ? a + 1 : a, 0);
     return (
         <Paper component="form" className={classes.paper}>
             <InputBase
@@ -71,7 +74,9 @@ function SearchBar(props) {
             <Hidden mdUp>
                 <Divider className={classes.divider} orientation="vertical" />
                 <IconButton color="primary" className={classes.iconButton} edge="end" aria-label="Visa filter" onClick={() => props.handleDrawerToggle()}>
-                    <FilterList className={classes.filterIcon}/>
+                    <Badge badgeContent={filterCount} color="primary">
+                        <FilterList className={classes.filterIcon}/>
+                    </Badge>
                 </IconButton>
             </Hidden>
         </Paper>

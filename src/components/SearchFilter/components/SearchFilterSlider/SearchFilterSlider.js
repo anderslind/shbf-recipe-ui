@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, FormControl, Slider} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -9,30 +9,34 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function SearchFilterSlider(props) {
+function SearchFilterSlider({id, label, valueText, onUpdate, value, max, ...rest}) {
     const classes = useStyles();
-    const {start, end, label, valueText, onUpdate, value, ...rest} = props;
 
+    const [state, setState] = useState(value);
 
+    useEffect(() => {
+        setState(value.length === 0 ? [0, max] : value);
+    }, [value, max]);
 
     const valuetext = (value) => {
         return valueText(value);
     }
 
     const handleChange = (event, value) => {
-        onUpdate(label, value);
+        setState(value);
+        onUpdate(id, value);
     }
     return (
         <FormControl component="fieldset" className={classes.formControl} fullWidth={true}>
             <Box display={'flex'}>
                 <Box flexGrow={1}>
                     <Typography>
-                        {label.toUpperCase()}
+                        {label}
                     </Typography>
                 </Box>
                 <Box>
                     <Typography color={'textSecondary'} variant={'caption'}>
-                        {valuetext(value[0])} till {valuetext(value[1])}
+                        {valuetext(state[0])} till {valuetext(state[1])}
                     </Typography>
                 </Box>
             </Box>
@@ -42,7 +46,8 @@ function SearchFilterSlider(props) {
                 valueLabelDisplay="auto"
                 aria-labelledby="og-range-slider"
                 getAriaValueText={valuetext}
-                value={value}
+                value={state}
+                max={max}
                 {...rest}
             />
         </FormControl>

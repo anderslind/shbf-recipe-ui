@@ -5,77 +5,73 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {drawerWidth} from "../../App";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
-import {AppBar, IconButton, Paper} from "@material-ui/core";
-import {Close} from "@material-ui/icons";
+import {AppBar} from "@material-ui/core";
+import Header from "../SearchFilter/components/Header/Header";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        color: theme.palette.primary.contrastText,
-        backgroundColor: theme.palette.primary.main,
-        [theme.breakpoints.down('md')]: {
-            width: '100%',
-        },
-    },
-    toolbar: theme.mixins.toolbar,
-    drawer: {
         [theme.breakpoints.up('md')]: {
             width: drawerWidth,
-            flexShrink: 0,
+            flexShrink: 0
         },
     },
+    drawer: {
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+    },
+    toolbar: theme.mixins.toolbar,
     drawerPaper: {
+        overflow: 'hidden',
         width: drawerWidth,
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
+
     },
     drawerContent: {
-        color: theme.palette.primary.main,
-        backgroundColor: theme.palette.background.default
+        display: 'flex',
+        flexGrow: 1,
     },
     title: {
         flexGrow: 1,
     },
 }));
 
-function ResponsiveDrawer(props) {
-    const { window } = props;
+function ResponsiveDrawer({onClearFilter, window, children, handleDrawerToggle, mobileOpen}) {
     const classes = useStyles();
     const theme = useTheme();
 
-    const drawer = (showCloseButton) => (
-        <div className={classes.root}>
-            <AppBar position="relative" className={classes.appBar}>
-                <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.title} noWrap>
-                        Filter
-                    </Typography>
-                    {
-                        showCloseButton
-                        &&
-                        <IconButton onClick={() => props.handleDrawerToggle()}>
-                            <Close style={{ color: '#fff'}} />
-                        </IconButton>
-                    }
-                </Toolbar>
-            </AppBar>
-            <Paper>
+    const drawer = (onNavigateBack) => (
+        <div className={classes.drawer} displayname={'ResponsiveDrawer'}>
+            <Hidden smDown>
+                <AppBar position="relative" className={classes.appBar}>
+                    <Toolbar variant="dense">
+                        <Typography variant="h6" className={classes.title} noWrap>
+
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+            </Hidden>
+            <Header label={'Filter'} onClear={onClearFilter} onNavigateBack={onNavigateBack}/>
             <div className={classes.drawerContent}>
-                {props.children}
+                {children}
             </div>
-            </Paper>
         </div>
     );
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-        <div className={classes.drawer} aria-label="search">
+        <div className={classes.root} aria-label="search">
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
             <Hidden mdUp implementation="css">
                 <Drawer
                     container={container}
                     variant="temporary"
                     anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                    open={props.mobileOpen}
-                    onClose={props.handleDrawerToggle}
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
                     classes={{
                         paper: classes.drawerPaper,
                     }}
@@ -83,7 +79,7 @@ function ResponsiveDrawer(props) {
                         keepMounted: true, // Better open performance on mobile.
                     }}
                 >
-                    {drawer(true)}
+                    {drawer(handleDrawerToggle)}
                 </Drawer>
             </Hidden>
             <Hidden smDown implementation="css">

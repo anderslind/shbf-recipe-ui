@@ -27,7 +27,7 @@ function Search(props) {
         dispatch({type: 'UPDATE_FREETEXT_SEARCH', payload: ''});
     }
     return (
-        <main className={classes.content}>
+        <main className={classes.content} displayname={'Search'}>
             <div className={classes.toolbar} />
             <Container maxWidth="md">
                 <SearchBar handleDrawerToggle={props.handleDrawerToggle} onChange={onChange} onClear={onClear} />
