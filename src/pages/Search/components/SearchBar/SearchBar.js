@@ -1,13 +1,11 @@
 import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {Badge, IconButton, InputBase, Paper} from "@material-ui/core";
+import {IconButton, InputBase, Paper} from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
-import {Clear, FilterList} from "@material-ui/icons";
+import {Clear} from "@material-ui/icons";
 import Hidden from "@material-ui/core/Hidden";
 import Delay from "../../../../utils/DelayedCallWithCancel";
-import {useRecoilValue} from "recoil";
-import {recipeFilterCountState} from "../../../../state";
 import FilterBadge from "./components/FilterBadge";
 
 const useStyles = makeStyles((theme) => ({

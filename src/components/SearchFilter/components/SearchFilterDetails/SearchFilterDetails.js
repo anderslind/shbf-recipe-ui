@@ -1,11 +1,10 @@
 import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import {Button} from "@material-ui/core";
 import ResponsiveFooter from "../ResponsiveFooter/ResponsiveFooter";
 import Hidden from "@material-ui/core/Hidden";
 import Header from "../Header/Header";
-import {useRecoilValue, useSetRecoilState} from "recoil";
-import {EMPTY_STATE, recipeCountState, recipeFilterState} from "../../../../state";
+import {useSetRecoilState} from "recoil";
+import {EMPTY_STATE, recipeFilterState} from "../../../../state";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,10 +60,6 @@ function SearchFilterDetails ({id, label, slide, onHide, children, handleDrawerT
 
     const onNavigateBack = () => {
         onHide();
-    }
-    const showResult = () => {
-        onHide();
-        handleDrawerToggle();
     }
     const onClear = () => {
         if (Array.isArray(id)) {

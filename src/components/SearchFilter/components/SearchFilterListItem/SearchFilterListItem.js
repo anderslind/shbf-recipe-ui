@@ -60,13 +60,11 @@ function SearchFilterListItem({id, label, children, handleDrawerToggle}) {
                             title={
                                 <React.Fragment>
                                     <Typography color="inherit">Filter för {label}</Typography>
-                                    <ul>
-                                        {
-                                            filterText
-                                                .filterArray
-                                                .map(arr => <li><Typography color="inherit" variant={'body2'}>{arr}</Typography></li>)
-                                        }
-                                    </ul>
+                                    {
+                                        filterText
+                                            .filterArray
+                                            .map(arr => <Typography color="inherit" variant={'body2'}>{arr}</Typography>)
+                                    }
                                 </React.Fragment>
                             }
                             aria-label={'Active filter'}>

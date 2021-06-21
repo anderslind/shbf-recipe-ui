@@ -1,3 +1,5 @@
+import {abvFormat, defaultFormat, gravityFormat,} from "./FormatUtils";
+
 const i18n = {
     og: 'OG',
     fg: 'FG',
@@ -14,6 +16,17 @@ function getFormatter(filterId) {
     const FormatterMappings = {
         SPAN: ['og', 'fg', 'abv', 'ibu', 'size'],
         TEXT: ['style', 'hops', 'yeast']
+    };
+    const format = (type) => {
+        switch (type) {
+            case 'og':
+            case 'fg':
+                return gravityFormat;
+            case 'abv':
+                return abvFormat;
+            default:
+                return defaultFormat;
+        }
     };
 
     const Formatters = {
@@ -32,7 +45,7 @@ function getFormatter(filterId) {
         if (numberArray.length > 3) {
             throw new Error('Span can only handle an array with 2 elements')
         }
-        return `${!!filterId ? i18n[filterId] +': ' : ''}${numberArray[0]} to ${numberArray[1]}`;
+        return `${!!filterId ? i18n[filterId] +': ' : ''}${format(filterId)(numberArray[0])} to ${format(filterId)(numberArray[1])}`;
     };
 
     for (const [key, val] of Object.entries(FormatterMappings)){

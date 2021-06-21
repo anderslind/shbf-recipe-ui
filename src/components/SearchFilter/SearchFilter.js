@@ -1,14 +1,14 @@
 import React from 'react';
-import {Button, Container} from "@material-ui/core";
+import {Container} from "@material-ui/core";
 import Delay from "../../utils/DelayedCallWithCancel";
 import {makeStyles} from "@material-ui/core/styles";
-import Hidden from "@material-ui/core/Hidden";
 import SearchFilterListItem from "./components/SearchFilterListItem/SearchFilterListItem";
 import SearchFilterSlider from "./components/SearchFilterSlider/SearchFilterSlider";
 import SearchFilterMultipleSelect from "./components/SearchFilterMultipleSelect/SearchFilterMultipleSelect";
 import ResponsiveFooter from "./components/ResponsiveFooter/ResponsiveFooter";
-import {useRecoilState, useRecoilValue} from "recoil";
-import {recipeCountState, recipeFilterState} from "../../state";
+import {useRecoilState} from "recoil";
+import {recipeFilterState} from "../../state";
+import {abvFormat, defaultFormat, gravityFormat} from "./utils/FormatUtils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,10 +20,6 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1
     }
 }));
-
-const gravityFormat = (v) => v > 99 ? `1.${v}` : v < 10 ? `1.00${v}` : `1.0${v}`;
-const abvFormat = (v) => v > 99 ? `${v}%` : `${v}%`;
-const format = (v) => v;
 
 export const delay = new Delay(400);
 
@@ -75,7 +71,7 @@ function SearchFilter({handleDrawerToggle}) {
                             id={'size'}
                             label={'Storlek'}
                             max={50}
-                            valueText={format}
+                            valueText={defaultFormat}
                             onUpdate={onUpdate}
                             value={filterState.size.slice()}
                         />
@@ -91,7 +87,7 @@ function SearchFilter({handleDrawerToggle}) {
                             id={'ibu'}
                             label={'IBU'}
                             max={80}
-                            valueText={format}
+                            valueText={defaultFormat}
                             onUpdate={onUpdate}
                             value={filterState.ibu.slice()}
                         />

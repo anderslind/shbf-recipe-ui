@@ -63,7 +63,7 @@ function CardResultList(props) {
                             <div><b>ABV</b> {row.abv}%</div>
                             <div><b>OG</b> {row.og.toFixed(3)}</div>
                             <div><b>FG</b> {row.fg.toFixed(3)}</div>
-                            <div><b>IBU</b> {row.ibu.toFixed(3)}</div>
+                            <div><b>IBU</b> {row.ibu.toFixed(0)}</div>
                         </Typography>
                         <Typography className={classes.stats} variant="overline">
                             <div><b>Placering</b> {row.placing}</div>
