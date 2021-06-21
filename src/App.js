@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,8 +8,9 @@ import {makeStyles, MuiThemeProvider} from "@material-ui/core/styles";
 import {createMuiTheme} from "@material-ui/core";
 import Routes from "./components/Routes/Routes";
 import SearchFilter from "./components/SearchFilter/SearchFilter";
-import {EMPTY_STATE, GlobalState} from "./global_state/store";
-import SHBFLogo from './icons/SHBFLogo';
+import {EMPTY_STATE} from "./global_state/store";
+import {useSetRecoilState} from "recoil";
+import {recipeFilterState} from "./state";
 
 export const drawerWidth = 375;
 
@@ -66,18 +67,19 @@ const useStyles = makeStyles((theme) => ({
 function App() {
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const [globalFilter, dispatch] = useContext(GlobalState);
+    const setFilterState = useSetRecoilState(recipeFilterState);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
     const onClearFilter = (part) => {
         if (part) {
-            const params = globalFilter;
-            Object.assign(params, {[part]: EMPTY_STATE[part]});
-            dispatch({type: 'UPDATE_FILTER', payload: Object.assign({}, params)});
+            setFilterState((originalFilterState) => ({
+                ...originalFilterState,
+                [part]: EMPTY_STATE[part]
+            }))
         } else {
-            dispatch({type: 'UPDATE_FILTER', payload: Object.assign({}, EMPTY_STATE)});
+            setFilterState(EMPTY_STATE);
         }
     };
 

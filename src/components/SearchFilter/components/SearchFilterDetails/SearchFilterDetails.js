@@ -1,10 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import {Button} from "@material-ui/core";
-import Footer from "../Footer/Footer";
+import ResponsiveFooter from "../ResponsiveFooter/ResponsiveFooter";
 import Hidden from "@material-ui/core/Hidden";
 import Header from "../Header/Header";
-import {EMPTY_STATE, GlobalState} from "../.././../../global_state/store";
+import {useRecoilValue, useSetRecoilState} from "recoil";
+import {EMPTY_STATE, recipeCountState, recipeFilterState} from "../../../../state";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchFilterDetails ({id, label, slide, onHide, children, handleDrawerToggle}) {
     const classes = useStyles();
-    const [globalState, dispatch] = useContext(GlobalState);
+    const setFilterState = useSetRecoilState(recipeFilterState);
 
     const onNavigateBack = () => {
         onHide();
@@ -66,16 +67,19 @@ function SearchFilterDetails ({id, label, slide, onHide, children, handleDrawerT
         handleDrawerToggle();
     }
     const onClear = () => {
-        const params = globalState.filter;
         if (Array.isArray(id)) {
             id.forEach((i) => {
-                Object.assign(params, {[i]: EMPTY_STATE[i]});
+                setFilterState((originalFilterState) => ({
+                    ...originalFilterState,
+                    [i]: EMPTY_STATE[i]
+                }))
             });
         } else {
-            Object.assign(params, {[id]: EMPTY_STATE[id]});
+            setFilterState((originalFilterState) => ({
+                ...originalFilterState,
+                [id]: EMPTY_STATE[id]
+            }))
         }
-
-        dispatch({type: 'UPDATE_FILTER', payload: params});
     };
 
     return (
@@ -90,15 +94,7 @@ function SearchFilterDetails ({id, label, slide, onHide, children, handleDrawerT
                     {children}
                 </div>
 
-                <Footer>
-                    <Hidden mdUp>
-                        <Footer>
-                            <Button size={'small'} variant={'contained'} color={'primary'} onClick={showResult}>
-                                {`Visa ${globalState.count} recept`}
-                            </Button>
-                        </Footer>
-                    </Hidden>
-                </Footer>
+                <ResponsiveFooter handleDrawerToggle={handleDrawerToggle}/>
             </div>
         </div>
 );

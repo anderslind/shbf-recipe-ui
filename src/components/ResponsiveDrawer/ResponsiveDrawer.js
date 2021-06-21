@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         overflow: 'hidden',
         width: drawerWidth,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             width: '100%',
         },
 

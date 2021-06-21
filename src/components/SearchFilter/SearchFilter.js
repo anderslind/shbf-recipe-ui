@@ -1,13 +1,14 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Button, Container} from "@material-ui/core";
-import {GlobalState} from "../../global_state/store";
 import Delay from "../../utils/DelayedCallWithCancel";
 import {makeStyles} from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
 import SearchFilterListItem from "./components/SearchFilterListItem/SearchFilterListItem";
 import SearchFilterSlider from "./components/SearchFilterSlider/SearchFilterSlider";
 import SearchFilterMultipleSelect from "./components/SearchFilterMultipleSelect/SearchFilterMultipleSelect";
-import Footer from "./components/Footer/Footer";
+import ResponsiveFooter from "./components/ResponsiveFooter/ResponsiveFooter";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {recipeCountState, recipeFilterState} from "../../state";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,17 +25,19 @@ const gravityFormat = (v) => v > 99 ? `1.${v}` : v < 10 ? `1.00${v}` : `1.0${v}`
 const abvFormat = (v) => v > 99 ? `${v}%` : `${v}%`;
 const format = (v) => v;
 
-export const delay = new Delay(350);
+export const delay = new Delay(400);
 
 function SearchFilter({handleDrawerToggle}) {
     const classes = useStyles();
-    const [globalState, dispatch] = useContext(GlobalState);
+    const [filterState, setFilterState] = useRecoilState(recipeFilterState);
 
     const onUpdate = (id, value) => {
-        const params = globalState.filter;
-        Object.assign(params, {[id]: value});
-
-        delay.call(() => dispatch({type: 'UPDATE_FILTER', payload: params}));
+        delay.call(() =>
+            setFilterState((originalFilterState) => ({
+                ...originalFilterState,
+                [id]: value
+            }))
+        );
     };
 
     // const text = ['Kg', 'Alfasyra', 'Domartävling, placering', 'Folkets val, placering'];
@@ -46,6 +49,7 @@ function SearchFilter({handleDrawerToggle}) {
 
             <div className={classes.content}>
                 <SearchFilterListItem
+                    listKey={'vitals'}
                     id={['og', 'fg', 'ibu', 'abv', 'size']}
                     label={'Vitalparametrar'}
                     handleDrawerToggle={handleDrawerToggle}>
@@ -56,7 +60,7 @@ function SearchFilter({handleDrawerToggle}) {
                             max={200}
                             valueText={gravityFormat}
                             onUpdate={onUpdate}
-                            value={globalState.filter.og}
+                            value={[...filterState.og]}
                         />
                         <SearchFilterSlider
                             id={'abv'}
@@ -65,7 +69,7 @@ function SearchFilter({handleDrawerToggle}) {
                             step={0.5}
                             valueText={abvFormat}
                             onUpdate={onUpdate}
-                            value={globalState.filter.abv}
+                            value={filterState.abv.slice()}
                         />
                         <SearchFilterSlider
                             id={'size'}
@@ -73,7 +77,7 @@ function SearchFilter({handleDrawerToggle}) {
                             max={50}
                             valueText={format}
                             onUpdate={onUpdate}
-                            value={globalState.filter.size}
+                            value={filterState.size.slice()}
                         />
                         <SearchFilterSlider
                             id={'fg'}
@@ -81,7 +85,7 @@ function SearchFilter({handleDrawerToggle}) {
                             max={50}
                             valueText={gravityFormat}
                             onUpdate={onUpdate}
-                            value={globalState.filter.fg}
+                            value={filterState.fg.slice()}
                         />
                         <SearchFilterSlider
                             id={'ibu'}
@@ -89,31 +93,23 @@ function SearchFilter({handleDrawerToggle}) {
                             max={80}
                             valueText={format}
                             onUpdate={onUpdate}
-                            value={globalState.filter.ibu}
+                            value={filterState.ibu.slice()}
                         />
                     </Container>
                 </SearchFilterListItem>
 
-                <SearchFilterListItem id={'style'} label={'Stil'} handleDrawerToggle={handleDrawerToggle}>
-                    <SearchFilterMultipleSelect id={'style'} label={'Stil'} values={globalState.filter.style} onUpdate={onUpdate} />
+                <SearchFilterListItem listKey={'style'} id={'style'} label={'Stil'} handleDrawerToggle={handleDrawerToggle}>
+                    <SearchFilterMultipleSelect id={'style'} label={'Stil'} values={filterState.style} onUpdate={onUpdate} />
                 </SearchFilterListItem>
-                <SearchFilterListItem id={'hops'} label={'Humle'} filter={globalState.filter.hops} handleDrawerToggle={handleDrawerToggle}>
-                    <SearchFilterMultipleSelect id={'hops'} label={'Humle'} values={globalState.filter.hops} onUpdate={onUpdate} />
+                <SearchFilterListItem listKey={'hops'} id={'hops'} label={'Humle'} filter={filterState.hops} handleDrawerToggle={handleDrawerToggle}>
+                    <SearchFilterMultipleSelect id={'hops'} label={'Humle'} values={filterState.hops} onUpdate={onUpdate} />
                 </SearchFilterListItem>
-                <SearchFilterListItem id={'yeast'} label={'Jäst'} filter={globalState.filter.yeast} handleDrawerToggle={handleDrawerToggle}>
-                    <SearchFilterMultipleSelect id={'yeast'} label={'Jäst'} values={globalState.filter.yeast} onUpdate={onUpdate} />
+                <SearchFilterListItem listKey={'yeast'} id={'yeast'} label={'Jäst'} filter={filterState.yeast} handleDrawerToggle={handleDrawerToggle}>
+                    <SearchFilterMultipleSelect id={'yeast'} label={'Jäst'} values={filterState.yeast} onUpdate={onUpdate} />
                 </SearchFilterListItem>
             </div>
 
-            <Footer>
-                <Hidden mdUp>
-                    <Footer>
-                        <Button size={'small'} variant={'contained'} color={'primary'} onClick={handleDrawerToggle}>
-                            {`Visa ${globalState.count} recept`}
-                        </Button>
-                    </Footer>
-                </Hidden>
-            </Footer>
+            <ResponsiveFooter handleDrawerToggle={handleDrawerToggle}/>
         </div>
     );
 }

@@ -1,11 +1,12 @@
-import React, {useContext} from "react";
+import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import TableResultList from "./components/TableResultList";
 import Hidden from "@material-ui/core/Hidden";
 import CardResultList from "./components/CardResultList";
 import RecipeService from '../../../../services/RecipeService/RecipeService';
-import {GlobalState} from "../../../../global_state/store";
 import {Box} from "@material-ui/core";
+import {useRecoilValue} from "recoil";
+import {freeTextSearchState, recipeCountState, recipeFilterState} from "../../../../state";
 
 const useStyles = makeStyles((theme) => ({
     recipes: {
@@ -13,14 +14,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const displayname = 'Recipes';
+
 function Recipes(props) {
     const classes = useStyles();
-    const [globalState] = useContext(GlobalState);
-    const recipes = RecipeService.search(globalState);
+    const recipeCount = useRecoilValue(recipeCountState);
+    const freeText = useRecoilValue(freeTextSearchState);
+    const filter = useRecoilValue(recipeFilterState);
+    const recipes = RecipeService.search(freeText, filter);
 
     return (
-        <div className={classes.recipes}>
-            <Box>Sökträffar {globalState.count}</Box>
+        <div className={classes.recipes} displayname={displayname}>
+            <Box>Sökträffar {recipeCount}</Box>
             <Hidden xsDown>
                 <TableResultList recipes={recipes} />
             </Hidden>

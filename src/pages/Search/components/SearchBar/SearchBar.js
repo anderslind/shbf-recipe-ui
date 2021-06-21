@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {Badge, IconButton, InputBase, Paper} from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
@@ -6,8 +6,9 @@ import Divider from '@material-ui/core/Divider';
 import {Clear, FilterList} from "@material-ui/icons";
 import Hidden from "@material-ui/core/Hidden";
 import Delay from "../../../../utils/DelayedCallWithCancel";
-import {GlobalState} from "../../../../global_state/store";
-
+import {useRecoilValue} from "recoil";
+import {recipeFilterCountState} from "../../../../state";
+import FilterBadge from "./components/FilterBadge";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -29,27 +30,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const delay = new Delay(750);
+const delay = new Delay(400);
 
-function SearchBar(props) {
+function SearchBar({onClear, onChange, handleDrawerToggle}) {
     const classes = useStyles();
-    const [globalState] = useContext(GlobalState);
+
     const [searchText, setSearchText] = useState('');
 
 
-    const onChange = (event) => {
+    const handleOnChange = (event) => {
         const value = event.target.value;
         setSearchText(value);
 
         /* Update global state with delay, to avoid ui jitter */
-        delay.call(() => props.onChange(value));
+        delay.call(() => onChange(value));
     };
 
-    const onClear = () => {
+    const handleOnClear = () => {
         setSearchText('');
-        props.onClear();
+        onClear();
     };
-    const filterCount = Object.values(globalState.filter).reduce((a, arr) => arr.length > 0 ? a + 1 : a, 0);
     return (
         <Paper component="form" className={classes.paper}>
             <InputBase
@@ -58,12 +58,12 @@ function SearchBar(props) {
                 placeholder="Sök recept..."
                 inputProps={{'aria-label': 'Sök i receptdatabasen'}}
                 autoFocus={true}
-                onChange={onChange}
+                onChange={handleOnChange}
             />
             {
                 !!searchText
                     ?
-                    <IconButton className={classes.iconButton} aria-label="search" onClick={() => onClear()}>
+                    <IconButton className={classes.iconButton} aria-label="search" onClick={() => handleOnClear()}>
                         <Clear />
                     </IconButton>
                     :
@@ -73,11 +73,7 @@ function SearchBar(props) {
             }
             <Hidden mdUp>
                 <Divider className={classes.divider} orientation="vertical" />
-                <IconButton color="primary" className={classes.iconButton} edge="end" aria-label="Visa filter" onClick={() => props.handleDrawerToggle()}>
-                    <Badge badgeContent={filterCount} color="primary">
-                        <FilterList className={classes.filterIcon}/>
-                    </Badge>
-                </IconButton>
+                <FilterBadge handleDrawerToggle={handleDrawerToggle}/>
             </Hidden>
         </Paper>
     );

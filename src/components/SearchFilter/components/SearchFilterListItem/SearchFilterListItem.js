@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {
     ListItem,
     ListItemText, Tooltip, Typography,
@@ -7,8 +7,9 @@ import {NavigateNext} from "@material-ui/icons";
 import SearchFilterDetails from "../SearchFilterDetails/SearchFilterDetails";
 import {makeStyles} from "@material-ui/core/styles";
 import {drawerWidth} from "../../../../App";
-import {GlobalState} from "../../../../global_state/store";
 import FormatFilter from "../../utils/FilterUtils";
+import {recipeFilterState} from "../../../../state";
+import {useRecoilValue} from "recoil";
 
 const useStyles = makeStyles((theme) => ({
     item: {
@@ -39,17 +40,17 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchFilterListItem({id, label, children, handleDrawerToggle}) {
     const classes = useStyles();
-    const [globalState] = useContext(GlobalState);
+    const recipeFilter = useRecoilValue(recipeFilterState);
 
     const filterFormat = new FormatFilter(id);
-    const filterText = filterFormat.format(globalState.filter);
+    const filterText = filterFormat.format(recipeFilter);
 
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
 
     return (
         <div displayname={'SearchFilterListItem'}>
-            <ListItem button onClick={() => setOpen(true)} className={classes.item}>
+            <ListItem key={id} button onClick={() => setOpen(true)} className={classes.item}>
                 <ListItemText className={classes.text} primaryTypographyProps={{display: 'inline'}}>{label}</ListItemText>
                 <ListItemText className={classes.filter}>
                     {
@@ -58,7 +59,7 @@ function SearchFilterListItem({id, label, children, handleDrawerToggle}) {
                         <Tooltip
                             title={
                                 <React.Fragment>
-                                    <Typography color="inherit">Filter for {label}</Typography>
+                                    <Typography color="inherit">Filter för {label}</Typography>
                                     <ul>
                                         {
                                             filterText

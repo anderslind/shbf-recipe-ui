@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
+function    SearchFilterMultipleSelect({id, label, onUpdate, values}) {
     const classes = useStyles();
     const [checked, setChecked] = useState(values);
     const [textFilter, setTextFilter] = useState('');

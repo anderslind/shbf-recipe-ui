@@ -1,5 +1,4 @@
-function mockBackendSearchService(params, rows) {
-    const {freetext, filter} = params;
+function mockBackendSearchService(freetext, filter, rows) {
 
     return rows.filter((row, index) => {
         let textMatch = true;
@@ -46,8 +45,8 @@ const rows = [
     createData('fda1928d-c7aa-4c93-8def-d33100ca0bdb','Beware of the Dark', 'Stout',18, 1.070, 1.010, 7.2, 45.6, 65.2, 12, 1345, 'US-05', 'Tettinger'),
 ];
 
-function search(params) {
-    return mockBackendSearchService(params, rows);
+function search(freetext, filter) {
+    return mockBackendSearchService(freetext, filter, rows);
 };
 function load(uuid) {
     return rows.find(row => row.uuid === uuid);
@@ -68,5 +67,9 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-const def = {search, load, loadFilterOptions}
+const def = {
+    search,
+    load,
+    loadFilterOptions
+};
 export default def;

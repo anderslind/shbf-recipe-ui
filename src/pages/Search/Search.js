@@ -1,38 +1,45 @@
-import React, {useContext} from "react";
+import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import SearchBar from "./components/SearchBar/SearchBar";
 import Recipes from "./components/RecipesListing/Recipes";
 import {Container} from "@material-ui/core";
-import {GlobalState} from "../../global_state/store";
+import {useSetRecoilState} from "recoil";
+import {freeTextSearchState} from "../../state";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
-    content: {
+    root: {
         flexGrow: 1,
+        overflow: 'hidden',
         padding: theme.spacing(0),
         '& .MuiPaper-root': {
             marginBottom: theme.spacing(3),
         },
     },
+    content: {
+        overflowY: 'auto'
+    }
 }));
 
 function Search(props) {
     const classes = useStyles();
-    const [, dispatch] = useContext(GlobalState);
+    const setFreeTextSearchState = useSetRecoilState(freeTextSearchState);
 
     const onChange = (value) => {
-        dispatch({type: 'UPDATE_FREETEXT_SEARCH', payload: value});
+        setFreeTextSearchState(value);
     }
     const onClear = () => {
-        dispatch({type: 'UPDATE_FREETEXT_SEARCH', payload: ''});
+        setFreeTextSearchState('');
     }
     return (
-        <main className={classes.content} displayname={'Search'}>
+        <main className={classes.root} displayname={'Search'}>
             <div className={classes.toolbar} />
-            <Container maxWidth="md">
-                <SearchBar handleDrawerToggle={props.handleDrawerToggle} onChange={onChange} onClear={onClear} />
-                <Recipes />
-            </Container>
+            <div classes={classes.content}>
+                <Container maxWidth="md">
+                    <SearchBar handleDrawerToggle={props.handleDrawerToggle} onChange={onChange} onClear={onClear} />
+                    <Recipes />
+                </Container>
+            </div>
         </main>
     );
 }

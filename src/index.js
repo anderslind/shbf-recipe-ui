@@ -3,14 +3,17 @@ import ReactDOM from 'react-dom';
 import '@fontsource/roboto/';
 import './index.css';
 import App from './App';
-// import reportWebVitals from './reportWebVitals';
-import Store from "./global_state/store";
+import {
+    RecoilRoot
+} from 'recoil';
+import DebugObserver from "./debug/DebugObserver";
 
 ReactDOM.render(
   <React.StrictMode>
-      <Store>
+      <RecoilRoot>
+        <DebugObserver />
         <App />
-      </Store>
+      </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')
 );
