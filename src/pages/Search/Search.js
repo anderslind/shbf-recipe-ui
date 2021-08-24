@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     content: {
-        overflowY: 'auto'
+        
     }
 }));
 
@@ -34,7 +34,7 @@ function Search(props) {
     return (
         <main className={classes.root} displayname={'Search'}>
             <div className={classes.toolbar} />
-            <div classes={classes.content}>
+            <div className={classes.content}>
                 <Container maxWidth="md">
                     <SearchBar handleDrawerToggle={props.handleDrawerToggle} onChange={onChange} onClear={onClear} />
                     <Recipes />

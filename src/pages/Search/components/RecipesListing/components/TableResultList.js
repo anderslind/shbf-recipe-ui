@@ -7,10 +7,9 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    TablePagination
+    TablePagination, CircularProgress
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import ColorIcon from "../../../../../components/ColorIcon/ColorIcon";
 import useLocation from "wouter/use-location";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,19 +26,18 @@ const useStyles = makeStyles((theme) => ({
 
 function TableResultList(props) {
     const classes = useStyles();
-    const rows = props.recipes;
 
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const {recipes, loading, onPageChange, onRowsPerPageChange} = props;
+    const rows = recipes.recipeSummaries;
+
     const [, setLocation] = useLocation();
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+        onPageChange(newPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
+        onRowsPerPageChange(event.target.value);
     };
 
     const handleClick = (id)  => {
@@ -59,34 +57,42 @@ function TableResultList(props) {
                                 <TableCell style={{ width: 60 }} align="right">OG</TableCell>
                                 <TableCell style={{ width: 60 }} align="right">FG</TableCell>
                                 <TableCell style={{ width: 60 }} align="right">ABV</TableCell>
-                                <TableCell style={{ width: 60 }} align="right">IBU</TableCell>
-                                <TableCell style={{ width: 60 }} align="right">Färg</TableCell>
-                                <TableCell style={{ width: 60 }} align="right">Pla</TableCell>
+                                {/*<TableCell style={{ width: 60 }} align="right">IBU</TableCell>*/}
+                                {/*<TableCell style={{ width: 60 }} align="right">Färg</TableCell>*/}
+                                {/*<TableCell style={{ width: 60 }} align="right">Pla</TableCell>*/}
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
-                                <TableRow key={row.name} onClick={() => handleClick(row.uuid)}>
+                            {
+                                loading &&
+                                <TableRow>
+                                    <TableCell colSpan={5} align="center">
+                                        <CircularProgress className={classes.skeleton} />
+                                    </TableCell>
+                                </TableRow>
+                            }
+                            {!loading && rows.map((row) => (
+                                <TableRow key={row.id} onClick={() => handleClick(row.id)}>
                                     <TableCell component="th" scope="row">{row.name}</TableCell>
                                     <TableCell align="right">{row.style}</TableCell>
                                     {/*<TableCell align="right">{row.size}</TableCell>*/}
                                     <TableCell style={{ width: 60 }} align="right">{row.og.toFixed(3)}</TableCell>
                                     <TableCell style={{ width: 60 }} align="right">{row.fg.toFixed(3)}</TableCell>
                                     <TableCell style={{ width: 60 }} align="right">{row.abv.toFixed(1)}</TableCell>
-                                    <TableCell style={{ width: 60 }} align="right">{row.ibu.toFixed(0)}</TableCell>
-                                    <TableCell style={{ width: 60 }} align="right"><ColorIcon ebc={row.ebc} size="small" /></TableCell>
-                                    <TableCell style={{ width: 60 }} align="right">{row.placing}</TableCell>
+                                    {/*<TableCell style={{ width: 60 }} align="right">{row.ibu.toFixed(0)}</TableCell>*/}
+                                    {/*<TableCell style={{ width: 60 }} align="right"><ColorIcon ebc={row.ebc} size="small" /></TableCell>*/}
+                                    {/*<TableCell style={{ width: 60 }} align="right">{row.placing}</TableCell>*/}
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
+                    rowsPerPageOptions={[5, 10, 20, 50]}
                     component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
+                    count={props.totalCount}
+                    rowsPerPage={props.rowsPerPage}
+                    page={props.page}
                     onChangePage={handleChangePage}
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />

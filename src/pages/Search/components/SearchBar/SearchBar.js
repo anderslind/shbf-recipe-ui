@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const delay = new Delay(400);
+const delay = new Delay(700);
 
 function SearchBar({onClear, onChange, handleDrawerToggle}) {
     const classes = useStyles();
@@ -48,8 +48,10 @@ function SearchBar({onClear, onChange, handleDrawerToggle}) {
         setSearchText('');
         onClear();
     };
+    const handleOnSubmit = event => event.preventDefault();
+
     return (
-        <Paper component="form" className={classes.paper}>
+        <Paper component="form" className={classes.paper} onSubmit={handleOnSubmit}>
             <InputBase
                 value={searchText}
                 className={classes.input}

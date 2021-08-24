@@ -8,7 +8,7 @@ import {
     useMediaQuery, useTheme
 } from "@material-ui/core";
 import { useLocation, useRoute} from "wouter";
-import RecipeService from "../../services/RecipeService/RecipeService";
+import RecipeService from "../../services/RecipeService/RecipeServiceMock";
 import {Close} from "@material-ui/icons";
 
 export const routePattern = '/recipe-details/:uuid';
