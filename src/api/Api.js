@@ -1,3 +1,4 @@
+// https://oxidapi-skpamglgeq-ey.a.run.app/swagger-ui.html
 const basePath = 'https://oxidapi-skpamglgeq-ey.a.run.app/';
 const baseOptions = {
     //mode: 'no-cors'

@@ -30,7 +30,7 @@ function RecipeDetails(props) {
         setLocation('/');
     }
 
-    const recipe = RecipeService.load(params.uuid);
+    const recipe = RecipeService.load('71fdd733-2799-43d4-b2ef-5e41fc82902d');
 
     return (
         <Dialog
