@@ -5,8 +5,16 @@ import Hidden from "@material-ui/core/Hidden";
 import CardResultList from "./components/CardResultList";
 import RecipeService from '../../../../services/RecipeService/RecipeService';
 import {Box} from "@material-ui/core";
-import {useRecoilValue, useRecoilState} from "recoil";
-import {freeTextSearchState, recipeCountState, recipeFilterState} from "../../../../state";
+import {useRecoilValue, useRecoilState, useSetRecoilState} from "recoil";
+import {
+    facets,
+    freeTextSearchState,
+    inventory,
+    inventoryKeyValueMap,
+    recipeCountState, recipeFilterIds,
+    recipeFilterState
+} from "../../../../state";
+import {createKeyValueMap} from "../../../../utils/InventoryUtils";
 
 const useStyles = makeStyles((theme) => ({
     recipes: {
@@ -23,8 +31,11 @@ const CLEAR_CACHE = true;
 function Recipes(props) {
     const classes = useStyles();
     const [recipeCount, setRecipeCount] = useRecoilState(recipeCountState);
-    const freeText = useRecoilValue(freeTextSearchState);
-    const filter = useRecoilValue(recipeFilterState);
+    const recoilFreeText = useRecoilValue(freeTextSearchState);
+    const [recoilInventory, setRecoilInventory] = useRecoilState(inventory);
+    const setRecoilInventoryKeyValueMap = useSetRecoilState(inventoryKeyValueMap);
+    const recoilRecipeFilterState = useRecoilValue(recipeFilterState);
+    const recoilRecipeFilterIds = useRecoilValue(recipeFilterIds);
 
     const [searchResult, setSearchResult] = useState(EMPTY_STATE);
     const [searchResultCache, setSearchResultCache] = useState([]);
@@ -49,10 +60,29 @@ function Recipes(props) {
     }
     const search = (clearCache) => {
         setLoading(true);
-        setCount(0);
+        if (clearCache) {
+            setCount(0);
+        }
+
         RecipeService
-            .search(freeText, clearCache ? 0 : page, rowsPerPage)
-            .then(data => handleSearchResult(data, clearCache))
+            .search(recoilFreeText, clearCache ? 0 : page, rowsPerPage, recoilRecipeFilterIds)
+            .then(data => {
+                if (data.inventory) {
+                    if (recoilFreeText === '') {
+                        if (recoilInventory.length === 0) {
+
+                            // First load of inventory, create key-value map for inventory ID, NAME
+                            createKeyValueMap(data.inventory, setRecoilInventoryKeyValueMap);
+                        }
+                        setRecoilInventory(data.inventory);
+                    } else {
+                        setRecoilInventory(data.inventory);
+                    }
+                } else {
+                    setRecoilInventory([]);
+                }
+                return handleSearchResult(data, clearCache);
+            })
             .catch(err => handleSearchResult(EMPTY_STATE));
     }
     const handlePageChange = (page) => { setPage(page);}
@@ -60,10 +90,9 @@ function Recipes(props) {
 
     useEffect(() => {
         search(CLEAR_CACHE);
-    }, [freeText, rowsPerPage]);
+    }, [recoilFreeText, rowsPerPage, recoilRecipeFilterState]);
 
     useEffect(() => {
-        console.log('searchResultCache.length', searchResultCache.length);
         if (searchResultCache.length === 0) {
 
         } else if (page > searchResultCache.length - 1) {

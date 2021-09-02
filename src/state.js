@@ -1,6 +1,5 @@
-import {selector} from "recoil";
+import {selector, atom} from "recoil";
 
-const {atom} = require("recoil");
 
 export const EMPTY_STATE = {
     og: [],
@@ -11,11 +10,25 @@ export const EMPTY_STATE = {
     style: [],
     hops: [],
     yeast: [],
+    fermentables: [],
 }
-
+const inventory = atom({
+    key: 'inventory',
+    default: []
+});
+const inventoryKeyValueMap = atom({
+    key: 'inventoryKeyValueMap',
+    default: null
+});
 const recipeFilterState = atom({
     key: 'recipeFilterState',
     default: EMPTY_STATE,
+});
+const recipeFilterIds = selector({
+    key: 'recipeFilterIds',
+    get: ({get}) => {
+        return Object.values(get(recipeFilterState)).flat();
+    }
 });
 const recipeFilterCountState = selector({
     key: 'recipeFilterCountState',
@@ -32,8 +45,11 @@ const freeTextSearchState = atom({
     default: ''
 });
 export {
+    inventory,
+    inventoryKeyValueMap,
     recipeFilterState,
     recipeFilterCountState,
+    recipeFilterIds,
     recipeCountState,
     freeTextSearchState
 }

@@ -1,13 +1,13 @@
 import call from '../../api/Api';
 
-function search(freeText, page, size) {
+function search(freeText, page, size, inventoryIds = '') {
     return call('search', {queryStr: {
             query: freeText,
+            inventoryIds: inventoryIds,
             page,
             size
     }})
         .then(data => {
-            console.log('RecipeService', data)
             return data;
         })
         .catch(err => {
@@ -16,8 +16,7 @@ function search(freeText, page, size) {
         });
 }
 
-
 const def = {
-    search,
+    search
 };
 export default def;

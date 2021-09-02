@@ -94,14 +94,14 @@ function SearchFilter({handleDrawerToggle}) {
                     </Container>
                 </SearchFilterListItem>
 
-                <SearchFilterListItem listKey={'style'} id={'style'} label={'Stil'} handleDrawerToggle={handleDrawerToggle}>
-                    <SearchFilterMultipleSelect id={'style'} label={'Stil'} values={filterState.style} onUpdate={onUpdate} />
+                <SearchFilterListItem id={'fermentables'} label={'Jäsbara'} handleDrawerToggle={handleDrawerToggle}>
+                    <SearchFilterMultipleSelect id={'fermentables'} label={'Jäsbara'} values={filterState.fermentables} onUpdate={onUpdate} />
                 </SearchFilterListItem>
-                <SearchFilterListItem listKey={'hops'} id={'hops'} label={'Humle'} filter={filterState.hops} handleDrawerToggle={handleDrawerToggle}>
+                <SearchFilterListItem id={'hops'} label={'Humle'} filter={filterState.hops} handleDrawerToggle={handleDrawerToggle}>
                     <SearchFilterMultipleSelect id={'hops'} label={'Humle'} values={filterState.hops} onUpdate={onUpdate} />
                 </SearchFilterListItem>
-                <SearchFilterListItem listKey={'yeast'} id={'yeast'} label={'Jäst'} filter={filterState.yeast} handleDrawerToggle={handleDrawerToggle}>
-                    <SearchFilterMultipleSelect id={'yeast'} label={'Jäst'} values={filterState.yeast} onUpdate={onUpdate} />
+                <SearchFilterListItem id={'yeasts'} label={'Jäst'} filter={filterState.yeast} handleDrawerToggle={handleDrawerToggle}>
+                    <SearchFilterMultipleSelect id={'yeasts'} label={'Jäst'} values={filterState.yeast} onUpdate={onUpdate} />
                 </SearchFilterListItem>
             </div>
 

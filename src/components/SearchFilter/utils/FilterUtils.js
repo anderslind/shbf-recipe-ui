@@ -8,14 +8,15 @@ const i18n = {
     size: 'Storlek',
     style: 'Stil',
     hops: 'Humle',
-    yeast: 'Jäst'
+    yeasts: 'Jäst',
+    fermentables: 'Jäsbara'
 }
 
 function getFormatter(filterId) {
 
     const FormatterMappings = {
         SPAN: ['og', 'fg', 'abv', 'ibu', 'size'],
-        TEXT: ['style', 'hops', 'yeast']
+        TEXT: ['style', 'hops', 'yeasts', 'fermentables']
     };
     const format = (type) => {
         switch (type) {

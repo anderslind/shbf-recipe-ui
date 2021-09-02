@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column'
     },
     toolbar: {
-        height: 48
+        flex: '0 0 48px'
     },
     slideIn: {
         left: '0',
@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'auto'
     },
     header: {
         display: 'flex',
@@ -48,9 +47,6 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         flexGrow: 1,
-        overflow: 'auto',
-        paddingRight: '1rem',
-        paddingLeft: '1rem',
     },
 }));
 
@@ -84,7 +80,6 @@ function SearchFilterDetails ({id, label, slide, onHide, children, handleDrawerT
             </Hidden>
             <div className={classes.container}>
                 <Header label={label} onClear={onClear} onNavigateBack={onNavigateBack}/>
-
                 <div className={classes.content}>
                     {children}
                 </div>

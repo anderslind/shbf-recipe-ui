@@ -8,9 +8,8 @@ import {makeStyles, MuiThemeProvider} from '@material-ui/core/styles';
 import {createMuiTheme} from '@material-ui/core';
 import Routes from './components/Routes/Routes';
 import SearchFilter from './components/SearchFilter/SearchFilter';
-import {EMPTY_STATE} from './global_state/store';
 import {useSetRecoilState} from 'recoil';
-import {recipeFilterState} from './state';
+import {recipeFilterState, EMPTY_STATE} from './state';
 
 export const drawerWidth = 375;
 

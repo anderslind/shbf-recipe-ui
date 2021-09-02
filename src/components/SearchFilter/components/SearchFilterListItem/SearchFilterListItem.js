@@ -50,7 +50,7 @@ function SearchFilterListItem({id, label, children, handleDrawerToggle}) {
 
     return (
         <div displayname={'SearchFilterListItem'}>
-            <ListItem key={id} button onClick={() => setOpen(true)} className={classes.item}>
+            <ListItem button onClick={() => setOpen(true)} className={classes.item}>
                 <ListItemText className={classes.text} primaryTypographyProps={{display: 'inline'}}>{label}</ListItemText>
                 <ListItemText className={classes.filter}>
                     {
@@ -63,7 +63,7 @@ function SearchFilterListItem({id, label, children, handleDrawerToggle}) {
                                     {
                                         filterText
                                             .filterArray
-                                            .map(arr => <Typography color="inherit" variant={'body2'}>{arr}</Typography>)
+                                            .map((arr, idx) => <Typography key={`filter-list-${idx}`} color="inherit" variant={'body2'}>{arr}</Typography>)
                                     }
                                 </React.Fragment>
                             }
@@ -82,9 +82,12 @@ function SearchFilterListItem({id, label, children, handleDrawerToggle}) {
                 </ListItemText>
                 <NavigateNext />
             </ListItem>
-            <SearchFilterDetails id={id} slide={open} onHide={handleClose} label={label} handleDrawerToggle={handleDrawerToggle}>
-                {open && children}
-            </SearchFilterDetails>
+            {
+                open &&
+                <SearchFilterDetails id={id} slide={open} onHide={handleClose} label={label} handleDrawerToggle={handleDrawerToggle}>
+                    {children}
+                </SearchFilterDetails>
+            }
         </div>
     );
 }
