@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {
     Checkbox,
-    Divider,
+    Divider, Link,
     ListItem,
     ListItemIcon,
     ListItemText,
@@ -9,10 +9,10 @@ import {
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import AutoSizer from "react-virtualized-auto-sizer";
-import {FixedSizeList as List} from 'react-window';
+import {areEqual, FixedSizeList as List} from 'react-window';
 import {useRecoilValue} from "recoil";
-import {facets, inventory, inventoryKeyValueMap} from "../../../../state";
-import {getFilterOptions} from "../../../../utils/InventoryUtils";
+import {inventory, inventoryKeyValueMap} from "../../../../state";
+import {filterOptionsOnText, getFilterOptions} from "../../../../utils/InventoryUtils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,23 +41,33 @@ const useStyles = makeStyles((theme) => ({
     },
     listItemText__right: {
         textAlign: 'right'
+    },
+    scrollingPlaceholder: {
+        paddingLeft: '4.5rem'
     }
 }));
-const DEFAULT_ROWS = 50;
+
 function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
     const classes = useStyles();
     const [checked, setChecked] = useState(values);
     const [textFilter, setTextFilter] = useState('');
     const [options, setOptions] = useState([]);
-    const [rows, setRows] = useState(DEFAULT_ROWS);
+    const [filteredOptions, setFilteredOptions] = useState([]);
 
     const recoilInventory = useRecoilValue(inventory);
     const recoilInventoryKeyValueMap = useRecoilValue(inventoryKeyValueMap);
 
     useEffect(() => {
-        setOptions(getFilterOptions(id, textFilter, recoilInventory, recoilInventoryKeyValueMap))
+        const options = getFilterOptions(id, recoilInventory, recoilInventoryKeyValueMap);
+        setOptions(options);
+        setFilteredOptions(options);
         // eslint-disable-next-line
-    }, [textFilter, recoilInventory]);
+    }, [recoilInventory]);
+
+    useEffect(() => {
+        setFilteredOptions(filterOptionsOnText(textFilter, options))
+        // eslint-disable-next-line
+    }, [textFilter, options]);
 
     useEffect(() => {
         setChecked(values);
@@ -75,28 +85,28 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
         setChecked(newChecked);
         onUpdate(id, newChecked);
     };
-    const moreRows = () => {
-        setRows(rows + DEFAULT_ROWS);
-    }
-    const Row = ({index, style}) => (
-            <ListItem button key={options[index].id} onClick={handleToggle(options[index])} style={style}>
+
+    const Row = memo(({index, isScrolling, style}) => (
+        isScrolling
+            ? <div style={style} className={classes.scrollingPlaceholder}>{filteredOptions[index].name}</div>
+            : <ListItem button key={filteredOptions[index].id} onClick={handleToggle(filteredOptions[index])} style={style}>
                 <ListItemIcon>
                     <Checkbox
                         size={'small'}
                         edge="start"
-                        checked={checked.indexOf(options[index].id) !== -1}
+                        checked={checked.indexOf(filteredOptions[index].id) !== -1}
                         tabIndex={-1}
                         disableRipple
                     />
                 </ListItemIcon>
-                <ListItemText className={`${classes.listItemText} ${classes.listItemText__name}`} title={options[index].name}>
-                    {options[index].name}
+                <ListItemText className={`${classes.listItemText} ${classes.listItemText__name}`} title={filteredOptions[index].name}>
+                    {filteredOptions[index].name}
                 </ListItemText>
                 <ListItemText className={`${classes.listItemText} ${classes.listItemText__right}`}>
-                    {options[index].recipeOccurrences}
+                    {filteredOptions[index].recipeOccurrences}
                 </ListItemText>
             </ListItem>
-    );
+    ), areEqual);
 
     return (
         <div className={classes.root}>
@@ -115,9 +125,10 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
             <AutoSizer>
                 {({ height, width }) => (
                     <List className={classes.list}
-                            height={height-48}
-                            width={width}
-                          itemCount={options.length}
+                          useIsScrolling
+                          height={height-48}
+                          width={width}
+                          itemCount={filteredOptions.length}
                           itemSize={35}>
                         { Row }
                     </List>

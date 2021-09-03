@@ -4,7 +4,7 @@ import TableResultList from "./components/TableResultList";
 import Hidden from "@material-ui/core/Hidden";
 import CardResultList from "./components/CardResultList";
 import RecipeService from '../../../../services/RecipeService/RecipeService';
-import {Box, Link} from "@material-ui/core";
+import {Box, CircularProgress, Link} from "@material-ui/core";
 import {useRecoilValue, useRecoilState, useSetRecoilState} from "recoil";
 import {
     EMPTY_STATE as FILTER_EMPTY_STATE,
@@ -124,7 +124,9 @@ function Recipes(props) {
     return (
         <div className={classes.recipes} displayname={displayname}>
             <div className={classes.tabletop}>
-                <Box className={classes.tabletop__count}>Sökträffar {count}</Box>
+                <Box className={classes.tabletop__count}>
+                    Sökträffar { loading ? <CircularProgress className={classes.progress} size={'0.5rem'} /> : count }
+                </Box>
                 <Box className={classes.tabletop__action}>
                     {
                         recoilRecipeFilterIds.length > 0

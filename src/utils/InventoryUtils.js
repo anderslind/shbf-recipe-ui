@@ -1,15 +1,16 @@
-function getFilterOptions(id, textFilter, inventory, recoilInventoryKeyValueMap) {
+function getFilterOptions(id, inventory, recoilInventoryKeyValueMap) {
     const curriedOptionList = curryOptionListWithName(id, inventory, recoilInventoryKeyValueMap);
     for(const [key, val] of Object.entries(curriedOptionList)) {
         if (key === id) {
-            if (textFilter !== '') {
-                return val.filter(v => v.name.toLowerCase().indexOf(textFilter.toLowerCase()) > -1 );
-            } else {
-                return val;
-            }
+            return val;
         }
     }
     return [];
+}
+
+function filterOptionsOnText(textFilter, options) {
+    const lowerTextFilter = textFilter.toLowerCase();
+    return (textFilter && options) ? options.filter(option => option.name.toLowerCase().indexOf(lowerTextFilter) > -1 ) : options;
 }
 
 /**
@@ -40,5 +41,6 @@ function createKeyValueMap(inventory, setInventoryKeyValueMap) {
 }
 export {
     getFilterOptions,
+    filterOptionsOnText,
     createKeyValueMap
 };

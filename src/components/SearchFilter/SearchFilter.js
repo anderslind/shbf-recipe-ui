@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export const delay = new Delay(400);
+export const delay = new Delay(0);
 
 function SearchFilter({handleDrawerToggle}) {
     const classes = useStyles();
