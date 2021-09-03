@@ -23,9 +23,6 @@ const useStyles = makeStyles((theme) => ({
             paddingLeft: '1rem',
         }
     },
-    skeleton: {
-
-    },
     stats: {
         display: "flex",
         flexWrap: 'wrap',
@@ -89,7 +86,7 @@ function CardResultList(props) {
                 </Card>
             ))}
             {
-                loading && <CircularProgress className={classes.skeleton} />
+                loading && <CircularProgress />
             }
              <div className={classes.footer}>
                  {

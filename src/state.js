@@ -44,6 +44,10 @@ const freeTextSearchState = atom({
     key: 'freeTextSearchState',
     default: ''
 });
+const loadingRecipes = atom({
+    key: 'loadingRecipes',
+    default: false
+});
 export {
     inventory,
     inventoryKeyValueMap,
@@ -51,5 +55,6 @@ export {
     recipeFilterCountState,
     recipeFilterIds,
     recipeCountState,
-    freeTextSearchState
+    freeTextSearchState,
+    loadingRecipes
 }

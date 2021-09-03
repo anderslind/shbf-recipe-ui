@@ -12,7 +12,7 @@ const i18n = {
     fermentables: 'Jäsbara'
 }
 
-function getFormatter(filterId) {
+function getFormatter(filterId, mapper) {
 
     const FormatterMappings = {
         SPAN: ['og', 'fg', 'abv', 'ibu', 'size'],
@@ -36,7 +36,7 @@ function getFormatter(filterId) {
     };
 
     function text(filterId, textArray) {
-        return textArray;
+        return mapper && textArray ? textArray.map(text => mapper[text]) : textArray;
     };
 
     function span(filterId, numberArray) {
@@ -70,15 +70,16 @@ function addPrefix(arr, id) {
 
 class FormatFilter {
 
-    constructor(filterIds) {
+    constructor(filterIds, recoilInventoryKeyValueMap) {
         this.filterIds = !Array.isArray(filterIds) ? [filterIds] : filterIds;
+        this.mapper = recoilInventoryKeyValueMap;
     }
 
     format(globalStateFilter) {
         const values = [];
         this.filterIds
             .forEach(filterId => {
-                const value = getFormatter(filterId)(addPrefix(this.filterIds, filterId), globalStateFilter[filterId]);
+                const value = getFormatter(filterId, this.mapper)(addPrefix(this.filterIds, filterId), globalStateFilter[filterId]);
                 if (!!value) {
                     values.push(value);
                 }

@@ -4,13 +4,13 @@ import TableResultList from "./components/TableResultList";
 import Hidden from "@material-ui/core/Hidden";
 import CardResultList from "./components/CardResultList";
 import RecipeService from '../../../../services/RecipeService/RecipeService';
-import {Box} from "@material-ui/core";
+import {Box, Link} from "@material-ui/core";
 import {useRecoilValue, useRecoilState, useSetRecoilState} from "recoil";
 import {
-    facets,
+    EMPTY_STATE as FILTER_EMPTY_STATE,
     freeTextSearchState,
     inventory,
-    inventoryKeyValueMap,
+    inventoryKeyValueMap, loadingRecipes,
     recipeCountState, recipeFilterIds,
     recipeFilterState
 } from "../../../../state";
@@ -20,6 +20,15 @@ const useStyles = makeStyles((theme) => ({
     recipes: {
         flexGrow: 1,
     },
+    tabletop: {
+        display: 'flex'
+    },
+    tabletop__count: {
+        flex: '1 1 auto'
+    },
+    tabletop__action: {
+        flexShrink: '0'
+    }
 }));
 
 const displayname = 'Recipes';
@@ -34,8 +43,9 @@ function Recipes(props) {
     const recoilFreeText = useRecoilValue(freeTextSearchState);
     const [recoilInventory, setRecoilInventory] = useRecoilState(inventory);
     const setRecoilInventoryKeyValueMap = useSetRecoilState(inventoryKeyValueMap);
-    const recoilRecipeFilterState = useRecoilValue(recipeFilterState);
+    const [recoilRecipeFilterState, setRecoilRecipeFilterState] = useRecoilState(recipeFilterState);
     const recoilRecipeFilterIds = useRecoilValue(recipeFilterIds);
+    const setRecoilLoadingRecipes = useSetRecoilState(loadingRecipes);
 
     const [searchResult, setSearchResult] = useState(EMPTY_STATE);
     const [searchResultCache, setSearchResultCache] = useState([]);
@@ -46,6 +56,7 @@ function Recipes(props) {
 
     const handleSearchResult = (res, clearCache) => {
         setLoading(false);
+        setRecoilLoadingRecipes(false);
         if (!clearCache) {
             setSearchResultCache(searchResultCache.concat(res));
         } else {
@@ -60,6 +71,7 @@ function Recipes(props) {
     }
     const search = (clearCache) => {
         setLoading(true);
+        setRecoilLoadingRecipes(true);
         if (clearCache) {
             setCount(0);
         }
@@ -85,6 +97,7 @@ function Recipes(props) {
             })
             .catch(err => handleSearchResult(EMPTY_STATE));
     }
+    const clearFilter = () => { setRecoilRecipeFilterState(FILTER_EMPTY_STATE);}
     const handlePageChange = (page) => { setPage(page);}
     const handleRowsPerPageChange = (rowsPerPage) => { setRowsPerPage(rowsPerPage)}
 
@@ -110,7 +123,16 @@ function Recipes(props) {
 
     return (
         <div className={classes.recipes} displayname={displayname}>
-            <Box>Sökträffar {count}</Box>
+            <div className={classes.tabletop}>
+                <Box className={classes.tabletop__count}>Sökträffar {count}</Box>
+                <Box className={classes.tabletop__action}>
+                    {
+                        recoilRecipeFilterIds.length > 0
+                        && <Link href="#" onClick={clearFilter}>Rensa filter</Link>
+                    }
+                </Box>
+            </div>
+
             <Hidden xsDown>
                 <TableResultList
                     loading={loading}

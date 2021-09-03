@@ -8,7 +8,7 @@ import SearchFilterDetails from "../SearchFilterDetails/SearchFilterDetails";
 import {makeStyles} from "@material-ui/core/styles";
 import {drawerWidth} from "../../../../App";
 import FormatFilter from "../../utils/FilterUtils";
-import {recipeFilterState} from "../../../../state";
+import {recipeFilterState, inventoryKeyValueMap} from "../../../../state";
 import {useRecoilValue} from "recoil";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,8 +41,9 @@ const useStyles = makeStyles((theme) => ({
 function SearchFilterListItem({id, label, children, handleDrawerToggle}) {
     const classes = useStyles();
     const recipeFilter = useRecoilValue(recipeFilterState);
+    const recoilInventoryKeyValueMap = useRecoilValue(inventoryKeyValueMap);
 
-    const filterFormat = new FormatFilter(id);
+    const filterFormat = new FormatFilter(id, recoilInventoryKeyValueMap);
     const filterText = filterFormat.format(recipeFilter);
 
     const [open, setOpen] = useState(false);
