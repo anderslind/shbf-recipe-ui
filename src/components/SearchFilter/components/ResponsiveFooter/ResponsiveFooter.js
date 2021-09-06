@@ -1,6 +1,6 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilValue} from "recoil";
 import {loadingRecipes, recipeCountState} from "../../../../state";
 import {Button, CircularProgress} from "@material-ui/core";
 import Hidden from "@material-ui/core/Hidden";

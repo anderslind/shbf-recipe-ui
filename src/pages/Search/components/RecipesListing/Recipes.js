@@ -43,7 +43,7 @@ function Recipes(props) {
     const recoilFreeText = useRecoilValue(freeTextSearchState);
     const [recoilInventory, setRecoilInventory] = useRecoilState(inventory);
     const setRecoilInventoryKeyValueMap = useSetRecoilState(inventoryKeyValueMap);
-    const [recoilRecipeFilterState, setRecoilRecipeFilterState] = useRecoilState(recipeFilterState);
+    const setRecoilRecipeFilterState = useSetRecoilState(recipeFilterState);
     const recoilRecipeFilterIds = useRecoilValue(recipeFilterIds);
     const setRecoilLoadingRecipes = useSetRecoilState(loadingRecipes);
 
@@ -69,7 +69,7 @@ function Recipes(props) {
         setCount(res.recipeCount)
         setRecipeCount(res.recipeCount)
     }
-    const search = (clearCache) => {
+    const search = (recoilFreeText, rowsPerPage, recoilRecipeFilterIds, clearCache = false) => {
         setLoading(true);
         setRecoilLoadingRecipes(true);
         if (clearCache) {
@@ -103,7 +103,8 @@ function Recipes(props) {
 
     useEffect(() => {
         search(CLEAR_CACHE);
-    }, [recoilFreeText, rowsPerPage, recoilRecipeFilterState]);
+        // eslint-disable-next-line
+    }, [recoilFreeText, rowsPerPage, recoilRecipeFilterIds]);
 
     useEffect(() => {
         if (searchResultCache.length === 0) {
@@ -117,6 +118,7 @@ function Recipes(props) {
             // Use cached search result
             setSearchResult(searchResultCache[page])
         )
+    // eslint-disable-next-line
     }, [page]);
 
 

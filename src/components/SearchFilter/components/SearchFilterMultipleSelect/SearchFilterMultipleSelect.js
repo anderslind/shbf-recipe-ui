@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {
     Checkbox,
-    Divider, Link,
+    Divider,
     ListItem,
     ListItemIcon,
     ListItemText,

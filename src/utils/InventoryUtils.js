@@ -31,7 +31,7 @@ function curryOptionListWithName(id, inventory, recoilInventoryKeyValueMap) {
 
 function createKeyValueMap(inventory, setInventoryKeyValueMap) {
     const map = new Map();
-    for(const [key, array] of Object.entries(inventory)) {
+    for(const [, array] of Object.entries(inventory)) {
         for (let i=0; i < array.length; i++) {
             const obj = array[i];
             map.set(obj['id'], obj['name']);
