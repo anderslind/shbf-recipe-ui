@@ -7,7 +7,7 @@ import {
     DialogTitle, div, Grid, IconButton, Typography,
     useMediaQuery, useTheme
 } from "@material-ui/core";
-import { useLocation, useRoute} from "wouter";
+import { useLocation} from "wouter";
 import RecipeService from "../../services/RecipeService/RecipeServiceMock";
 import {Close} from "@material-ui/icons";
 
@@ -23,7 +23,6 @@ function RecipeDetails(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [, setLocation] = useLocation();
-    const [, params] = useRoute(routePattern);
     const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
     function handleClose() {

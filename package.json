@@ -20,8 +20,10 @@
     "wouter": "^2.7.4"
   },
   "scripts": {
-    "start": "PORT=3001 react-scripts start",
+    "start": "npm run proxy & API_HOST='http://35.232.164.134:8010/proxy/' PORT=3001 react-scripts start",
+    "proxy": "lcp --proxyUrl https://oxidapi-skpamglgeq-ey.a.run.app",
     "build": "react-scripts build",
+    "start-build": "npm run build && http-server ./build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -42,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "local-cors-proxy": "^1.1.0"
   }
 }

@@ -1,5 +1,11 @@
-// https://oxidapi-skpamglgeq-ey.a.run.app/swagger-ui.html
-const basePath = 'https://oxidapi-skpamglgeq-ey.a.run.app/';
+/**
+ * DOCS https://oxidapi-skpamglgeq-ey.a.run.app/swagger-ui.html
+ * API Endpoint https://oxidapi-skpamglgeq-ey.a.run.app/
+  */
+const apiPath = 'http://192.168.1.23:8010/proxy/';
+const basePath = process.env.API_HOST || apiPath;
+console.log('process.env.API_HOST', process.env.API_HOST);
+console.log('basePath', process.env.API_HOST);
 const baseOptions = {
     //mode: 'no-cors'
 };
