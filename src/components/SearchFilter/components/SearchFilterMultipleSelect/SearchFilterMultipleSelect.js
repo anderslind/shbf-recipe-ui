@@ -43,7 +43,17 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'right'
     },
     scrollingPlaceholder: {
-        paddingLeft: '4.5rem'
+        display: 'flex',
+        paddingLeft: '4.5rem',
+        fontSize: '1rem',
+        marginTop: '7px',
+    },
+    scrollingPlaceholder__main: {
+        flex: '1 1 auto'
+    },
+    scrollingPlaceholder__count: {
+        flexShrink: '0',
+        marginRight: '1rem',
     }
 }));
 
@@ -88,8 +98,12 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
 
     const Row = memo(({index, isScrolling, style}) => (
         isScrolling
-            ? <div style={style} className={classes.scrollingPlaceholder}>{filteredOptions[index].name}</div>
-            : <ListItem button key={filteredOptions[index].id} onClick={handleToggle(filteredOptions[index])} style={style}>
+            ? <div style={style}  className={classes.scrollingPlaceholder}>
+                <div className={classes.scrollingPlaceholder__main}>{filteredOptions[index].name}</div>
+                <div className={classes.scrollingPlaceholder__count}>{filteredOptions[index].recipeOccurrences}</div>
+              </div>
+            :
+            <ListItem button key={filteredOptions[index].id} onClick={handleToggle(filteredOptions[index])} style={style}>
                 <ListItemIcon>
                     <Checkbox
                         size={'small'}
