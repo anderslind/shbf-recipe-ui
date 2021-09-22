@@ -13,6 +13,7 @@ import {areEqual, FixedSizeList as List} from 'react-window';
 import {useRecoilValue} from "recoil";
 import {inventory, inventoryKeyValueMap} from "../../../../state";
 import {filterOptionsOnText, getFilterOptions} from "../../../../utils/InventoryUtils";
+import SelectedOptions from "./components/SelectedOptions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: '0.5rem',
     },
     listItemText: {
+        flex: '1 1 80%',
+    },
+    listItemTCount: {
         flex: '1 1 auto',
     },
     listItemText__name: {
@@ -49,7 +53,10 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '7px',
     },
     scrollingPlaceholder__main: {
-        flex: '1 1 auto'
+        flex: '1 1 auto',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
     },
     scrollingPlaceholder__count: {
         flexShrink: '0',
@@ -116,7 +123,7 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
                 <ListItemText className={`${classes.listItemText} ${classes.listItemText__name}`} title={filteredOptions[index].name}>
                     {filteredOptions[index].name}
                 </ListItemText>
-                <ListItemText className={`${classes.listItemText} ${classes.listItemText__right}`}>
+                <ListItemText className={`${classes.listItemCount} ${classes.listItemText__right}`}>
                     {filteredOptions[index].recipeOccurrences}
                 </ListItemText>
             </ListItem>
@@ -125,7 +132,6 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
     return (
         <div className={classes.root}>
             <TextField
-                autoFocus
                 fullWidth
                 size={'small'}
                 id="standard-search"
@@ -136,6 +142,7 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
                 onChange={(e) => setTextFilter(e.target.value)}
             />
             <Divider />
+            <SelectedOptions filterId={id}></SelectedOptions>
             <AutoSizer>
                 {({ height, width }) => (
                     <List className={classes.list}

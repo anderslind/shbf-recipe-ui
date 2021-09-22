@@ -23,7 +23,7 @@ const customTheme = createMuiTheme({
             main: '#da3301',
             // dark: will be calculated from palette.primary.main,
             // contrastText: will be calculated to contrast with palette.primary.main
-        }
+        },
     },
     breakpoints: {
         // Define custom breakpoint values.

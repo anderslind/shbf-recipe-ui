@@ -1,5 +1,5 @@
 function getFilterOptions(id, inventory, recoilInventoryKeyValueMap) {
-    const curriedOptionList = curryOptionListWithName(id, inventory, recoilInventoryKeyValueMap);
+    const curriedOptionList = curryOptionListWithCount(id, inventory, recoilInventoryKeyValueMap);
     for(const [key, val] of Object.entries(curriedOptionList)) {
         if (key === id) {
             return val;
@@ -16,31 +16,52 @@ function filterOptionsOnText(textFilter, options) {
 /**
  * Iterate facets, that has no name. Lookup name, from Id. Build new structure with id, name, recipe Occurrences.
  * */
-function curryOptionListWithName(id, inventory, recoilInventoryKeyValueMap) {
+function curryOptionListWithCount(id, inventory, recoilInventoryKeyValueMap) {
+    const idCountMap = createKeyValueMapForId(id, inventory);
     let response = [];
-    for(const [key, array] of Object.entries(inventory)) {
-        if (key === id) {
-            for (let i=0; i < array.length; i++) {
-                const obj = array[i];
-                response.push({id: obj['id'], name: recoilInventoryKeyValueMap.get(obj['id']), recipeOccurrences: obj['recipeOccurrences']})
-            }
-        }
+    if (recoilInventoryKeyValueMap) {
+        recoilInventoryKeyValueMap.get(id).forEach((value, key) => {
+            response.push({id: key, name: value, recipeOccurrences: idCountMap.get(key) || 0})
+        });
     }
     return {[id]: response};
 }
 
-function createKeyValueMap(inventory, setInventoryKeyValueMap) {
+function createKeyValueMapForId(id, inventory) {
     const map = new Map();
-    for(const [, array] of Object.entries(inventory)) {
-        for (let i=0; i < array.length; i++) {
-            const obj = array[i];
-            map.set(obj['id'], obj['name']);
+    for(const [key, array] of Object.entries(inventory)) {
+        if (key === id) {
+            for (let i=0; i < array.length; i++) {
+                const obj = array[i];
+                map.set(obj['id'], obj['recipeOccurrences']);
+            }
         }
     }
-    setInventoryKeyValueMap(map);
+    return map;
+}
+function storeInventory(inventory, setRecoilInventoryKeyValueMap) {
+    const inventoryMap = new Map();
+    for(const [key, array] of Object.entries(inventory)) {
+        const idNameMap = new Map();
+        for (let i=0; i < array.length; i++) {
+            const obj = array[i];
+            idNameMap.set(obj['id'], obj['name']);
+        }
+        inventoryMap.set(key, idNameMap);
+    }
+    setRecoilInventoryKeyValueMap(inventoryMap);
+}
+function getInventoryName(id, filterId, recoildInventoryMap) {
+    let value = 'Unknown';
+    if (recoildInventoryMap) {
+        value = recoildInventoryMap.get(filterId).get(id);
+    }
+    return value;
 }
 export {
     getFilterOptions,
     filterOptionsOnText,
-    createKeyValueMap
+    createKeyValueMapForId,
+    storeInventory,
+    getInventoryName
 };

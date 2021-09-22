@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import useLocation from "wouter/use-location";
+import {gravityFormat} from "../../../../../components/SearchFilter/utils/FormatUtils";
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -71,19 +72,23 @@ function TableResultList(props) {
                                     </TableCell>
                                 </TableRow>
                             }
-                            {!loading && rows.map((row) => (
-                                <TableRow key={row.id} onClick={() => handleClick(row.id)}>
-                                    <TableCell component="th" scope="row">{row.name}</TableCell>
-                                    <TableCell align="right">{row.style}</TableCell>
-                                    {/*<TableCell align="right">{row.size}</TableCell>*/}
-                                    <TableCell style={{ width: 60 }} align="right">{row.og.toFixed(3)}</TableCell>
-                                    <TableCell style={{ width: 60 }} align="right">{row.fg.toFixed(3)}</TableCell>
-                                    <TableCell style={{ width: 60 }} align="right">{row.abv.toFixed(1)}</TableCell>
-                                    {/*<TableCell style={{ width: 60 }} align="right">{row.ibu.toFixed(0)}</TableCell>*/}
-                                    {/*<TableCell style={{ width: 60 }} align="right"><ColorIcon ebc={row.ebc} size="small" /></TableCell>*/}
-                                    {/*<TableCell style={{ width: 60 }} align="right">{row.placing}</TableCell>*/}
-                                </TableRow>
-                            ))}
+                            {!loading && rows.map((row) => {
+                                const fg = row.fg * 10;
+                                const og = row.og * 10;
+                                return (
+                                    <TableRow key={row.id} onClick={() => handleClick(row.id)}>
+                                        <TableCell component="th" scope="row">{row.name}</TableCell>
+                                        <TableCell align="right">{row.style}</TableCell>
+                                        {/*<TableCell align="right">{row.size}</TableCell>*/}
+                                        <TableCell style={{ width: 60 }} align="right">{gravityFormat(og)}</TableCell>
+                                        <TableCell style={{ width: 60 }} align="right">{gravityFormat(fg)}</TableCell>
+                                        <TableCell style={{ width: 60 }} align="right">{row.abv.toFixed(1)}</TableCell>
+                                        {/*<TableCell style={{ width: 60 }} align="right">{row.ibu.toFixed(0)}</TableCell>*/}
+                                        {/*<TableCell style={{ width: 60 }} align="right"><ColorIcon ebc={row.ebc} size="small" /></TableCell>*/}
+                                        {/*<TableCell style={{ width: 60 }} align="right">{row.placing}</TableCell>*/}
+                                    </TableRow>
+                                )
+                            })}
                         </TableBody>
                     </Table>
                 </TableContainer>

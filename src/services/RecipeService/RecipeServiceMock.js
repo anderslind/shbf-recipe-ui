@@ -14,7 +14,7 @@ function mockBackendSearchService(freetext, filter, rows) {
                 for (const [key, value] of Object.entries(row)) {
                     const rowValue = key === paramKey.toLowerCase() ? value : undefined;
                     if (rowValue) {
-                        if (['style', 'yeast', 'hops'].some(i => i === paramKey)) {
+                        if (['style', 'yeasts', 'hops'].some(i => i === paramKey)) {
                             if (paramValue.length > 0 && paramValue.some(i => i !== rowValue)) {
                                 paramMatch = false;
                             }

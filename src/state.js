@@ -9,7 +9,7 @@ export const EMPTY_STATE = {
     size: [],
     style: [],
     hops: [],
-    yeast: [],
+    yeasts: [],
     fermentables: [],
 }
 const inventory = atom({

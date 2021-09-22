@@ -14,11 +14,14 @@ import {
     recipeCountState, recipeFilterIds,
     recipeFilterState
 } from "../../../../state";
-import {createKeyValueMap} from "../../../../utils/InventoryUtils";
+import {storeInventory} from "../../../../utils/InventoryUtils";
+import CollapsableFilterView from "./components/CollapsableFilterView";
 
 const useStyles = makeStyles((theme) => ({
     recipes: {
         flexGrow: 1,
+    },
+    filter: {
     },
     tabletop: {
         display: 'flex'
@@ -36,14 +39,14 @@ const displayname = 'Recipes';
 const PAGE0 = 0, DEFAULT_PAGE_SIZE = 20;
 const EMPTY_STATE = { recipeCount: 0, recipeSummaries: [], inventory: [] };
 const CLEAR_CACHE = true;
+const DEFAULT_SHOW_FILTER = true;
 
 function Recipes(props) {
     const classes = useStyles();
     const [recipeCount, setRecipeCount] = useRecoilState(recipeCountState);
     const recoilFreeText = useRecoilValue(freeTextSearchState);
-    const [recoilInventory, setRecoilInventory] = useRecoilState(inventory);
-    const setRecoilInventoryKeyValueMap = useSetRecoilState(inventoryKeyValueMap);
-    const setRecoilRecipeFilterState = useSetRecoilState(recipeFilterState);
+    const setRecoilInventory = useSetRecoilState(inventory);
+    const [recoilInventoryKeyValueMap, setRecoilInventoryKeyValueMap] = useRecoilState(inventoryKeyValueMap);
     const recoilRecipeFilterIds = useRecoilValue(recipeFilterIds);
     const setRecoilLoadingRecipes = useSetRecoilState(loadingRecipes);
 
@@ -53,6 +56,12 @@ function Recipes(props) {
     const [loading, setLoading] = useState(false);
     const [count, setCount] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
+
+    const setRecoilRecipeFilterState = useSetRecoilState(recipeFilterState);
+    const [showFilter, setShowFilter] = useState(DEFAULT_SHOW_FILTER);
+
+    const toggleShow = () => setShowFilter(!showFilter);
+    const clearFilter = () => { setRecoilRecipeFilterState(FILTER_EMPTY_STATE);}
 
     const handleSearchResult = (res, clearCache) => {
         setLoading(false);
@@ -81,10 +90,10 @@ function Recipes(props) {
             .then(data => {
                 if (data.inventory) {
                     if (recoilFreeText === '') {
-                        if (recoilInventory.length === 0) {
+                        if (!recoilInventoryKeyValueMap) {
 
                             // First load of inventory, create key-value map for inventory ID, NAME
-                            createKeyValueMap(data.inventory, setRecoilInventoryKeyValueMap);
+                            storeInventory(data.inventory, setRecoilInventoryKeyValueMap);
                         }
                         setRecoilInventory(data.inventory);
                     } else {
@@ -97,7 +106,6 @@ function Recipes(props) {
             })
             .catch(err => handleSearchResult(EMPTY_STATE));
     }
-    const clearFilter = () => { setRecoilRecipeFilterState(FILTER_EMPTY_STATE);}
     const handlePageChange = (page) => { setPage(page);}
     const handleRowsPerPageChange = (rowsPerPage) => { setRowsPerPage(rowsPerPage)}
 
@@ -125,18 +133,24 @@ function Recipes(props) {
 
     return (
         <div className={classes.recipes} displayname={displayname}>
+            <Box className={classes.filter}>
+                <CollapsableFilterView showFilter={showFilter}/>
+            </Box>
             <div className={classes.tabletop}>
                 <Box className={classes.tabletop__count}>
                     Sökträffar { loading ? <CircularProgress className={classes.progress} size={'0.5rem'} /> : count }
                 </Box>
                 <Box className={classes.tabletop__action}>
                     {
-                        recoilRecipeFilterIds.length > 0
-                        && <Link href="#" onClick={clearFilter}>Rensa filter</Link>
+                        recoilRecipeFilterIds.length > 0 &&
+                        <>
+                            <Link href="#" onClick={toggleShow}>
+                                {showFilter ? 'Dölj filter' : 'Visa filter'}
+                            </Link> | <Link href="#" onClick={clearFilter}>Rensa filter</Link>
+                        </>
                     }
                 </Box>
             </div>
-
             <Hidden xsDown>
                 <TableResultList
                     loading={loading}

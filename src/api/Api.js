@@ -2,7 +2,7 @@
  * DOCS https://oxidapi-skpamglgeq-ey.a.run.app/swagger-ui.html
  * API Endpoint https://oxidapi-skpamglgeq-ey.a.run.app/
   */
-const apiPath = 'http://192.168.1.23:8010/proxy/';
+const apiPath = 'http://35.232.164.134:8010/proxy/';
 const basePath = process.env.API_HOST || apiPath;
 console.log('process.env.API_HOST', process.env.API_HOST);
 console.log('basePath', process.env.API_HOST);
@@ -20,7 +20,6 @@ function call(path, options) {
     return fetch(url, Object.assign(baseOptions, options))
         .catch((err) => handleConnectionError(err))
         .then(response => {
-            console.log('Api.js', response);
             if (response.ok) {
                 return response && response.json ? response.json() : {};
             } else {
