@@ -64,11 +64,11 @@ function CardResultList({loading, recipes, page, onPageChange, totalCount}) {
                             avatar={
                                 <ColorIcon ebc={/*recipeSummary.ebc*/12} size="large" />
                             }
-                            action={
-                                <IconButton aria-label="settings">
-                                    <RadioButtonUnchecked />
-                                </IconButton>
-                            }
+                            // action={
+                            //     <IconButton aria-label="settings">
+                            //         <RadioButtonUnchecked />
+                            //     </IconButton>
+                            // }
                             title={recipeSummary.name}
                             subheader={recipeSummary.style}
                             titleTypographyProps={{ variant:'h6' }}

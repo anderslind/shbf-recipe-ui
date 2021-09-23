@@ -38,8 +38,8 @@ function Header({label, onNavigateBack, onClear}) {
             <Typography variant="h6" className={classes.label}>
                 {label}
             </Typography>
-            <Button color={'default'} onClick={() => onClear()}>
-                Återställ
+            <Button color="primary" onClick={onClear}>
+                Rensa filter
             </Button>
         </div>
     );
