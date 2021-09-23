@@ -41,11 +41,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function CardResultList(props) {
+function CardResultList({loading, recipes, page, onPageChange, totalCount}) {
     const classes = useStyles();
     const [, setLocation] = useLocation();
-
-    const {loading, recipes, page, onPageChange} = props;
 
     const handleClick = (id)  => {
         setLocation(`/recipe-details/${id}`);
@@ -91,17 +89,18 @@ function CardResultList(props) {
                 )
             })}
             {
-                loading && <CircularProgress />
+                loading
+                ? <CircularProgress />
+                : <div className={classes.footer}>
+                        {
+                            recipes.length < totalCount
+                                ? <Button size={'small'} variant={'contained'} color={'primary'} onClick={handleLoadMore}>
+                                    {`Ladda fler`}
+                                </Button>
+                                : <div><b>Alla recept laddade</b></div>
+                        }
+                  </div>
             }
-             <div className={classes.footer}>
-                 {
-                     recipes.length < props.totalCount
-                     ? <Button size={'small'} variant={'contained'} color={'primary'} onClick={handleLoadMore}>
-                             {`Ladda fler`}
-                         </Button>
-                     : <div><b>All recept laddade</b></div>
-                 }
-            </div>
         </Box>
     );
 }
