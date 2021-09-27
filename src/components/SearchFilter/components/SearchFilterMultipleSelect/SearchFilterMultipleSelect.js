@@ -71,15 +71,15 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
     const [options, setOptions] = useState([]);
     const [filteredOptions, setFilteredOptions] = useState([]);
 
-    const recoilInventory = useRecoilValue(inventory);
-    const recoilInventoryKeyValueMap = useRecoilValue(inventoryKeyValueMap);
+    const inventoryState = useRecoilValue(inventory);
+    const inventoryKeyValueMapState = useRecoilValue(inventoryKeyValueMap);
 
     useEffect(() => {
-        const options = getFilterOptions(id, recoilInventory, recoilInventoryKeyValueMap);
+        const options = getFilterOptions(id, inventoryState, inventoryKeyValueMapState);
         setOptions(options);
         setFilteredOptions(options);
         // eslint-disable-next-line
-    }, [recoilInventory]);
+    }, [inventoryState]);
 
     useEffect(() => {
         setFilteredOptions(filterOptionsOnText(textFilter, options))

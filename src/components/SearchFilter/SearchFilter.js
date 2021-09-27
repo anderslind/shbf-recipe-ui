@@ -6,7 +6,7 @@ import SearchFilterSlider from "./components/SearchFilterSlider/SearchFilterSlid
 import SearchFilterMultipleSelect from "./components/SearchFilterMultipleSelect/SearchFilterMultipleSelect";
 import ResponsiveFooter from "./components/ResponsiveFooter/ResponsiveFooter";
 import {useRecoilState} from "recoil";
-import {recipeFilterState} from "../../state";
+import {recipeFilter} from "../../state";
 import {abvFormat, defaultFormat, gravityFormat} from "./utils/FormatUtils";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchFilter({handleDrawerToggle}) {
     const classes = useStyles();
-    const [recoilFilterState, setRecoilFilterState] = useRecoilState(recipeFilterState);
+    const [filterState, setFilterState] = useRecoilState(recipeFilter);
 
     const onUpdate = (id, value) => {
-        setRecoilFilterState((originalFilterState) => ({
+        setFilterState((originalFilterState) => ({
             ...originalFilterState,
             [id]: value
         }))
@@ -47,7 +47,7 @@ function SearchFilter({handleDrawerToggle}) {
                             max={200}
                             valueText={gravityFormat}
                             onUpdate={onUpdate}
-                            value={[...recoilFilterState.og]}
+                            value={[...filterState.og]}
                         />
                         <SearchFilterSlider
                             id={'abv'}
@@ -56,7 +56,7 @@ function SearchFilter({handleDrawerToggle}) {
                             step={0.5}
                             valueText={abvFormat}
                             onUpdate={onUpdate}
-                            value={recoilFilterState.abv.slice()}
+                            value={filterState.abv.slice()}
                         />
                         <SearchFilterSlider
                             id={'size'}
@@ -64,7 +64,7 @@ function SearchFilter({handleDrawerToggle}) {
                             max={50}
                             valueText={defaultFormat}
                             onUpdate={onUpdate}
-                            value={recoilFilterState.size.slice()}
+                            value={filterState.size.slice()}
                         />
                         <SearchFilterSlider
                             id={'fg'}
@@ -72,7 +72,7 @@ function SearchFilter({handleDrawerToggle}) {
                             max={50}
                             valueText={gravityFormat}
                             onUpdate={onUpdate}
-                            value={recoilFilterState.fg.slice()}
+                            value={filterState.fg.slice()}
                         />
                         <SearchFilterSlider
                             id={'ibu'}
@@ -80,19 +80,19 @@ function SearchFilter({handleDrawerToggle}) {
                             max={80}
                             valueText={defaultFormat}
                             onUpdate={onUpdate}
-                            value={recoilFilterState.ibu.slice()}
+                            value={filterState.ibu.slice()}
                         />
                     </Container>
                 </SearchFilterListItem>
 
                 <SearchFilterListItem id={'fermentables'} label={'Jäsbara'} handleDrawerToggle={handleDrawerToggle}>
-                    <SearchFilterMultipleSelect id={'fermentables'} label={'Jäsbara'} values={recoilFilterState.fermentables} onUpdate={onUpdate} />
+                    <SearchFilterMultipleSelect id={'fermentables'} label={'Jäsbara'} values={filterState.fermentables} onUpdate={onUpdate} />
                 </SearchFilterListItem>
-                <SearchFilterListItem id={'hops'} label={'Humle'} filter={recoilFilterState.hops} handleDrawerToggle={handleDrawerToggle}>
-                    <SearchFilterMultipleSelect id={'hops'} label={'Humle'} values={recoilFilterState.hops} onUpdate={onUpdate} />
+                <SearchFilterListItem id={'hops'} label={'Humle'} filter={filterState.hops} handleDrawerToggle={handleDrawerToggle}>
+                    <SearchFilterMultipleSelect id={'hops'} label={'Humle'} values={filterState.hops} onUpdate={onUpdate} />
                 </SearchFilterListItem>
-                <SearchFilterListItem id={'yeasts'} label={'Jäst'} filter={recoilFilterState.yeasts} handleDrawerToggle={handleDrawerToggle}>
-                    <SearchFilterMultipleSelect id={'yeasts'} label={'Jäst'} values={recoilFilterState.yeasts} onUpdate={onUpdate} />
+                <SearchFilterListItem id={'yeasts'} label={'Jäst'} filter={filterState.yeasts} handleDrawerToggle={handleDrawerToggle}>
+                    <SearchFilterMultipleSelect id={'yeasts'} label={'Jäst'} values={filterState.yeasts} onUpdate={onUpdate} />
                 </SearchFilterListItem>
             </div>
 

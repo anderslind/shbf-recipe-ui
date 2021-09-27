@@ -4,7 +4,7 @@ import ResponsiveFooter from "../ResponsiveFooter/ResponsiveFooter";
 import Hidden from "@material-ui/core/Hidden";
 import Header from "../Header/Header";
 import {useSetRecoilState} from "recoil";
-import {EMPTY_STATE, recipeFilterState} from "../../../../state";
+import {EMPTY_STATE, recipeFilter} from "../../../../state";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchFilterDetails ({id, label, slide, onHide, children, handleDrawerToggle}) {
     const classes = useStyles();
-    const setFilterState = useSetRecoilState(recipeFilterState);
+    const setFilterState = useSetRecoilState(recipeFilter);
 
     const onNavigateBack = () => {
         onHide();

@@ -6,12 +6,12 @@ import {useRecoilValue} from "recoil";
 import {recipeFilterIds} from "../../../../../state";
 
 function CollapsableFilterView({showFilter}) {
-    const recoilRecipeFilterIds = useRecoilValue(recipeFilterIds);
+    const recipeFilterIdsState = useRecoilValue(recipeFilterIds);
 
     return (
         <>
             {
-                recoilRecipeFilterIds.length > 0
+                recipeFilterIdsState.length > 0
                 &&
                 <div>
                     <Collapse in={showFilter} timeout="auto" unmountOnExit>

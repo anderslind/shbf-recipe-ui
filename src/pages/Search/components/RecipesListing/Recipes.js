@@ -11,8 +11,8 @@ import {
     freeTextSearchState,
     inventory,
     inventoryKeyValueMap, loadingRecipes,
-    recipeCountState, recipeFilterIds,
-    recipeFilterState
+    recipeCount, recipeFilterIds,
+    recipeFilter
 } from "../../../../state";
 import {storeInventory} from "../../../../utils/InventoryUtils";
 import CollapsableFilterView from "./components/CollapsableFilterView";
@@ -43,12 +43,13 @@ const DEFAULT_SHOW_FILTER = true;
 
 function Recipes(props) {
     const classes = useStyles();
-    const [recipeCount, setRecipeCount] = useRecoilState(recipeCountState);
-    const recoilFreeText = useRecoilValue(freeTextSearchState);
-    const setRecoilInventory = useSetRecoilState(inventory);
-    const [recoilInventoryKeyValueMap, setRecoilInventoryKeyValueMap] = useRecoilState(inventoryKeyValueMap);
-    const recoilRecipeFilterIds = useRecoilValue(recipeFilterIds);
-    const setRecoilLoadingRecipes = useSetRecoilState(loadingRecipes);
+    const [recipeCountState, setRecipeCountState] = useRecoilState(recipeCount);
+    const freeTextState = useRecoilValue(freeTextSearchState);
+    const setInventoryState = useSetRecoilState(inventory);
+    const [inventoryKeyValueMapState, setInventoryKeyValueMapState] = useRecoilState(inventoryKeyValueMap);
+    const recipeFilterIdsState = useRecoilValue(recipeFilterIds);
+    const setLoadingRecipesState = useSetRecoilState(loadingRecipes);
+    const setRecipeFilterState = useSetRecoilState(recipeFilter);
 
     const [searchResult, setSearchResult] = useState(EMPTY_STATE);
     const [searchResultCache, setSearchResultCache] = useState([]);
@@ -56,16 +57,14 @@ function Recipes(props) {
     const [loading, setLoading] = useState(false);
     const [count, setCount] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
-
-    const setRecoilRecipeFilterState = useSetRecoilState(recipeFilterState);
     const [showFilter, setShowFilter] = useState(DEFAULT_SHOW_FILTER);
 
     const toggleShow = () => setShowFilter(!showFilter);
-    const clearFilter = () => { setRecoilRecipeFilterState(FILTER_EMPTY_STATE);}
+    const clearFilter = () => { setRecipeFilterState(FILTER_EMPTY_STATE);}
 
     const handleSearchResult = (res, clearCache) => {
         setLoading(false);
-        setRecoilLoadingRecipes(false);
+        setLoadingRecipesState(false);
         if (!clearCache) {
             setSearchResultCache(searchResultCache.concat(res));
         } else {
@@ -76,31 +75,31 @@ function Recipes(props) {
 
         // The slowness of recoil affects the UX here. Thus we keep a local state for count as well
         setCount(res.recipeCount)
-        setRecipeCount(res.recipeCount)
+        setRecipeCountState(res.recipeCount)
     }
     const search = (clearCache = false) => {
         setLoading(true);
-        setRecoilLoadingRecipes(true);
+        setLoadingRecipesState(true);
         if (clearCache) {
             setCount(0);
         }
 
         RecipeService
-            .search(recoilFreeText, clearCache ? 0 : page, rowsPerPage, recoilRecipeFilterIds)
+            .search(freeTextState, clearCache ? 0 : page, rowsPerPage, recipeFilterIdsState)
             .then(data => {
                 if (data.inventory) {
-                    if (recoilFreeText === '') {
-                        if (!recoilInventoryKeyValueMap) {
+                    if (freeTextState === '') {
+                        if (!inventoryKeyValueMapState) {
 
                             // First load of inventory, create key-value map for inventory ID, NAME
-                            storeInventory(data.inventory, setRecoilInventoryKeyValueMap);
+                            storeInventory(data.inventory, setInventoryKeyValueMapState);
                         }
-                        setRecoilInventory(data.inventory);
+                        setInventoryState(data.inventory);
                     } else {
-                        setRecoilInventory(data.inventory);
+                        setInventoryState(data.inventory);
                     }
                 } else {
-                    setRecoilInventory([]);
+                    setInventoryState([]);
                 }
                 return handleSearchResult(data, clearCache);
             })
@@ -112,7 +111,7 @@ function Recipes(props) {
     useEffect(() => {
         search(CLEAR_CACHE);
         // eslint-disable-next-line
-    }, [recoilFreeText, rowsPerPage, recoilRecipeFilterIds]);
+    }, [freeTextState, rowsPerPage, recipeFilterIdsState]);
 
     useEffect(() => {
         if (searchResultCache.length === 0) {
@@ -142,7 +141,7 @@ function Recipes(props) {
                 </Box>
                 <Box className={classes.tabletop__action}>
                     {
-                        recoilRecipeFilterIds.length > 0 &&
+                        recipeFilterIdsState.length > 0 &&
                         <>
                             <Link href="#" onClick={toggleShow}>
                                 {showFilter ? 'Dölj filter' : 'Visa filter'}
@@ -157,7 +156,7 @@ function Recipes(props) {
                     recipes={searchResult}
                     page={page}
                     rowsPerPage={rowsPerPage}
-                    totalCount={recipeCount}
+                    totalCount={recipeCountState}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
                 />
@@ -168,7 +167,7 @@ function Recipes(props) {
                     recipes={searchResultCache.flatMap(cache => cache.recipeSummaries)}
                     page={page}
                     rowsPerPage={rowsPerPage}
-                    totalCount={recipeCount}
+                    totalCount={recipeCountState}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
                 />

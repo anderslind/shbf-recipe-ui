@@ -1,5 +1,5 @@
-function getFilterOptions(id, inventory, recoilInventoryKeyValueMap) {
-    const curriedOptionList = curryOptionListWithCount(id, inventory, recoilInventoryKeyValueMap);
+function getFilterOptions(id, inventory, inventoryKeyValueMapState) {
+    const curriedOptionList = curryOptionListWithCount(id, inventory, inventoryKeyValueMapState);
     for(const [key, val] of Object.entries(curriedOptionList)) {
         if (key === id) {
             return val;
@@ -16,11 +16,11 @@ function filterOptionsOnText(textFilter, options) {
 /**
  * Iterate facets, that has no name. Lookup name, from Id. Build new structure with id, name, recipe Occurrences.
  * */
-function curryOptionListWithCount(id, inventory, recoilInventoryKeyValueMap) {
+function curryOptionListWithCount(id, inventory, inventoryKeyValueMapState) {
     const idCountMap = createKeyValueMapForId(id, inventory);
     let response = [];
-    if (recoilInventoryKeyValueMap) {
-        recoilInventoryKeyValueMap.get(id).forEach((value, key) => {
+    if (inventoryKeyValueMapState) {
+        inventoryKeyValueMapState.get(id).forEach((value, key) => {
             response.push({id: key, name: value, recipeOccurrences: idCountMap.get(key) || 0})
         });
     }
@@ -39,7 +39,7 @@ function createKeyValueMapForId(id, inventory) {
     }
     return map;
 }
-function storeInventory(inventory, setRecoilInventoryKeyValueMap) {
+function storeInventory(inventory, setInventoryKeyValueMapState) {
     const inventoryMap = new Map();
     for(const [key, array] of Object.entries(inventory)) {
         const idNameMap = new Map();
@@ -49,12 +49,12 @@ function storeInventory(inventory, setRecoilInventoryKeyValueMap) {
         }
         inventoryMap.set(key, idNameMap);
     }
-    setRecoilInventoryKeyValueMap(inventoryMap);
+    setInventoryKeyValueMapState(inventoryMap);
 }
-function getInventoryName(id, filterId, recoildInventoryMap) {
+function getInventoryName(id, filterId, inventoryMapState) {
     let value = 'Unknown';
-    if (recoildInventoryMap) {
-        value = recoildInventoryMap.get(filterId).get(id);
+    if (inventoryMapState) {
+        value = inventoryMapState.get(filterId).get(id);
     }
     return value;
 }

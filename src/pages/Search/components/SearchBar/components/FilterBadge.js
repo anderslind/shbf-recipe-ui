@@ -15,11 +15,11 @@ const useStyles = makeStyles((theme) => ({
 
 function FilterBadge({handleDrawerToggle}) {
     const classes = useStyles();
-    const recipeFilterCount = useRecoilValue(recipeFilterCountState);
+    const recipeFilterCountState = useRecoilValue(recipeFilterCountState);
 
     return (
         <IconButton color="primary" className={classes.iconButton} edge="end" aria-label="Visa filter" onClick={() => handleDrawerToggle()}>
-            <Badge badgeContent={recipeFilterCount} color="primary">
+            <Badge badgeContent={recipeFilterCountState} color="primary">
                 <FilterList className={classes.filterIcon}/>
             </Badge>
         </IconButton>

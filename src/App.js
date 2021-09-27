@@ -9,7 +9,7 @@ import {createMuiTheme} from '@material-ui/core';
 import Routes from './components/Routes/Routes';
 import SearchFilter from './components/SearchFilter/SearchFilter';
 import {useSetRecoilState} from 'recoil';
-import {recipeFilterState, EMPTY_STATE} from './state';
+import {recipeFilter, EMPTY_STATE} from './state';
 
 export const drawerWidth = 375;
 
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const setFilterState = useSetRecoilState(recipeFilterState);
+    const setFilterState = useSetRecoilState(recipeFilter);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);

@@ -1,4 +1,4 @@
-import {inventoryKeyValueMap, recipeFilterState} from "../../../../../state";
+import {inventoryKeyValueMap, recipeFilter} from "../../../../../state";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {Chip} from "@material-ui/core";
 import React, {useEffect, useState} from "react";
@@ -23,14 +23,14 @@ const useStyles = makeStyles((theme) => ({
 function SelectedOptions({filterId}) {
     const classes = useStyles();
     const [options, setOptions] = useState([]); // {filterId, id}
-    const [recoilFilterState, setRecoilFilterState] = useRecoilState(recipeFilterState);
-    const recoilInventoryKeyValueMap = useRecoilValue(inventoryKeyValueMap);
+    const [filterState, setRecoilFilterState] = useRecoilState(recipeFilter);
+    const inventoryKeyValueMapState = useRecoilValue(inventoryKeyValueMap);
 
     const getNameFromId = (obj) => {
-        return getInventoryName(obj.id, obj.filterId, recoilInventoryKeyValueMap);
+        return getInventoryName(obj.id, obj.filterId, inventoryKeyValueMapState);
     }
     const handleDelete = (obj) => {
-        const arr = recoilFilterState[obj.filterId].slice();
+        const arr = filterState[obj.filterId].slice();
         const index = arr.indexOf(obj.id);arr.splice(index, 1);
         if (index > -1) {
             setRecoilFilterState((originalFilterState) => ({
@@ -41,16 +41,16 @@ function SelectedOptions({filterId}) {
     }
     useEffect(() => {
         if (filterId) {
-            setOptions(recoilFilterState[filterId].map(e => ({filterId, id: e})));
+            setOptions(filterState[filterId].map(e => ({filterId, id: e})));
         } else {
-            setOptions(Object.entries(recoilFilterState).reduce((acc, current) => {
+            setOptions(Object.entries(filterState).reduce((acc, current) => {
                 const filterId = current[0];
                 const idArray = current[1];
                 idArray.forEach(e => acc.push({filterId, id: e}));
                 return acc;
             }, []));
         }
-    }, [recoilFilterState, filterId])
+    }, [filterState, filterId])
 
     return (
         options.length > 0

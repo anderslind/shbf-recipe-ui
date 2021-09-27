@@ -1,7 +1,7 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {useRecoilValue} from "recoil";
-import {loadingRecipes, recipeCountState} from "../../../../state";
+import {loadingRecipes, recipeCount} from "../../../../state";
 import {Button, CircularProgress} from "@material-ui/core";
 import Hidden from "@material-ui/core/Hidden";
 
@@ -21,17 +21,17 @@ const useStyles = makeStyles((theme) => ({
 
 function ResponsiveFooter({handleDrawerToggle}) {
     const classes = useStyles();
-    const recipeCount = useRecoilValue(recipeCountState);
-    const recoilLoadingRecipes = useRecoilValue(loadingRecipes);
+    const recipeCountState = useRecoilValue(recipeCount);
+    const loadingRecipesState = useRecoilValue(loadingRecipes);
 
     return (
         <Hidden mdUp>
             <div className={classes.footer}>
                 <Button size={'small'} variant={'contained'} color={'primary'} onClick={handleDrawerToggle}>
                     {
-                        recoilLoadingRecipes
+                        loadingRecipesState
                             ? <CircularProgress className={classes.progress} size={'1.5rem'} />
-                            : <>{`Visa ${recipeCount} recept`}</>
+                            : <>{`Visa ${recipeCountState} recept`}</>
                     }
                 </Button>
             </div>

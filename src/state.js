@@ -20,23 +20,23 @@ const inventoryKeyValueMap = atom({
     key: 'inventoryKeyValueMap',
     default: null
 });
-const recipeFilterState = atom({
+const recipeFilter = atom({
     key: 'recipeFilterState',
     default: EMPTY_STATE,
 });
 const recipeFilterIds = selector({
     key: 'recipeFilterIds',
     get: ({get}) => {
-        return Object.values(get(recipeFilterState)).flat();
+        return Object.values(get(recipeFilter)).flat();
     }
 });
 const recipeFilterCountState = selector({
     key: 'recipeFilterCountState',
     get: ({get}) => {
-        return Object.values(get(recipeFilterState)).reduce((acc, arr) => arr.length > 0 ? acc + 1 : acc, 0);
+        return Object.values(get(recipeFilter)).reduce((acc, arr) => arr.length > 0 ? acc + 1 : acc, 0);
     }
 });
-const recipeCountState = atom({
+const recipeCount = atom({
     key: 'recipeCountState',
     default: 0
 });
@@ -51,10 +51,10 @@ const loadingRecipes = atom({
 export {
     inventory,
     inventoryKeyValueMap,
-    recipeFilterState,
+    recipeFilter,
     recipeFilterCountState,
     recipeFilterIds,
-    recipeCountState,
+    recipeCount,
     freeTextSearchState,
     loadingRecipes
 }
