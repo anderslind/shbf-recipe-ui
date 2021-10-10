@@ -1,19 +1,23 @@
-import React from 'react';
-import {Container} from "@material-ui/core";
+import React, {useState} from 'react';
+import {Backdrop, Box, CircularProgress} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import SearchFilterListItem from "./components/SearchFilterListItem/SearchFilterListItem";
-import SearchFilterSlider from "./components/SearchFilterSlider/SearchFilterSlider";
-import SearchFilterMultipleSelect from "./components/SearchFilterMultipleSelect/SearchFilterMultipleSelect";
-import ResponsiveFooter from "./components/ResponsiveFooter/ResponsiveFooter";
-import {useRecoilState} from "recoil";
-import {recipeFilter} from "../../state";
-import {abvFormat, defaultFormat, gravityFormat} from "./utils/FormatUtils";
+import SearchFilterSlider from "../components/SearchFilterSlider/SearchFilterSlider";
+import SearchFilterMultipleSelect from "../components/SearchFilterMultipleSelect/SearchFilterMultipleSelect";
+import ResponsiveFooter from "../components/ResponsiveFooter/ResponsiveFooter";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {loadingRecipes, recipeFilter} from "../../../state";
+import {abvFormat, defaultFormat} from "../utils/FormatUtils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,
+    },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: theme.palette.background.default,
     },
     content: {
         flexGrow: 1
@@ -23,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 function SearchFilter({handleDrawerToggle}) {
     const classes = useStyles();
     const [filterState, setFilterState] = useRecoilState(recipeFilter);
+    const loadingRecipesState = useRecoilValue(loadingRecipes);
 
     const onUpdate = (id, value) => {
         setFilterState((originalFilterState) => ({
@@ -33,19 +38,20 @@ function SearchFilter({handleDrawerToggle}) {
 
     return (
         <div className={classes.root} displayname={'SearchFilter'}>
-
+            <Backdrop className={classes.backdrop} open={loadingRecipesState}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <div className={classes.content}>
                 <SearchFilterListItem
-                    listKey={'vitals'}
                     id={['og', 'fg', 'ibu', 'abv', 'size']}
                     label={'Vitalparametrar'}
                     handleDrawerToggle={handleDrawerToggle}>
-                    <Container style={{marginTop: '1rem'}}>
+                    <Box style={{marginTop: '1rem'}}>
                         <SearchFilterSlider
                             id={'og'}
                             label={'OG'}
                             max={200}
-                            valueText={gravityFormat}
+                            valueText={defaultFormat}
                             onUpdate={onUpdate}
                             value={[...filterState.og]}
                         />
@@ -70,7 +76,7 @@ function SearchFilter({handleDrawerToggle}) {
                             id={'fg'}
                             label={'FG'}
                             max={50}
-                            valueText={gravityFormat}
+                            valueText={defaultFormat}
                             onUpdate={onUpdate}
                             value={filterState.fg.slice()}
                         />
@@ -82,7 +88,7 @@ function SearchFilter({handleDrawerToggle}) {
                             onUpdate={onUpdate}
                             value={filterState.ibu.slice()}
                         />
-                    </Container>
+                    </Box>
                 </SearchFilterListItem>
 
                 <SearchFilterListItem id={'fermentables'} label={'Jäsbara'} handleDrawerToggle={handleDrawerToggle}>

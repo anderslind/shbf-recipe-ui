@@ -4,66 +4,73 @@ import TableResultList from "./components/TableResultList";
 import Hidden from "@material-ui/core/Hidden";
 import CardResultList from "./components/CardResultList";
 import RecipeService from '../../../../services/RecipeService/RecipeService';
-import {Box, CircularProgress, Link} from "@material-ui/core";
+// import RecipeServiceMock from "../../../../services/RecipeService/RecipeServiceMock";
+import {Box} from "@material-ui/core";
 import {useRecoilValue, useRecoilState, useSetRecoilState} from "recoil";
 import {
-    EMPTY_STATE as FILTER_EMPTY_STATE,
     freeTextSearchState,
     inventory,
     inventoryKeyValueMap, loadingRecipes,
     recipeCount, recipeFilterIds,
-    recipeFilter
 } from "../../../../state";
 import {storeInventory} from "../../../../utils/InventoryUtils";
-import CollapsableFilterView from "./components/CollapsableFilterView";
+import {captionColor} from "../../../../App";
+import CardResultListDesktop from "./components/CardResultListDesktop";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme, props) => ({
     recipes: {
-        flexGrow: 1,
-    },
-    filter: {
-    },
-    tabletop: {
-        display: 'flex'
-    },
-    tabletop__count: {
-        flex: '1 1 auto'
-    },
-    tabletop__action: {
-        flexShrink: '0'
+        display: 'flex',
+        flex: '1 1 auto',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignContent: props => props.showTable ? '' : 'center',
+
+        },
+        filter: {
+        },
+        tabletop: {
+            display: 'flex'
+        },
+        tabletop__left: {
+            flex: '1 1 auto'
+        },
+        tabletop__right: {
+            display: 'flex',
+            flexShrink: '0',
+            '& > *': {
+                marginRight: theme.spacing(1)
+            }
+        },
+        listing: {
+            flex: '1 1 auto',
+            [theme.breakpoints.down('xs')]: {
+                paddingTop: '1rem',
+            },
+        },
+        caption: {
+            color: captionColor
     }
 }));
-
-const displayname = 'Recipes';
 
 const PAGE0 = 0, DEFAULT_PAGE_SIZE = 20;
 const EMPTY_STATE = { recipeCount: 0, recipeSummaries: [], inventory: [] };
 const CLEAR_CACHE = true;
-const DEFAULT_SHOW_FILTER = true;
 
 function Recipes(props) {
-    const classes = useStyles();
+    const classes = useStyles(props);
     const [recipeCountState, setRecipeCountState] = useRecoilState(recipeCount);
     const freeTextState = useRecoilValue(freeTextSearchState);
     const setInventoryState = useSetRecoilState(inventory);
     const [inventoryKeyValueMapState, setInventoryKeyValueMapState] = useRecoilState(inventoryKeyValueMap);
     const recipeFilterIdsState = useRecoilValue(recipeFilterIds);
-    const setLoadingRecipesState = useSetRecoilState(loadingRecipes);
-    const setRecipeFilterState = useSetRecoilState(recipeFilter);
+    const [loadingRecipesState, setLoadingRecipesState] = useRecoilState(loadingRecipes);
 
     const [searchResult, setSearchResult] = useState(EMPTY_STATE);
     const [searchResultCache, setSearchResultCache] = useState([]);
     const [page, setPage] = useState(PAGE0);
-    const [loading, setLoading] = useState(false);
-    const [count, setCount] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
-    const [showFilter, setShowFilter] = useState(DEFAULT_SHOW_FILTER);
-
-    const toggleShow = () => setShowFilter(!showFilter);
-    const clearFilter = () => { setRecipeFilterState(FILTER_EMPTY_STATE);}
 
     const handleSearchResult = (res, clearCache) => {
-        setLoading(false);
         setLoadingRecipesState(false);
         if (!clearCache) {
             setSearchResultCache(searchResultCache.concat(res));
@@ -72,16 +79,13 @@ function Recipes(props) {
             setPage(PAGE0);
         }
         setSearchResult(res);
-
-        // The slowness of recoil affects the UX here. Thus we keep a local state for count as well
-        setCount(res.recipeCount)
         setRecipeCountState(res.recipeCount)
     }
     const search = (clearCache = false) => {
-        setLoading(true);
         setLoadingRecipesState(true);
         if (clearCache) {
-            setCount(0);
+            setSearchResultCache([]);
+            setSearchResult(EMPTY_STATE);
         }
 
         RecipeService
@@ -103,7 +107,7 @@ function Recipes(props) {
                 }
                 return handleSearchResult(data, clearCache);
             })
-            .catch(err => handleSearchResult(EMPTY_STATE));
+            .catch(err => handleSearchResult(EMPTY_STATE, clearCache));
     }
     const handlePageChange = (page) => { setPage(page);}
     const handleRowsPerPageChange = (rowsPerPage) => { setRowsPerPage(rowsPerPage)}
@@ -131,48 +135,44 @@ function Recipes(props) {
 
 
     return (
-        <div className={classes.recipes} displayname={displayname}>
-            <Box className={classes.filter}>
-                <CollapsableFilterView showFilter={showFilter}/>
-            </Box>
-            <div className={classes.tabletop}>
-                <Box className={classes.tabletop__count}>
-                    Sökträffar { loading ? <CircularProgress className={classes.progress} size={'0.5rem'} /> : count }
-                </Box>
-                <Box className={classes.tabletop__action}>
+        <Box className={classes.recipes} displayname={'Recipes'}>
+            <Box className={classes.listing}>
+                <Hidden xsDown>
                     {
-                        recipeFilterIdsState.length > 0 &&
-                        <>
-                            <Link href="#" onClick={toggleShow}>
-                                {showFilter ? 'Dölj filter' : 'Visa filter'}
-                            </Link> | <Link href="#" onClick={clearFilter}>Rensa filter</Link>
-                        </>
+                        !props.showTable
+                            ? <CardResultListDesktop
+                                loading={loadingRecipesState}
+                                recipes={searchResultCache.flatMap(cache => cache.recipeSummaries)}
+                                page={page}
+                                rowsPerPage={rowsPerPage}
+                                totalCount={recipeCountState}
+                                onPageChange={handlePageChange}
+                                onRowsPerPageChange={handleRowsPerPageChange}
+                            />
+                            : <TableResultList
+                                loading={loadingRecipesState}
+                                recipes={searchResult}
+                                page={page}
+                                rowsPerPage={rowsPerPage}
+                                totalCount={recipeCountState}
+                                onPageChange={handlePageChange}
+                                onRowsPerPageChange={handleRowsPerPageChange}
+                            />
                     }
-                </Box>
-            </div>
-            <Hidden xsDown>
-                <TableResultList
-                    loading={loading}
-                    recipes={searchResult}
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    totalCount={recipeCountState}
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowsPerPageChange}
-                />
-            </Hidden>
-            <Hidden smUp>
-                <CardResultList
-                    loading={loading}
-                    recipes={searchResultCache.flatMap(cache => cache.recipeSummaries)}
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    totalCount={recipeCountState}
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowsPerPageChange}
-                />
-            </Hidden>
-        </div>
+                </Hidden>
+                <Hidden smUp>
+                    <CardResultList
+                        loading={loadingRecipesState}
+                        recipes={searchResultCache.flatMap(cache => cache.recipeSummaries)}
+                        page={page}
+                        rowsPerPage={rowsPerPage}
+                        totalCount={recipeCountState}
+                        onPageChange={handlePageChange}
+                        onRowsPerPageChange={handleRowsPerPageChange}
+                    />
+                </Hidden>
+            </Box>
+        </Box>
     );
 }
 

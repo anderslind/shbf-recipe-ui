@@ -13,13 +13,14 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
+        flex: '1 1 auto',
     },
     input: {
         flex: 1
     },
     divider: {
-        height: 34,
-        margin: 4,
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
     },
     filterIcon: {
         color: '#fff',
@@ -72,7 +73,7 @@ function SearchBar({onClear, onChange, handleDrawerToggle}) {
                     </IconButton>
             }
             <Hidden mdUp>
-                <Divider className={classes.divider} orientation="vertical" />
+                <Divider orientation="vertical" flexItem className={classes.divider} />
                 <FilterBadge handleDrawerToggle={handleDrawerToggle}/>
             </Hidden>
         </Paper>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     Paper,
     Table,
@@ -11,11 +11,12 @@ import {
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import useLocation from "wouter/use-location";
-import {gravityFormat} from "../../../../../components/SearchFilter/utils/FormatUtils";
+
+const DEFAULT_PAGE_SIZE = 20;
 
 const useStyles = makeStyles((theme) => ({
     table: {
-        minWidth: 450,
+        minHeight: 200,
         '& tbody': {
             cursor: 'pointer',
             '& tr:hover': {
@@ -25,13 +26,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function TableResultList(props) {
+function TableResultList({recipes, loading, onPageChange, onRowsPerPageChange, totalCount, rowsPerPage, page}) {
     const classes = useStyles();
 
-    const {recipes, loading, onPageChange, onRowsPerPageChange} = props;
     const rows = recipes.recipeSummaries;
-
     const [, setLocation] = useLocation();
+
+    useEffect(() => {
+        onRowsPerPageChange(DEFAULT_PAGE_SIZE);
+    }, []);
 
     const handleChangePage = (event, newPage) => {
         onPageChange(newPage);
@@ -72,16 +75,22 @@ function TableResultList(props) {
                                     </TableCell>
                                 </TableRow>
                             }
+                            {
+                                !loading && rows.length === 0 &&
+                                    <TableRow>
+                                        <TableCell colSpan={5} align="center">
+                                            Inga resultat
+                                        </TableCell>
+                                    </TableRow>
+                            }
                             {!loading && rows.map((row) => {
-                                const fg = row.fg * 10;
-                                const og = row.og * 10;
                                 return (
                                     <TableRow key={row.id} onClick={() => handleClick(row.id)}>
                                         <TableCell component="th" scope="row">{row.name}</TableCell>
                                         <TableCell align="right">{row.style}</TableCell>
                                         {/*<TableCell align="right">{row.size}</TableCell>*/}
-                                        <TableCell style={{ width: 60 }} align="right">{gravityFormat(og)}</TableCell>
-                                        <TableCell style={{ width: 60 }} align="right">{gravityFormat(fg)}</TableCell>
+                                        <TableCell style={{ width: 60 }} align="right">{row.og}</TableCell>
+                                        <TableCell style={{ width: 60 }} align="right">{row.fg}</TableCell>
                                         <TableCell style={{ width: 60 }} align="right">{row.abv.toFixed(1)}</TableCell>
                                         {/*<TableCell style={{ width: 60 }} align="right">{row.ibu.toFixed(0)}</TableCell>*/}
                                         {/*<TableCell style={{ width: 60 }} align="right"><ColorIcon ebc={row.ebc} size="small" /></TableCell>*/}
@@ -95,9 +104,9 @@ function TableResultList(props) {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 20, 50]}
                     component="div"
-                    count={props.totalCount}
-                    rowsPerPage={props.rowsPerPage}
-                    page={props.page}
+                    count={totalCount}
+                    rowsPerPage={rowsPerPage}
+                    page={page >= 50 ? 50 : page}
                     onChangePage={handleChangePage}
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />

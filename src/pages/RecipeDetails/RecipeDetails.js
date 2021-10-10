@@ -8,18 +8,17 @@ import {
     useMediaQuery, useTheme
 } from "@material-ui/core";
 import { useLocation} from "wouter";
-import RecipeService from "../../services/RecipeService/RecipeServiceMock";
 import {Close} from "@material-ui/icons";
 
 export const routePattern = '/recipe-details/:uuid';
 
 const useStyles = makeStyles((theme) => ({
     recipe: {
-        flexGrecipe: 1,
+        flexGrow: 1,
     },
 }));
 
-function RecipeDetails(props) {
+function RecipeDetails() {
     const classes = useStyles();
     const theme = useTheme();
     const [, setLocation] = useLocation();
@@ -28,9 +27,14 @@ function RecipeDetails(props) {
     function handleClose() {
         setLocation('/');
     }
-
-    const recipe = RecipeService.load('71fdd733-2799-43d4-b2ef-5e41fc82902d');
-
+    const recipe = {
+        name: 'Nisses Enkla',
+        abv: '6.5%',
+        og: '1.065',
+        fg: '1.010',
+        ibu: '34',
+        placing: '2'
+    };
     return (
         <Dialog
             className={classes.recipe}

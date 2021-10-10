@@ -11,7 +11,6 @@ import Header from "../SearchFilter/components/Header/Header";
 const useStyles = makeStyles((theme) => ({
     root: {
         [theme.breakpoints.up('md')]: {
-            width: drawerWidth,
             flexShrink: 0
         },
     },
@@ -80,17 +79,6 @@ function ResponsiveDrawer({onClearFilter, window, children, handleDrawerToggle, 
                     }}
                 >
                     {drawer(handleDrawerToggle)}
-                </Drawer>
-            </Hidden>
-            <Hidden smDown implementation="css">
-                <Drawer
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                    variant="permanent"
-                    open
-                >
-                    {drawer(false)}
                 </Drawer>
             </Hidden>
         </div>

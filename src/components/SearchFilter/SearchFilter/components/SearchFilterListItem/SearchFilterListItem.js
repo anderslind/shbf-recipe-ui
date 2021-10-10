@@ -4,11 +4,11 @@ import {
     ListItemText, Tooltip, Typography,
 } from "@material-ui/core";
 import {NavigateNext} from "@material-ui/icons";
-import SearchFilterDetails from "../SearchFilterDetails/SearchFilterDetails";
+import SearchFilterDetails from "../../../components/SearchFilterDetails/SearchFilterDetails";
 import {makeStyles} from "@material-ui/core/styles";
-import {drawerWidth} from "../../../../App";
-import FormatFilter from "../../utils/FilterUtils";
-import {recipeFilter, inventoryKeyValueMap} from "../../../../state";
+import {drawerWidth} from "../../../../../App";
+import FormatFilter from "../../../utils/FilterUtils";
+import {recipeFilter, inventoryKeyValueMap} from "../../../../../state";
 import {useRecoilValue} from "recoil";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,28 +57,15 @@ function SearchFilterListItem({id, label, children, handleDrawerToggle}) {
                     {
                         filterText.filterCount > 0
                         &&
-                        <Tooltip
-                            title={
-                                <React.Fragment>
-                                    <Typography color="inherit">Filter för {label}</Typography>
-                                    {
-                                        filterText
-                                            .filterArray
-                                            .map((arr, idx) => <Typography key={`filter-list-${idx}`} color="inherit" variant={'body2'}>{arr}</Typography>)
-                                    }
-                                </React.Fragment>
-                            }
-                            aria-label={'Active filter'}>
-                            <span className={classes.circle}>
-                                <Typography variant={'caption'} >
-                                    {
-                                        filterText.filterCount > 0
-                                            ? filterText.filterCount
-                                            : null
-                                    }
-                                </Typography>
-                            </span>
-                        </Tooltip>
+                        <span className={classes.circle}>
+                            <Typography variant={'caption'} >
+                                {
+                                    filterText.filterCount > 0
+                                        ? filterText.filterCount
+                                        : null
+                                }
+                            </Typography>
+                        </span>
                     }
                 </ListItemText>
                 <NavigateNext />

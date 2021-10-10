@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {
     Checkbox,
-    Divider,
+    Divider, Hidden,
     ListItem,
     ListItemIcon,
     ListItemText,
@@ -18,7 +18,10 @@ import SelectedOptions from "./components/SelectedOptions";
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(0),
-        height: '100%'
+        minHeight: '15rem',
+        [theme.breakpoints.down('sm')]: {
+            minHeight: '100%',
+        },
     },
     search: {
         flexShrink: 0,
@@ -137,12 +140,13 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
                 id="standard-search"
                 label={`Sök efter ${label}`}
                 type="search"
-                variant="filled"
                 className={classes.search}
                 onChange={(e) => setTextFilter(e.target.value)}
             />
             <Divider />
-            <SelectedOptions filterId={id}></SelectedOptions>
+            <Hidden mdUp>
+                <SelectedOptions filterId={id}></SelectedOptions>
+            </Hidden>
             <AutoSizer>
                 {({ height, width }) => (
                     <List className={classes.list}

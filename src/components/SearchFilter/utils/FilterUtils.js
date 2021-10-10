@@ -1,4 +1,4 @@
-import {abvFormat, defaultFormat, gravityFormat,} from "./FormatUtils";
+import {abvFormat, defaultFormat,} from "./FormatUtils";
 
 const i18n = {
     og: 'OG',
@@ -22,7 +22,7 @@ function getFormatter(filterId, mapper) {
         switch (type) {
             case 'og':
             case 'fg':
-                return gravityFormat;
+                return defaultFormat;
             case 'abv':
                 return abvFormat;
             default:

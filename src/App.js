@@ -1,17 +1,15 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import ResponsiveDrawer from './components/ResponsiveDrawer/ResponsiveDrawer';
 import {makeStyles, MuiThemeProvider} from '@material-ui/core/styles';
-import {createMuiTheme} from '@material-ui/core';
+import {Box, createMuiTheme} from '@material-ui/core';
 import Routes from './components/Routes/Routes';
-import SearchFilter from './components/SearchFilter/SearchFilter';
+import SearchFilter from './components/SearchFilter/SearchFilter/SearchFilter';
 import {useSetRecoilState} from 'recoil';
 import {recipeFilter, EMPTY_STATE} from './state';
 
 export const drawerWidth = 375;
+export const captionColor = '#888';
 
 const customTheme = createMuiTheme({
     typography: {
@@ -24,6 +22,12 @@ const customTheme = createMuiTheme({
             // dark: will be calculated from palette.primary.main,
             // contrastText: will be calculated to contrast with palette.primary.main
         },
+        secondary: {
+            main: '#888'
+        },
+        background: {
+            default: '#fff',
+        }
     },
     breakpoints: {
         // Define custom breakpoint values.
@@ -34,7 +38,7 @@ const customTheme = createMuiTheme({
         values: {
             xs: 0,
             sm: 760,
-            md: 1060,
+            md: 1020,
             lg: 1280,
             xl: 1920
         }
@@ -51,15 +55,12 @@ const customTheme = createMuiTheme({
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        overflow: 'hidden',
-    },
-    appBar: {
-        '& .MuiToolbar-dense': {
-        },
-        [customTheme.breakpoints.up('md')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
-        },
+        flexDirection: 'column',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
     },
 }));
 
@@ -83,21 +84,14 @@ function App() {
     };
 
     return (
-        <MuiThemeProvider theme={customTheme}>
-            <div className={classes.root} displayname={'App'}>
-                <CssBaseline />
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar variant="dense">
-                        <Typography variant="h6" noWrap>
-                            SHBF Receptsök
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
+        <MuiThemeProvider theme={customTheme} >
+            <CssBaseline />
+            <Box className={classes.root} displayname={'App'}>
                 <ResponsiveDrawer mobileOpen={mobileOpen} onClearFilter={onClearFilter} handleDrawerToggle={handleDrawerToggle}>
                     <SearchFilter handleDrawerToggle={handleDrawerToggle} />
                 </ResponsiveDrawer>
-                <Routes handleDrawerToggle={handleDrawerToggle}/>
-            </div>
+                <Routes handleDrawerToggle={handleDrawerToggle} />
+            </Box>
         </MuiThemeProvider>
     );
 }

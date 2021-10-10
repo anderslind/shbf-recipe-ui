@@ -47,6 +47,8 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         flexGrow: 1,
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
     },
 }));
 
@@ -75,9 +77,6 @@ function SearchFilterDetails ({id, label, slide, onHide, children, handleDrawerT
 
     return (
         <div className={`${slide ? classes.slideIn : classes.slideOut} ${classes.root}`} displayname={'SearchFilterDetails'}>
-            <Hidden smDown>
-                <div className={classes.toolbar} />
-            </Hidden>
             <div className={classes.container}>
                 <Header label={label} onClear={onClear} onNavigateBack={onNavigateBack}/>
                 <div className={classes.content}>

@@ -30,7 +30,7 @@ const recipeFilterIds = selector({
         return Object.values(get(recipeFilter)).flat();
     }
 });
-const recipeFilterCountState = selector({
+const recipeFilterCount = selector({
     key: 'recipeFilterCountState',
     get: ({get}) => {
         return Object.values(get(recipeFilter)).reduce((acc, arr) => arr.length > 0 ? acc + 1 : acc, 0);
@@ -52,7 +52,7 @@ export {
     inventory,
     inventoryKeyValueMap,
     recipeFilter,
-    recipeFilterCountState,
+    recipeFilterCount,
     recipeFilterIds,
     recipeCount,
     freeTextSearchState,
