@@ -1,9 +1,9 @@
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import React from "react";
 import logo from "../../static/shbf_logo.png";
-import {makeStyles} from "@material-ui/core/styles";
-import {Box, Container} from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
+import {Box, Container} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     root: {

@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import SearchBar from "./components/SearchBar/SearchBar";
 import Recipes from "./components/RecipesListing/Recipes";
-import {Box, CircularProgress, Container, Divider, IconButton, Link, Typography} from "@material-ui/core";
+import {Box, CircularProgress, Container, Divider, IconButton, Link, Typography} from "@mui/material";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
     EMPTY_STATE as FILTER_EMPTY_STATE,
@@ -11,9 +11,9 @@ import {
     recipeCount,
     recipeFilter, recipeFilterIds
 } from "../../state";
-import Hidden from "@material-ui/core/Hidden";
+import Hidden from "@mui/material/Hidden";
 import SearchFilterDesktop from "../../components/SearchFilter/SearchFilterDesktop/SearchFilterDesktop";
-import {Apps, TableChart} from "@material-ui/icons";
+import {Apps, TableChart} from "@mui/icons-material";
 
 const filterWidth = '20rem';
 const DEFAULT_SHOW_TABLE = false;
@@ -97,12 +97,12 @@ function Search(props) {
             </Container>
             <Divider />
             <Container maxWidth={'lg'} className={classes.actionContainer}>
-                    <Hidden smDown>
+                    <Hidden mdDown>
                         <Box className={classes.actionFilterFiller}>
                             {
                                 recipeFilterIdsState.length > 0
                                 &&
-                                <Link href="#" onClick={clearFilter}>Rensa filter</Link>
+                                <Link href="#" onClick={clearFilter} underline={'none'}>Rensa filter</Link>
                             }
                         </Box>
                     </Hidden>
@@ -111,13 +111,13 @@ function Search(props) {
                         { loadingRecipesState ? <CircularProgress className={classes.progress} size={'0.5rem'} /> : recipeCountState } recept funna
                     </Typography>
                 </Box>
-                <Hidden xsDown>
+                <Hidden smDown>
                     <Box className={classes.actionRight}>
-                        <IconButton onClick={() => setShowTable(true)}>
+                        <IconButton onClick={() => setShowTable(true)} size="large">
                             <TableChart color={showTable ? 'primary' : 'secondary'} />
                         </IconButton>
                         <Divider orientation="vertical" flexItem className={classes.divider}/>
-                        <IconButton onClick={() => setShowTable(false)}>
+                        <IconButton onClick={() => setShowTable(false)} size="large">
                             <Apps  color={!showTable ? 'primary' : 'secondary'} />
                         </IconButton>
                     </Box>
@@ -125,7 +125,7 @@ function Search(props) {
             </Container>
             <Divider />
             <Container maxWidth={'lg'} className={classes.contentContainer}>
-                <Hidden smDown>
+                <Hidden mdDown>
                     <div className={classes.contentContainerFilter}>
                         <SearchFilterDesktop />
                     </div>

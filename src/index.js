@@ -7,9 +7,9 @@ import {
     RecoilRoot
 } from 'recoil';
 import DebugObserver from "./debug/DebugObserver";
-import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
+import { createTheme, ThemeProvider, StyledEngineProvider, adaptV4Theme } from "@mui/material";
 
-const customTheme = createMuiTheme({
+const customTheme = createTheme(adaptV4Theme({
     typography: {
         fontFamily: 'Roboto Condensed'
     },
@@ -48,15 +48,17 @@ const customTheme = createMuiTheme({
             }
         }
     }
-});
+}));
 
 ReactDOM.render(
   <React.StrictMode>
       <RecoilRoot>
         <DebugObserver />
-          <MuiThemeProvider theme={customTheme} >
-            <App />
-          </MuiThemeProvider>
+          <StyledEngineProvider injectFirst>
+              <ThemeProvider theme={customTheme} >
+                <App />
+              </ThemeProvider>
+          </StyledEngineProvider>
       </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')

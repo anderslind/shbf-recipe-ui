@@ -1,9 +1,9 @@
 import {inventoryKeyValueMap, recipeFilter} from "../../../../../state";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {Chip} from "@material-ui/core";
+import {Chip} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {getInventoryName} from "../../../../../utils/InventoryUtils";
-import {makeStyles} from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
     chip_container: {

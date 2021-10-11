@@ -1,5 +1,5 @@
-import {Box} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import {Box} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import SearchFilterListItemDesktop from "./components/SearchFilterListItemDesktop";
 import React, {useState} from "react";
 import {useRecoilState} from "recoil";

@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
-import {IconButton, InputBase, Paper} from "@material-ui/core";
-import SearchIcon from '@material-ui/icons/Search';
-import Divider from '@material-ui/core/Divider';
-import {Clear} from "@material-ui/icons";
-import Hidden from "@material-ui/core/Hidden";
+import makeStyles from '@mui/styles/makeStyles';
+import {IconButton, InputBase, Paper} from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
+import Divider from '@mui/material/Divider';
+import {Clear} from "@mui/icons-material";
+import Hidden from "@mui/material/Hidden";
 import Delay from "../../../../utils/DelayedCallWithCancel";
 import FilterBadge from "./components/FilterBadge";
 
@@ -64,11 +64,19 @@ function SearchBar({onClear, onChange, handleDrawerToggle}) {
             {
                 !!searchText
                     ?
-                    <IconButton className={classes.iconButton} aria-label="search" onClick={() => handleOnClear()}>
+                    <IconButton
+                        className={classes.iconButton}
+                        aria-label="search"
+                        onClick={() => handleOnClear()}
+                        size="large">
                         <Clear />
                     </IconButton>
                     :
-                    <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                    <IconButton
+                        type="submit"
+                        className={classes.iconButton}
+                        aria-label="search"
+                        size="large">
                         <SearchIcon />
                     </IconButton>
             }

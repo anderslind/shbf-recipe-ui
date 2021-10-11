@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {
     ListItem,
     ListItemText, Tooltip, Typography,
-} from "@material-ui/core";
-import {NavigateNext} from "@material-ui/icons";
+} from "@mui/material";
+import {NavigateNext} from "@mui/icons-material";
 import SearchFilterDetails from "../../../components/SearchFilterDetails/SearchFilterDetails";
-import {makeStyles} from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import {drawerWidth} from "../../../../../App";
 import FormatFilter from "../../../utils/FilterUtils";
 import {recipeFilter, inventoryKeyValueMap} from "../../../../../state";

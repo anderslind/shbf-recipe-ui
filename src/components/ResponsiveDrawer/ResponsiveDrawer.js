@@ -1,11 +1,12 @@
 import React from 'react';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Drawer from '@mui/material/Drawer';
+import Hidden from '@mui/material/Hidden';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import {drawerWidth} from "../../App";
-import Typography from "@material-ui/core/Typography";
-import Toolbar from "@material-ui/core/Toolbar";
-import {AppBar} from "@material-ui/core";
+import Typography from "@mui/material/Typography";
+import Toolbar from "@mui/material/Toolbar";
+import {AppBar} from "@mui/material";
 import Header from "../SearchFilter/components/Header/Header";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         overflow: 'hidden',
         width: drawerWidth,
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             width: '100%',
         },
 
@@ -43,7 +44,7 @@ function ResponsiveDrawer({onClearFilter, window, children, handleDrawerToggle, 
 
     const drawer = (onNavigateBack) => (
         <div className={classes.drawer} displayname={'ResponsiveDrawer'}>
-            <Hidden smDown>
+            <Hidden mdDown>
                 <AppBar position="relative" className={classes.appBar}>
                     <Toolbar variant="dense">
                         <Typography variant="h6" className={classes.title} noWrap>

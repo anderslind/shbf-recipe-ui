@@ -1,9 +1,9 @@
 import React from "react";
-import {Badge, IconButton} from "@material-ui/core";
-import {FilterList} from "@material-ui/icons";
+import {Badge, IconButton} from "@mui/material";
+import {FilterList} from "@mui/icons-material";
 import {useRecoilValue} from "recoil";
 import {recipeFilterCount} from "../../../../../state";
-import {makeStyles} from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
     filterIcon: {
@@ -18,7 +18,13 @@ function FilterBadge({handleDrawerToggle}) {
     const recipeFilterCountState = useRecoilValue(recipeFilterCount);
 
     return (
-        <IconButton color="primary" className={classes.iconButton} edge="end" aria-label="Visa filter" onClick={() => handleDrawerToggle()}>
+        <IconButton
+            color="primary"
+            className={classes.iconButton}
+            edge="end"
+            aria-label="Visa filter"
+            onClick={() => handleDrawerToggle()}
+            size="large">
             <Badge badgeContent={recipeFilterCountState} color="primary">
                 <FilterList className={classes.filterIcon}/>
             </Badge>

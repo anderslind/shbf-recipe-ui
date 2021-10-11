@@ -1,5 +1,5 @@
 import React from "react";
-import {Collapse} from "@material-ui/core";
+import {Collapse} from "@mui/material";
 import SelectedOptions
     from "../../../../../components/SearchFilter/components/SearchFilterMultipleSelect/components/SelectedOptions";
 import {useRecoilValue} from "recoil";

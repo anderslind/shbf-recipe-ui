@@ -1,5 +1,5 @@
 import React from "react";
-import {LocalDrink} from "@material-ui/icons";
+import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 
 function ColorIcon(props) {
 
@@ -19,7 +19,7 @@ function ColorIcon(props) {
     }
 
     return (
-        <LocalDrink style={{color: ebuToColor(props.ebc)}} fontSize={props.size} />
+        <LocalDrinkIcon style={{color: ebuToColor(props.ebc)}} fontSize={props.size} />
     );
 }
 

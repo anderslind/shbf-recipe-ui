@@ -1,8 +1,8 @@
-import {Button, IconButton} from "@material-ui/core";
-import {ArrowBack} from "@material-ui/icons";
-import Typography from "@material-ui/core/Typography";
+import {Button, IconButton} from "@mui/material";
+import {ArrowBack} from "@mui/icons-material";
+import Typography from "@mui/material/Typography";
 import React from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
     header: {

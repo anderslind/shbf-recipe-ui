@@ -1,7 +1,7 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import {Card, CardContent, CardHeader, Box, Button, CircularProgress} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import {Card, CardContent, CardHeader, Box, Button, CircularProgress} from '@mui/material';
+import Typography from '@mui/material/Typography';
 import ColorIcon from '../../../../../components/ColorIcon/ColorIcon';
 import useLocation from 'wouter/use-location';
 

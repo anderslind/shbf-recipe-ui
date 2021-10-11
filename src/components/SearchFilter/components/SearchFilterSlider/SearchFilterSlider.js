@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Box, FormControl, Slider} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import {Box, FormControl, Slider} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from "@mui/material/Typography";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -48,6 +48,7 @@ function SearchFilterSlider({id, label, valueText, onUpdate, value, max, ...rest
                 getAriaValueText={valuetext}
                 value={state}
                 max={max}
+                size={'medium'}
                 {...rest}
             />
         </FormControl>

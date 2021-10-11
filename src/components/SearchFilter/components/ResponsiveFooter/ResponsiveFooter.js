@@ -1,9 +1,9 @@
 import React from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import {useRecoilValue} from "recoil";
 import {loadingRecipes, recipeCount} from "../../../../state";
-import {Button, CircularProgress} from "@material-ui/core";
-import Hidden from "@material-ui/core/Hidden";
+import {Button, CircularProgress} from "@mui/material";
+import Hidden from "@mui/material/Hidden";
 
 const useStyles = makeStyles((theme) => ({
     footer: {

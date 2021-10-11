@@ -3,20 +3,20 @@ import {
     AccordionDetails,
     AccordionSummary,
     Typography
-} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
-import {ExpandMore} from "@material-ui/icons";
+import {ExpandMore} from "@mui/icons-material";
 import SelectedOptions from "../../components/SearchFilterMultipleSelect/components/SelectedOptions";
 
 const useStyles = makeStyles((theme) => ({
     summary: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'flex-start'
     },
     bold: {
-        fontWeight: 600,
+
     },
     details: {
         display: 'flex',

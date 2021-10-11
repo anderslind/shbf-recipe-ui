@@ -1,14 +1,14 @@
 import React from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import {
     Dialog,
     DialogContent,
     DialogContentText,
     DialogTitle, div, Grid, IconButton, Typography,
     useMediaQuery, useTheme
-} from "@material-ui/core";
+} from "@mui/material";
 import { useLocation} from "wouter";
-import {Close} from "@material-ui/icons";
+import {Close} from "@mui/icons-material";
 
 export const routePattern = '/recipe-details/:uuid';
 
@@ -22,7 +22,7 @@ function RecipeDetails() {
     const classes = useStyles();
     const theme = useTheme();
     const [, setLocation] = useLocation();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     function handleClose() {
         setLocation('/');
@@ -47,7 +47,7 @@ function RecipeDetails() {
         >
             <DialogTitle id="responsive-dialog-title">
                 <Grid
-                    justify="space-between" // Add it here :)
+                    justifyContent="space-between" // Add it here :)
                     container
                     spacing={2}
                 >
@@ -58,7 +58,7 @@ function RecipeDetails() {
                     </Grid>
                     <Grid item>
                         <div>
-                            <IconButton onClick={handleClose}>
+                            <IconButton onClick={handleClose} size="large">
                                 <Close />
                             </IconButton>
                         </div>

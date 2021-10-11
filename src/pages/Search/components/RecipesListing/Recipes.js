@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import TableResultList from "./components/TableResultList";
-import Hidden from "@material-ui/core/Hidden";
+import Hidden from "@mui/material/Hidden";
 import CardResultList from "./components/CardResultList";
 import RecipeService from '../../../../services/RecipeService/RecipeService';
 // import RecipeServiceMock from "../../../../services/RecipeService/RecipeServiceMock";
-import {Box} from "@material-ui/core";
+import {Box} from "@mui/material";
 import {useRecoilValue, useRecoilState, useSetRecoilState} from "recoil";
 import {
     freeTextSearchState,
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme, props) => ({
         },
         listing: {
             flex: '1 1 auto',
-            [theme.breakpoints.down('xs')]: {
+            [theme.breakpoints.down('sm')]: {
                 paddingTop: '1rem',
             },
         },
@@ -137,7 +137,7 @@ function Recipes(props) {
     return (
         <Box className={classes.recipes} displayname={'Recipes'}>
             <Box className={classes.listing}>
-                <Hidden xsDown>
+                <Hidden smDown>
                     {
                         !props.showTable
                             ? <CardResultListDesktop

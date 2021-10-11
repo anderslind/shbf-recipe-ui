@@ -6,8 +6,8 @@ import {
     ListItemIcon,
     ListItemText,
     TextField
-} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import AutoSizer from "react-virtualized-auto-sizer";
 import {areEqual, FixedSizeList as List} from 'react-window';
 import {useRecoilValue} from "recoil";
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(0),
         minHeight: '15rem',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             minHeight: '100%',
         },
     },
@@ -142,6 +142,7 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
                 type="search"
                 className={classes.search}
                 onChange={(e) => setTextFilter(e.target.value)}
+                variant="standard"
             />
             <Divider />
             <Hidden mdUp>
