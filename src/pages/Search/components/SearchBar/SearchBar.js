@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import makeStyles from '@mui/styles/makeStyles';
-import {IconButton, InputBase, Paper} from "@mui/material";
+import {IconButton, InputBase, Paper, useMediaQuery} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import Divider from '@mui/material/Divider';
 import {Clear} from "@mui/icons-material";
-import Hidden from "@mui/material/Hidden";
 import Delay from "../../../../utils/DelayedCallWithCancel";
 import FilterBadge from "./components/FilterBadge";
 
@@ -49,8 +48,9 @@ function SearchBar({onClear, onChange, handleDrawerToggle}) {
         setSearchText('');
         onClear();
     };
-    const handleOnSubmit = event => event.preventDefault();
+    const handleOnSubmit = event => { event.preventDefault() };
 
+    const hiddenMDup = useMediaQuery(theme => theme.breakpoints.up('md'));
     return (
         <Paper component="form" className={classes.paper} onSubmit={handleOnSubmit}>
             <InputBase
@@ -65,7 +65,6 @@ function SearchBar({onClear, onChange, handleDrawerToggle}) {
                 !!searchText
                     ?
                     <IconButton
-                        className={classes.iconButton}
                         aria-label="search"
                         onClick={() => handleOnClear()}
                         size="large">
@@ -74,16 +73,20 @@ function SearchBar({onClear, onChange, handleDrawerToggle}) {
                     :
                     <IconButton
                         type="submit"
-                        className={classes.iconButton}
+                        disabled
                         aria-label="search"
                         size="large">
                         <SearchIcon />
                     </IconButton>
             }
-            <Hidden mdUp>
-                <Divider orientation="vertical" flexItem className={classes.divider} />
-                <FilterBadge handleDrawerToggle={handleDrawerToggle}/>
-            </Hidden>
+            {
+                hiddenMDup
+                ? null
+                : <>
+                    <Divider orientation="vertical" flexItem className={classes.divider} />
+                    <FilterBadge handleDrawerToggle={handleDrawerToggle}/>
+                </>
+            }
         </Paper>
     );
 }

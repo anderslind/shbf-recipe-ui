@@ -26,15 +26,15 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: theme,
     },
     circle: {
-        background: theme.palette.primary.main,
+        background: theme.palette.secondary.main,
         color: theme.palette.primary.contrastText,
-        borderRadius: '0.8em',
+        borderRadius: '0.8rem',
         display: 'inline-block',
         fontWeight: 'bold',
-        lineHeight: '1.2em',
+        lineHeight: '1.2rem',
         marginRight: 5,
         textAlign: 'center',
-        width: '1.3em',
+        width: '1.5rem',
     }
 }));
 
@@ -58,7 +58,7 @@ function SearchFilterListItem({id, label, children, handleDrawerToggle}) {
                         filterText.filterCount > 0
                         &&
                         <span className={classes.circle}>
-                            <Typography variant={'caption'} >
+                            <Typography>
                                 {
                                     filterText.filterCount > 0
                                         ? filterText.filterCount

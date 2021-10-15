@@ -1,22 +1,25 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import makeStyles from '@mui/styles/makeStyles';
 import SearchBar from "./components/SearchBar/SearchBar";
 import Recipes from "./components/RecipesListing/Recipes";
-import {Box, CircularProgress, Container, Divider, IconButton, Link, Typography} from "@mui/material";
-import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
-    EMPTY_STATE as FILTER_EMPTY_STATE,
+    Container,
+    Divider,
+    useMediaQuery
+} from "@mui/material";
+import {useSetRecoilState} from "recoil";
+import {
     freeTextSearchState,
-    loadingRecipes,
-    recipeCount,
-    recipeFilter, recipeFilterIds
 } from "../../state";
-import Hidden from "@mui/material/Hidden";
 import SearchFilterDesktop from "../../components/SearchFilter/SearchFilterDesktop/SearchFilterDesktop";
-import {Apps, TableChart} from "@mui/icons-material";
+import ActionBar from './components/ActionBar/ActionBar';
+import FixedBar from "./components/FixedBar/FixedBar";
+
 
 const filterWidth = '20rem';
 const DEFAULT_SHOW_TABLE = false;
+const DEFAULT_SHOW_FILTER = false;
+const DEFAULT_SHOW_FIXED = false;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,24 +32,16 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
     },
+    fixedContainer: {
+        backgroundColor: 'yellow',
+    },
     actionContainer: {
+        position: '',
         display: 'flex',
         alignItems: 'flex-end',
         flexGrow: 0,
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
-    },
-    actionFilterFiller: {
-        flex: `0 0 ${filterWidth}`,
-    },
-    actionLeft: {
-        display: 'flex',
-        alignItems: 'center',
-        flex: '1 1 auto'
-    },
-    actionRight: {
-        display: 'flex',
-        flex: '0 0 auto'
     },
     contentContainer: {
         display: "flex",
@@ -72,14 +67,23 @@ const useStyles = makeStyles((theme) => ({
 function Search(props) {
     const classes = useStyles();
     const setFreeTextSearchState = useSetRecoilState(freeTextSearchState);
-    const recipeCountState = useRecoilValue(recipeCount);
-    const loadingRecipesState = useRecoilValue(loadingRecipes);
-    const setRecipeFilterState = useSetRecoilState(recipeFilter);
-    const recipeFilterIdsState = useRecoilValue(recipeFilterIds);
-
-    const clearFilter = () => { setRecipeFilterState(FILTER_EMPTY_STATE);}
 
     const [showTable, setShowTable] = useState(DEFAULT_SHOW_TABLE);
+    const [showFilter, setShowFilter] = useState(DEFAULT_SHOW_FILTER);
+
+    const [showFixed, setShowFixed] = useState(DEFAULT_SHOW_FIXED);
+    const handleScrollEvent = () => {
+        if (window.scrollY >= 132 && !showFixed) {
+            setShowFixed(true);
+        } else {
+            setShowFixed(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScrollEvent, {passive: true});
+        return () => window.removeEventListener('scroll', handleScrollEvent);
+    }, []);
 
     const onChange = (value) => {
         setFreeTextSearchState(value);
@@ -87,8 +91,12 @@ function Search(props) {
     const onClear = () => {
         setFreeTextSearchState('');
     }
+
+    const mdUP = useMediaQuery(theme => theme.breakpoints.up('md'));
+
     return (
         <main className={classes.root} displayname={'Search'}>
+            {/*<FixedBar showFixed={showFixed} />*/}
             <Container maxWidth={'xs'} className={classes.searchContainer}>
                 <SearchBar
                     handleDrawerToggle={props.handleDrawerToggle}
@@ -97,41 +105,22 @@ function Search(props) {
             </Container>
             <Divider />
             <Container maxWidth={'lg'} className={classes.actionContainer}>
-                    <Hidden mdDown>
-                        <Box className={classes.actionFilterFiller}>
-                            {
-                                recipeFilterIdsState.length > 0
-                                &&
-                                <Link href="#" onClick={clearFilter} underline={'none'}>Rensa filter</Link>
-                            }
-                        </Box>
-                    </Hidden>
-                <Box className={classes.actionLeft}>
-                    <Typography variant={'caption'} className={classes.caption}>
-                        { loadingRecipesState ? <CircularProgress className={classes.progress} size={'0.5rem'} /> : recipeCountState } recept funna
-                    </Typography>
-                </Box>
-                <Hidden smDown>
-                    <Box className={classes.actionRight}>
-                        <IconButton onClick={() => setShowTable(true)} size="large">
-                            <TableChart color={showTable ? 'primary' : 'secondary'} />
-                        </IconButton>
-                        <Divider orientation="vertical" flexItem className={classes.divider}/>
-                        <IconButton onClick={() => setShowTable(false)} size="large">
-                            <Apps  color={!showTable ? 'primary' : 'secondary'} />
-                        </IconButton>
-                    </Box>
-                </Hidden>
+                <ActionBar setShowFilter={setShowFilter} showFilter={showFilter} setShowTable={setShowTable}
+                             showTable={showTable} />
+
             </Container>
+
             <Divider />
             <Container maxWidth={'lg'} className={classes.contentContainer}>
-                <Hidden mdDown>
+                {
+                    mdUP && showFilter
+                    &&
                     <div className={classes.contentContainerFilter}>
-                        <SearchFilterDesktop />
+                            <SearchFilterDesktop />
                     </div>
-                </Hidden>
+                }
                 <div className={classes.contentContainerResult}>
-                    <Recipes showTable={showTable} />
+                    <Recipes showTable={showTable} filterVisible={showFilter}/>
                 </div>
             </Container>
         </main>

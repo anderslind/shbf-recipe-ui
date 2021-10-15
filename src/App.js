@@ -2,7 +2,7 @@ import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import ResponsiveDrawer from './components/ResponsiveDrawer/ResponsiveDrawer';
 import makeStyles from '@mui/styles/makeStyles';
-import {Box} from '@mui/material';
+import {Box } from '@mui/material';
 import Routes from './components/Routes/Routes';
 import SearchFilter from './components/SearchFilter/SearchFilter/SearchFilter';
 import {useSetRecoilState} from 'recoil';

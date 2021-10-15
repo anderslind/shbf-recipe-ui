@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, FormControl, Slider} from "@mui/material";
+import {Box, FormControl, Slider, Tooltip} from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import Typography from "@mui/material/Typography";
 
@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function SearchFilterSlider({id, label, valueText, onUpdate, value, max, ...rest}) {
+function SearchFilterSlider({id, label, description, valueText, onUpdate, value, max, ...rest}) {
     const classes = useStyles();
 
     const [state, setState] = useState(value);
@@ -30,9 +30,11 @@ function SearchFilterSlider({id, label, valueText, onUpdate, value, max, ...rest
         <FormControl component="fieldset" className={classes.formControl} fullWidth={true}>
             <Box display={'flex'}>
                 <Box flexGrow={1}>
-                    <Typography>
-                        {label}
-                    </Typography>
+                    <Tooltip title={description}>
+                        <Typography>
+                            {label}
+                        </Typography>
+                    </Tooltip>
                 </Box>
                 <Box>
                     <Typography color={'textSecondary'} variant={'caption'}>
@@ -48,7 +50,7 @@ function SearchFilterSlider({id, label, valueText, onUpdate, value, max, ...rest
                 getAriaValueText={valuetext}
                 value={state}
                 max={max}
-                size={'medium'}
+                size={'small'}
                 {...rest}
             />
         </FormControl>

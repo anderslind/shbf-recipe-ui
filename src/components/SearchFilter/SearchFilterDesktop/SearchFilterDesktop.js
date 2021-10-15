@@ -45,7 +45,7 @@ function SearchFilterDesktop() {
     };
 
     return (
-        <Box  className={classes.root} displayname={'SearchFilterDesktop'}>
+        <Box className={classes.root} displayname={'SearchFilterDesktop'}>
             <SearchFilterListItemDesktop
                 expandId={'vitals'}
                 id={['og', 'fg', 'ibu', 'abv', 'size']}
@@ -56,6 +56,7 @@ function SearchFilterDesktop() {
                     <SearchFilterSlider
                         id={'og'}
                         label={'OG'}
+                        description={'Original Gravity'}
                         max={200}
                         valueText={defaultFormat}
                         onUpdate={onUpdate}
@@ -64,6 +65,7 @@ function SearchFilterDesktop() {
                     <SearchFilterSlider
                         id={'abv'}
                         label={'ABV'}
+                        description={'Volymprocent alkohol'}
                         max={15}
                         step={0.5}
                         valueText={abvFormat}
@@ -73,6 +75,7 @@ function SearchFilterDesktop() {
                     <SearchFilterSlider
                         id={'size'}
                         label={'Storlek'}
+                        description={'Original Gravity'}
                         max={50}
                         valueText={defaultFormat}
                         onUpdate={onUpdate}
@@ -81,6 +84,7 @@ function SearchFilterDesktop() {
                     <SearchFilterSlider
                         id={'fg'}
                         label={'FG'}
+                        description={'Final gravity'}
                         max={50}
                         valueText={defaultFormat}
                         onUpdate={onUpdate}
@@ -89,6 +93,7 @@ function SearchFilterDesktop() {
                     <SearchFilterSlider
                         id={'ibu'}
                         label={'IBU'}
+                        description={'International Bitterness Unit'}
                         max={80}
                         valueText={defaultFormat}
                         onUpdate={onUpdate}
@@ -96,7 +101,7 @@ function SearchFilterDesktop() {
                     />
             </SearchFilterListItemDesktop>
 
-            <SearchFilterListItemDesktop id={'fermentables'} expandId={'fermentables'} label={'Jäsbara'} filter={filterState.fermentables} expanded={expanded} handleExpanded={handleChange}>
+            <SearchFilterListItemDesktop id={'fermentables'} expandId={'fermentables'} label={'Jäsbara ingredienser'} filter={filterState.fermentables} expanded={expanded} handleExpanded={handleChange}>
                 <SearchFilterMultipleSelect id={'fermentables'} label={'Jäsbara'} values={filterState.fermentables} onUpdate={onUpdate} />
             </SearchFilterListItemDesktop>
 

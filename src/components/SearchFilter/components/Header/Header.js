@@ -39,7 +39,7 @@ function Header({label, onNavigateBack, onClear}) {
                 {label}
             </Typography>
             <Button color="primary" onClick={onClear}>
-                Rensa filter
+                Rensa
             </Button>
         </div>
     );

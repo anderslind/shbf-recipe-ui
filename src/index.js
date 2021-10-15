@@ -35,8 +35,8 @@ const customTheme = createTheme(adaptV4Theme({
         // media queries for these breakpoints
         values: {
             xs: 0,
-            sm: 760,
-            md: 1020,
+            sm: 500,
+            md: 760,
             lg: 1280,
             xl: 1920
         }

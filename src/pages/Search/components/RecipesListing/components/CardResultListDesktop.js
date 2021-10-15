@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import {Card, CardContent, CardHeader, Button, CircularProgress, Grid} from '@mui/material';
+import {Card, CardContent, CardHeader, Button, CircularProgress, Grid, Box} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ColorIcon from '../../../../../components/ColorIcon/ColorIcon';
 import useLocation from 'wouter/use-location';
@@ -12,24 +12,38 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        flex: '1 1 auto',
+        justifyContent: 'center',
         textAlign: 'center',
+        flex: '1 1 auto',
         '& div.MuiPaper-root': {
             marginBottom: theme.spacing(1),
         },
         '& .MuiGrid-item': {
-            border: '0px solid #ddd',
-            borderLeftWidth: 1,
+            border: '#ddd solid 0px',
+            borderRightWidth: 1,
             borderBottomWidth: 1,
             padding: theme.spacing(5),
-        }
+        },
+        [theme.breakpoints.down('md')]: {
+            '&  .MuiGrid-item:nth-of-type(2n)': {
+                borderRightWidth: 0,
+            }
+        },
+        [theme.breakpoints.up('md')]: {
+            '&  .MuiGrid-item:nth-of-type(3n)': {
+                borderRightWidth: 0,
+            }
+        },
     },
-    grid: {
-
+    gridCell: {
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: '#eee',
+        },
     },
     card: {
-        border: '#fff solid 0px',
-        cursor: 'pointer',
+        backgroundColor: 'transparent',
+        borderWidth: 0,
         '& .MuiCardHeader-root': {
             padding: '5px',
         },
@@ -41,21 +55,27 @@ const useStyles = makeStyles((theme) => ({
     stats: {
         display: "flex",
         flexWrap: 'wrap',
-        '& div:not(:last-child)': {
-            marginRight: '0.7rem',
-        }
+        justifyContent: 'flex-start',
+        alignItems: 'baseline',
+        '& :not(:last-child)': {
+            marginRight: theme.spacing(1),
+        },
+        marginBottom: theme.spacing(1)
     },
     header: {
         textAlign: 'left',
     },
+    progress: {
+
+    },
     footer: {
-        flex: '1 1 auto',
-        justifyContent: 'center',
-        alignContent: 'center',
         padding: '1rem',
         '& button': {
             marginLeft: theme.spacing(2)
         }
+    },
+    italic: {
+        fontStyle: 'italic',
     }
 }));
 
@@ -73,8 +93,13 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
         onRowsPerPageChange(DEFAULT_PAGE_SIZE);
     }, []);
 
+    const vitals = [
+        {accessor: 'abv', suffix: '%'},
+        {accessor: 'og'},
+        {accessor: 'fg'},
+    ];
     return (
-        <div className={classes.root}>
+        <Box className={classes.root}>
             {
                 ((!!loading && recipes.length === 0) || recipes.length > 0)
                 &&
@@ -82,12 +107,11 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
                     {
                         recipes.map((recipeSummary) => {
                             return (
-                                <Grid item xs={6} sm={4} key={recipeSummary.id}>
-                                    <Card className={classes.card} variant="outlined"
-                                          onClick={() => handleClick(recipeSummary.id)}>
+                                <Grid item sm={6} md={4} key={recipeSummary.id} onClick={() => handleClick(recipeSummary.id)} className={classes.gridCell}>
+                                    <Card className={classes.card} variant="outlined">
                                         <CardHeader
                                             avatar={
-                                                <ColorIcon ebc={/*recipeSummary.ebc*/12} size="large"/>
+                                                <ColorIcon size="large"/>
                                             }
                                             // action={
                                             //     <IconButton aria-label="settings">
@@ -96,20 +120,24 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
                                             // }
                                             title={recipeSummary.name}
                                             subheader={recipeSummary.style}
-                                            titleTypographyProps={{variant: 'h6'}}
+                                            titleTypographyProps={{variant: 'h5'}}
                                             className={classes.header}
                                         />
                                         <CardContent>
-                                            <Typography className={classes.stats} variant="overline">
-                                                <div><b>ABV</b> {recipeSummary.abv}%</div>
-                                                <div><b>OG</b> {recipeSummary.og}</div>
-                                                <div><b>FG</b> {recipeSummary.fg}</div>
-                                                {/*<div><b>IBU</b> {recipeSummary.ibu.toFixed(0)}</div>*/}
-                                                {/*<div><b>EBC</b> {recipeSummary.ebc.toFixed(1)}</div>*/}
-                                            </Typography>
-                                            <Typography className={classes.stats} variant="overline">
-                                                <div><b>Placering</b> {/*recipeSummary.placing*/}</div>
-                                            </Typography>
+                                            <Box className={classes.stats}>
+                                                {
+                                                    vitals
+                                                        .map((vital) => (
+                                                            <>
+                                                                <Typography color={'textSecondary'} variant={'overline'}>{vital.accessor}</Typography>
+                                                                <Typography variant={'h6'}>{recipeSummary[vital.accessor]}{vital?.suffix}</Typography>
+                                                            </>
+                                                    ))
+                                                }
+                                            </Box>
+                                            <Box className={classes.stats}>
+                                                <Typography color={'textSecondary'} variant={'body1'} className={classes.italic}>"En stor stark..."</Typography>
+                                            </Box>
                                         </CardContent>
                                     </Card>
                                 </Grid>
@@ -121,7 +149,7 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
             {
                 loading
                 ? <CircularProgress />
-                : <div className={classes.footer}>
+                : <Box className={classes.footer}>
                         {
                             recipes.length < totalCount
                                 ? <Button size={'small'} variant={'contained'} color={'primary'} onClick={handleLoadMore}>
@@ -129,9 +157,9 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
                                 </Button>
                                 : <b>Alla recept laddade</b>
                         }
-                  </div>
+                  </Box>
             }
-        </div>
+        </Box>
     );
 }
 

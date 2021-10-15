@@ -1,11 +1,12 @@
 import React, {memo, useEffect, useState} from 'react';
 import {
+    Box,
     Checkbox,
-    Divider, Hidden,
+    Divider, IconButton, Input, InputAdornment, InputBase,
     ListItem,
     ListItemIcon,
     ListItemText,
-    TextField
+    TextField, Typography, useMediaQuery
 } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -14,17 +15,26 @@ import {useRecoilValue} from "recoil";
 import {inventory, inventoryKeyValueMap} from "../../../../state";
 import {filterOptionsOnText, getFilterOptions} from "../../../../utils/InventoryUtils";
 import SelectedOptions from "./components/SelectedOptions";
+import {Clear} from "@mui/icons-material";
+import SearchIcon from "@mui/icons-material/Search";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(0),
-        minHeight: '15rem',
+        minHeight: '20rem',
         [theme.breakpoints.down('md')]: {
             minHeight: '100%',
         },
     },
     search: {
+        display: 'flex',
         flexShrink: 0,
+    },
+    searchInput: {
+        flex: '1 1 auto',
+    },
+    searchIcon: {
+        flex: '1 1 auto',
     },
     list: {
         flexGrow: 1,
@@ -107,12 +117,6 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
     };
 
     const Row = memo(({index, isScrolling, style}) => (
-        isScrolling
-            ? <div style={style}  className={classes.scrollingPlaceholder}>
-                <div className={classes.scrollingPlaceholder__main}>{filteredOptions[index].name}</div>
-                <div className={classes.scrollingPlaceholder__count}>{filteredOptions[index].recipeOccurrences}</div>
-              </div>
-            :
             <ListItem button key={filteredOptions[index].id} onClick={handleToggle(filteredOptions[index])} style={style}>
                 <ListItemIcon>
                     <Checkbox
@@ -124,30 +128,60 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
                     />
                 </ListItemIcon>
                 <ListItemText className={`${classes.listItemText} ${classes.listItemText__name}`} title={filteredOptions[index].name}>
-                    {filteredOptions[index].name}
+                    <Typography noWrap>
+                        {filteredOptions[index].name}
+                    </Typography>
                 </ListItemText>
-                <ListItemText className={`${classes.listItemCount} ${classes.listItemText__right}`}>
+                <ListItemText className={classes.listItemText__right}>
                     {filteredOptions[index].recipeOccurrences}
                 </ListItemText>
             </ListItem>
     ), areEqual);
 
+    const hiddenMDup = useMediaQuery(theme => theme.breakpoints.up('md'));
     return (
-        <div className={classes.root}>
-            <TextField
-                fullWidth
-                size={'small'}
-                id="standard-search"
-                label={`Sök efter ${label}`}
-                type="search"
-                className={classes.search}
-                onChange={(e) => setTextFilter(e.target.value)}
-                variant="standard"
-            />
+        <Box className={classes.root}>
+            <Box className={classes.search}>
+                <InputBase
+                    fullWidth
+                    size={'small'}
+                    id="standard-search"
+                    className={classes.searchInput}
+                    placeholder={`Filtrera ${label}`}
+                    inputProps={{'aria-label': `Filtrera ${label}`}}
+                    value={textFilter}
+                    onChange={(e) => setTextFilter(e.target.value)}
+                />
+                {
+                    !!textFilter
+                        ?
+                        <IconButton
+                            className={classes.searchIcon}
+                            aria-label="search"
+                            onClick={() => setTextFilter('')}
+                            size="large">
+                            <Clear />
+                        </IconButton>
+                        :
+                        <IconButton
+                            type="submit"
+                            className={classes.searchIcon}
+                            aria-label="search"
+                            size="large">
+                            <SearchIcon />
+                        </IconButton>
+                }
+            </Box>
             <Divider />
-            <Hidden mdUp>
-                <SelectedOptions filterId={id}></SelectedOptions>
-            </Hidden>
+            {
+                hiddenMDup
+                ? null
+                : <>
+                    <SelectedOptions filterId={id}></SelectedOptions>
+                    <Divider />
+                </>
+
+            }
             <AutoSizer>
                 {({ height, width }) => (
                     <List className={classes.list}
@@ -160,7 +194,7 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
                     </List>
                 )}
             </AutoSizer>
-        </div>
+        </Box>
     );
 }
 

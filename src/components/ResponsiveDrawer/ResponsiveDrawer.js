@@ -1,12 +1,11 @@
 import React from 'react';
 import Drawer from '@mui/material/Drawer';
-import Hidden from '@mui/material/Hidden';
 import { useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import {drawerWidth} from "../../App";
 import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
-import {AppBar} from "@mui/material";
+import {AppBar, useMediaQuery} from "@mui/material";
 import Header from "../SearchFilter/components/Header/Header";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,17 +41,11 @@ function ResponsiveDrawer({onClearFilter, window, children, handleDrawerToggle, 
     const classes = useStyles();
     const theme = useTheme();
 
+    const hiddenMDdown = useMediaQuery(theme => theme.breakpoints.down('md'));
+    const hiddenMDup = !hiddenMDdown;
+
     const drawer = (onNavigateBack) => (
         <div className={classes.drawer} displayname={'ResponsiveDrawer'}>
-            <Hidden mdDown>
-                <AppBar position="relative" className={classes.appBar}>
-                    <Toolbar variant="dense">
-                        <Typography variant="h6" className={classes.title} noWrap>
-
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-            </Hidden>
             <Header label={'Filter'} onClear={onClearFilter} onNavigateBack={onNavigateBack}/>
             <div className={classes.drawerContent}>
                 {children}
@@ -65,23 +58,25 @@ function ResponsiveDrawer({onClearFilter, window, children, handleDrawerToggle, 
     return (
         <div className={classes.root} aria-label="search">
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-            <Hidden mdUp implementation="css">
-                <Drawer
-                    container={container}
-                    variant="temporary"
-                    anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                    ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
-                    }}
-                >
-                    {drawer(handleDrawerToggle)}
+            {
+                hiddenMDup
+                ? null
+                : <Drawer
+                        container={container}
+                        variant="temporary"
+                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                        open={mobileOpen}
+                        onClose={handleDrawerToggle}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        ModalProps={{
+                            keepMounted: true, // Better open performance on mobile.
+                        }}
+                    >
+                        {drawer(handleDrawerToggle)}
                 </Drawer>
-            </Hidden>
+            }
         </div>
     );
 }

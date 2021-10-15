@@ -7,12 +7,18 @@ import useLocation from 'wouter/use-location';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'center',
         textAlign: 'center',
+        flex: '1 1 auto',
+        display: 'flex',
         '& div.MuiPaper-root': {
             marginBottom: theme.spacing(1),
         },
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
+        marginTop: theme.spacing(1),
     },
     card: {
         cursor: 'pointer',
@@ -60,7 +66,7 @@ function CardResultList({loading, recipes, page, onPageChange, totalCount}) {
                         <Card className={classes.card} variant="outlined" key={recipeSummary.id} onClick={() => handleClick(recipeSummary.id)}>
                             <CardHeader
                                 avatar={
-                                    <ColorIcon ebc={/*recipeSummary.ebc*/12} size="large" />
+                                    <ColorIcon size="large" />
                                 }
                                 // action={
                                 //     <IconButton aria-label="settings">
@@ -73,9 +79,9 @@ function CardResultList({loading, recipes, page, onPageChange, totalCount}) {
                             />
                             <CardContent>
                                 <Typography className={classes.stats} variant="overline">
-                                    <div><b>ABV</b> {recipeSummary.abv}%</div>
-                                    <div><b>OG</b> {recipeSummary.og}</div>
-                                    <div><b>FG</b> {recipeSummary.fg}</div>
+                                    <div><Typography color={'textSecondary'} variant={'caption'}>ABV</Typography> <b>{recipeSummary.abv}%</b></div>
+                                    <div><Typography color={'textSecondary'} variant={'caption'}>OG</Typography> <b>{recipeSummary.og}</b></div>
+                                    <div><Typography color={'textSecondary'} variant={'caption'}>FG</Typography> <b>{recipeSummary.fg}</b></div>
                                     {/*<div><b>IBU</b> {recipeSummary.ibu.toFixed(0)}</div>*/}
                                     {/*<div><b>EBC</b> {recipeSummary.ebc.toFixed(1)}</div>*/}
                                 </Typography>
@@ -88,8 +94,10 @@ function CardResultList({loading, recipes, page, onPageChange, totalCount}) {
                 })}
             {
                 loading
-                ? <CircularProgress />
-                : <div className={classes.footer}>
+                ? <Box className={classes.footer}>
+                        <CircularProgress />
+                </Box>
+                : <Box className={classes.footer}>
                         {
                             recipes.length < totalCount
                                 ? <Button size={'small'} variant={'contained'} color={'primary'} onClick={handleLoadMore}>
@@ -97,7 +105,7 @@ function CardResultList({loading, recipes, page, onPageChange, totalCount}) {
                                 </Button>
                                 : <div><b>Alla recept laddade</b></div>
                         }
-                  </div>
+                </Box>
             }
         </Box>
     );

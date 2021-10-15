@@ -16,11 +16,12 @@ const DEFAULT_PAGE_SIZE = 20;
 
 const useStyles = makeStyles((theme) => ({
     table: {
+        flex: '1 1 auto',
         minHeight: 200,
         '& tbody': {
             cursor: 'pointer',
             '& tr:hover': {
-                backgroundColor: '#eef'
+                backgroundColor: '#eee'
             }
         },
     },
@@ -51,11 +52,11 @@ function TableResultList({recipes, loading, onPageChange, onRowsPerPageChange, t
     return <>
         <Paper className={classes.table}>
             <TableContainer>
-                <Table className={classes.table} size="small" aria-label="Sökresultat">
+                <Table className={classes.table} size="medium" aria-label="Sökresultat">
                     <TableHead>
                         <TableRow>
                             <TableCell>Namn</TableCell>
-                            <TableCell align="right">Stil</TableCell>
+                            {/*<TableCell align="right">Stil</TableCell>*/}
                             {/*<TableCell align="right">Storlek</TableCell>*/}
                             <TableCell style={{ width: 60 }} align="right">OG</TableCell>
                             <TableCell style={{ width: 60 }} align="right">FG</TableCell>
@@ -86,7 +87,7 @@ function TableResultList({recipes, loading, onPageChange, onRowsPerPageChange, t
                             return (
                                 <TableRow key={row.id} onClick={() => handleClick(row.id)}>
                                     <TableCell component="th" scope="row">{row.name}</TableCell>
-                                    <TableCell align="right">{row.style}</TableCell>
+                                    {/*<TableCell align="right">{row.style}</TableCell>*/}
                                     {/*<TableCell align="right">{row.size}</TableCell>*/}
                                     <TableCell style={{ width: 60 }} align="right">{row.og}</TableCell>
                                     <TableCell style={{ width: 60 }} align="right">{row.fg}</TableCell>

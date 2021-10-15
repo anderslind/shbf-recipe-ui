@@ -15,7 +15,7 @@ function ColorIcon(props) {
         else if(ebc >= 48)
             return '#1c1211';
         else
-            return '#ddd'
+            return '#bbb'
     }
 
     return (
