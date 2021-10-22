@@ -29,13 +29,14 @@ function SearchFilterSlider({id, label, description, valueText, onUpdate, value,
     return (
         <FormControl component="fieldset" className={classes.formControl} fullWidth={true}>
             <Box display={'flex'}>
-                <Box flexGrow={1}>
-                    <Tooltip title={description}>
+                <Box flexGrow={0}>
+                    <Tooltip title={description} placement={'right'}>
                         <Typography>
                             {label}
                         </Typography>
                     </Tooltip>
                 </Box>
+                <Box flexGrow={1} />
                 <Box>
                     <Typography color={'textSecondary'} variant={'caption'}>
                         {valuetext(state[0])} till {valuetext(state[1])}

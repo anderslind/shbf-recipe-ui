@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Backdrop, Box, CircularProgress} from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import SearchFilterListItem from "./components/SearchFilterListItem/SearchFilterListItem";

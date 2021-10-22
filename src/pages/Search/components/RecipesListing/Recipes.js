@@ -1,18 +1,20 @@
 import React, {useEffect, useState} from "react";
 import TableResultList from "./components/TableResultList";
 import CardResultList from "./components/CardResultList";
-// import RecipeService from '../../../../services/RecipeService/RecipeService';
-import {useRecoilValue, useRecoilState, useSetRecoilState} from "recoil";
+import RecipeService from '../../../../services/RecipeService/RecipeService';
+// import RecipeServiceMock from "../../../../services/RecipeService/RecipeServiceMock";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {
     freeTextSearchState,
     inventory,
-    inventoryKeyValueMap, loadingRecipes,
-    recipeCount, recipeFilterIds,
+    inventoryKeyValueMap,
+    loadingRecipes,
+    recipeCount,
+    recipeFilterIds,
 } from "../../../../state";
 import {storeInventory} from "../../../../utils/InventoryUtils";
 import {captionColor} from "../../../../App";
 import CardResultListDesktop from "./components/CardResultListDesktop";
-import RecipeServiceMock from "../../../../services/RecipeService/RecipeServiceMock";
 import makeStyles from "@mui/styles/makeStyles";
 import {Box, useMediaQuery} from "@mui/material";
 import SelectedOptions
@@ -100,7 +102,7 @@ function Recipes(props) {
         }
 
         setTimeout(() => {
-            RecipeServiceMock
+            RecipeService
                 .search(freeTextState, clearCache ? 0 : page, rowsPerPage, recipeFilterIdsState)
                 .then(data => {
                     if (data.inventory) {
@@ -120,7 +122,7 @@ function Recipes(props) {
                     return handleSearchResult(data, clearCache);
                 })
                 .catch(err => handleSearchResult(EMPTY_STATE, clearCache));
-        }, 2000);
+        }, 1000);
     }
     const handlePageChange = (page) => { setPage(page);}
     const handleRowsPerPageChange = (rowsPerPage) => { setRowsPerPage(rowsPerPage)}

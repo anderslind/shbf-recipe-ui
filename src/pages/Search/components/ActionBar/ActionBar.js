@@ -65,13 +65,13 @@ function ActionBar({setShowFilter, showFilter, setShowTable, showTable}) {
                     ? null
                     : <Box className={classes.actionRight}>
                         <Tooltip title="Visa tabell">
-                            <IconButton onClick={() => setShowTable(true)} size="large" title={'Visa tabell'}>
+                            <IconButton onClick={() => setShowTable(true)} size="large">
                                 <TableChart color={showTable ? 'primary' : 'secondary'} />
                             </IconButton>
                         </Tooltip>
                         <Divider orientation="vertical" flexItem className={classes.divider}/>
                         <Tooltip title="Visa kort">
-                            <IconButton onClick={() => setShowTable(false)} size="large" title={'Visa kort'}>
+                            <IconButton onClick={() => setShowTable(false)} size="large">
                                 <Apps  color={!showTable ? 'primary' : 'secondary'} />
                             </IconButton>
                         </Tooltip>

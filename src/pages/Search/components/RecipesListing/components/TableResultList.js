@@ -1,13 +1,14 @@
 import React, {useEffect} from "react";
 import {
+    CircularProgress,
     Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
-    TableRow,
-    TablePagination, CircularProgress
+    TablePagination,
+    TableRow
 } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import useLocation from "wouter/use-location";
@@ -35,7 +36,7 @@ function TableResultList({recipes, loading, onPageChange, onRowsPerPageChange, t
 
     useEffect(() => {
         onRowsPerPageChange(DEFAULT_PAGE_SIZE);
-    }, []);
+    }, [onRowsPerPageChange]);
 
     const handleChangePage = (event, newPage) => {
         onPageChange(newPage);

@@ -1,14 +1,11 @@
 import React, {useState} from 'react';
-import {
-    ListItem,
-    ListItemText, Tooltip, Typography,
-} from "@mui/material";
+import {ListItem, ListItemText, Typography,} from "@mui/material";
 import {NavigateNext} from "@mui/icons-material";
 import SearchFilterDetails from "../../../components/SearchFilterDetails/SearchFilterDetails";
 import makeStyles from '@mui/styles/makeStyles';
 import {drawerWidth} from "../../../../../App";
 import FormatFilter from "../../../utils/FilterUtils";
-import {recipeFilter, inventoryKeyValueMap} from "../../../../../state";
+import {inventoryKeyValueMap, recipeFilter} from "../../../../../state";
 import {useRecoilValue} from "recoil";
 
 const useStyles = makeStyles((theme) => ({

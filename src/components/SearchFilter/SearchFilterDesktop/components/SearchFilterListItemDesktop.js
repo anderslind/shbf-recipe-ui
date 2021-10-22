@@ -1,9 +1,4 @@
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Typography
-} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import React from "react";

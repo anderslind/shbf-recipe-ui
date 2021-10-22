@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import logo from "../../static/shbf_logo.png";
 import makeStyles from '@mui/styles/makeStyles';
-import {Box, Container} from "@mui/material";
+import {Box} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     root: {

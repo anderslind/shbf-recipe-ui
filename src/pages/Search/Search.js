@@ -2,18 +2,11 @@ import React, {useEffect, useState} from "react";
 import makeStyles from '@mui/styles/makeStyles';
 import SearchBar from "./components/SearchBar/SearchBar";
 import Recipes from "./components/RecipesListing/Recipes";
-import {
-    Container,
-    Divider,
-    useMediaQuery
-} from "@mui/material";
+import {Container, Divider, useMediaQuery} from "@mui/material";
 import {useSetRecoilState} from "recoil";
-import {
-    freeTextSearchState,
-} from "../../state";
+import {freeTextSearchState,} from "../../state";
 import SearchFilterDesktop from "../../components/SearchFilter/SearchFilterDesktop/SearchFilterDesktop";
 import ActionBar from './components/ActionBar/ActionBar';
-import FixedBar from "./components/FixedBar/FixedBar";
 
 
 const filterWidth = '20rem';
@@ -72,18 +65,19 @@ function Search(props) {
     const [showFilter, setShowFilter] = useState(DEFAULT_SHOW_FILTER);
 
     const [showFixed, setShowFixed] = useState(DEFAULT_SHOW_FIXED);
-    const handleScrollEvent = () => {
-        if (window.scrollY >= 132 && !showFixed) {
-            setShowFixed(true);
-        } else {
-            setShowFixed(false);
-        }
-    };
 
     useEffect(() => {
+        function handleScrollEvent () {
+            if (window.scrollY >= 132 && !showFixed) {
+                setShowFixed(true);
+            } else {
+                setShowFixed(false);
+            }
+        };
+
         window.addEventListener('scroll', handleScrollEvent, {passive: true});
         return () => window.removeEventListener('scroll', handleScrollEvent);
-    }, []);
+    }, [showFixed]);
 
     const onChange = (value) => {
         setFreeTextSearchState(value);

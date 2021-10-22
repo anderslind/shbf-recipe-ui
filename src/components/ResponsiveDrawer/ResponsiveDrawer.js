@@ -1,11 +1,9 @@
 import React from 'react';
 import Drawer from '@mui/material/Drawer';
-import { useTheme } from '@mui/material/styles';
+import {useTheme} from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import {drawerWidth} from "../../App";
-import Typography from "@mui/material/Typography";
-import Toolbar from "@mui/material/Toolbar";
-import {AppBar, useMediaQuery} from "@mui/material";
+import {useMediaQuery} from "@mui/material";
 import Header from "../SearchFilter/components/Header/Header";
 
 const useStyles = makeStyles((theme) => ({

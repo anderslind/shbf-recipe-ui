@@ -3,11 +3,9 @@ import ReactDOM from 'react-dom';
 import '@fontsource/roboto/';
 import './index.css';
 import App from './App';
-import {
-    RecoilRoot
-} from 'recoil';
+import {RecoilRoot} from 'recoil';
 import DebugObserver from "./debug/DebugObserver";
-import { createTheme, ThemeProvider, StyledEngineProvider, adaptV4Theme } from "@mui/material";
+import {adaptV4Theme, createTheme, StyledEngineProvider, ThemeProvider} from "@mui/material";
 
 const customTheme = createTheme(adaptV4Theme({
     typography: {
@@ -54,11 +52,11 @@ ReactDOM.render(
   <React.StrictMode>
       <RecoilRoot>
         <DebugObserver />
-          <StyledEngineProvider injectFirst>
-              <ThemeProvider theme={customTheme} >
-                <App />
-              </ThemeProvider>
-          </StyledEngineProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={customTheme} >
+            <App />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')

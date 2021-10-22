@@ -75,7 +75,7 @@ function SearchFilterDesktop() {
                     <SearchFilterSlider
                         id={'size'}
                         label={'Storlek'}
-                        description={'Original Gravity'}
+                        description={'Storlek'}
                         max={50}
                         valueText={defaultFormat}
                         onUpdate={onUpdate}

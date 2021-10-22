@@ -1,7 +1,6 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import ResponsiveFooter from "../ResponsiveFooter/ResponsiveFooter";
-import Hidden from "@mui/material/Hidden";
 import Header from "../Header/Header";
 import {useSetRecoilState} from "recoil";
 import {EMPTY_STATE, recipeFilter} from "../../../../state";

@@ -1,11 +1,11 @@
 /**
  * DOCS https://oxidapi-skpamglgeq-ey.a.run.app/swagger-ui.html
  * API Endpoint https://oxidapi-skpamglgeq-ey.a.run.app/
+ * ( GCP Proxy http://35.232.164.134:8010/proxy/ )
   */
-const apiPath = 'http://35.232.164.134:8010/proxy/';
+const apiPath = 'https://oxidapi-skpamglgeq-ey.a.run.app/';
 const basePath = process.env.API_HOST || apiPath;
-console.log('process.env.API_HOST', process.env.API_HOST);
-console.log('basePath', process.env.API_HOST);
+console.log('basePath', basePath);
 const baseOptions = {
     //mode: 'no-cors'
 };

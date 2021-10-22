@@ -1,10 +1,5 @@
-import {
-    EMPTY_STATE as FILTER_EMPTY_STATE,
-    inventoryKeyValueMap,
-    recipeFilter,
-    recipeFilterIds
-} from "../../../../../state";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {EMPTY_STATE as FILTER_EMPTY_STATE, inventoryKeyValueMap, recipeFilter} from "../../../../../state";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {Box, Chip, IconButton, Tooltip} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {getInventoryName} from "../../../../../utils/InventoryUtils";
@@ -36,37 +31,50 @@ const useStyles = makeStyles((theme) => ({
 
 function SelectedOptions({filterId}) {
     const classes = useStyles();
-    const [options, setOptions] = useState([]); // {filterId, id}
+    const [options, setOptions] = useState([]);
     const [filterState, setRecipeFilterState] = useRecoilState(recipeFilter);
     const inventoryKeyValueMapState = useRecoilValue(inventoryKeyValueMap);
-    const recipeFilterIdsState = useRecoilValue(recipeFilterIds);
     const clearFilter = () => { setRecipeFilterState(FILTER_EMPTY_STATE);}
 
-    const getNameFromId = (obj) => {
-        return getInventoryName(obj.id, obj.filterId, inventoryKeyValueMapState);
-    }
-    const handleDelete = (obj) => {
-        const arr = filterState[obj.filterId].slice();
-        const index = arr.indexOf(obj.id);arr.splice(index, 1);
-        if (index > -1) {
+    const handleDelete = ({filterId, id}) => {
+        if (['og','fg','abv','size','ibu'].includes(filterId)) {
             setRecipeFilterState((originalFilterState) => ({
                 ...originalFilterState,
-                [obj.filterId]: arr
+                [filterId]: []
             }))
+        } else {
+            const arr = filterState[filterId].slice();
+            const index = arr.indexOf(id);arr.splice(index, 1);
+            if (index > -1) {
+                setRecipeFilterState((originalFilterState) => ({
+                    ...originalFilterState,
+                    [filterId]: arr
+                }))
+            }
         }
     }
     useEffect(() => {
+        function getNameFromId (filterId, id) {
+            return getInventoryName(id, filterId, inventoryKeyValueMapState);
+        }
+
         if (filterId) {
             setOptions(filterState[filterId].map(e => ({filterId, id: e})));
         } else {
             setOptions(Object.entries(filterState).reduce((acc, current) => {
                 const filterId = current[0];
                 const idArray = current[1];
-                idArray.forEach(e => acc.push({filterId, id: e}));
+                if (['og','fg','abv','size','ibu'].includes(filterId)) {
+                    if (idArray.length > 0) {
+                        acc.push({desc: `${filterId.toUpperCase()} ${idArray[0]} till ${idArray[1]}`, filterId});
+                    }
+                } else {
+                    idArray.forEach(id => acc.push({desc: getNameFromId(filterId, id), id, filterId}));
+                }
                 return acc;
             }, []));
         }
-    }, [filterState, filterId])
+    }, [filterState, filterId, inventoryKeyValueMapState])
 
     return (
         options.length > 0
@@ -77,8 +85,8 @@ function SelectedOptions({filterId}) {
                         <span key={c.id}>
                             <Chip
                                 className={classes.chip}
-                                label={getNameFromId(c)}
-                                title={getNameFromId(c)}
+                                label={c.desc}
+                                title={c.desc}
                                 onDelete={() => handleDelete(c)}
                                 value={+c.id}
                                 size="small"

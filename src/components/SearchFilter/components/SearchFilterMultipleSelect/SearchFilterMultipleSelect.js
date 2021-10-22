@@ -2,11 +2,14 @@ import React, {memo, useEffect, useState} from 'react';
 import {
     Box,
     Checkbox,
-    Divider, IconButton, Input, InputAdornment, InputBase,
+    Divider,
+    IconButton,
+    InputBase,
     ListItem,
     ListItemIcon,
     ListItemText,
-    TextField, Typography, useMediaQuery
+    Typography,
+    useMediaQuery
 } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import AutoSizer from "react-virtualized-auto-sizer";

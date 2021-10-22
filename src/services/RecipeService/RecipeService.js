@@ -11,12 +11,24 @@ function search(freeText, page, size, inventoryIds = '') {
             return data;
         })
         .catch(err => {
-            console.error('RecipeService', err);
+            console.error('RecipeService Search-endpoint', err);
             throw err;
         });
 }
 
+function recipes(id) {
+    return call(`recipes/${id}`)
+        .then(data => {
+            return data;
+        })
+        .catch(err => {
+            console.error('RecipeService Recipes-endpoint', err);
+            throw err;
+        })
+}
+
 const def = {
-    search
+    search,
+    recipes
 };
 export default def;

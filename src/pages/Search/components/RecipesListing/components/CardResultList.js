@@ -1,6 +1,6 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import {Card, CardContent, CardHeader, Box, Button, CircularProgress} from '@mui/material';
+import {Box, Button, Card, CardContent, CardHeader, CircularProgress} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ColorIcon from '../../../../../components/ColorIcon/ColorIcon';
 import useLocation from 'wouter/use-location';

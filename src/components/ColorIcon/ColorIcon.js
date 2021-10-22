@@ -1,7 +1,7 @@
 import React from "react";
 import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 
-function ColorIcon(props) {
+function ColorIcon({ebc, size, ...props}) {
 
     const ebuToColor = (ebc) => {
         if (ebc < 12)
@@ -19,7 +19,7 @@ function ColorIcon(props) {
     }
 
     return (
-        <LocalDrinkIcon style={{color: ebuToColor(props.ebc)}} fontSize={props.size} />
+        <LocalDrinkIcon style={{color: ebuToColor(ebc)}} fontSize={size} {...props} />
     );
 }
 

@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import {Card, CardContent, CardHeader, Button, CircularProgress, Grid, Box} from '@mui/material';
+import {Box, Button, Card, CardContent, CardHeader, CircularProgress, Grid} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ColorIcon from '../../../../../components/ColorIcon/ColorIcon';
 import useLocation from 'wouter/use-location';
+import Vitals from "../../../../../components/Vitals/Vitals";
 
 const DEFAULT_PAGE_SIZE = 99;
 
@@ -52,16 +53,6 @@ const useStyles = makeStyles((theme) => ({
             paddingLeft: '1rem',
         }
     },
-    stats: {
-        display: "flex",
-        flexWrap: 'wrap',
-        justifyContent: 'flex-start',
-        alignItems: 'baseline',
-        '& :not(:last-child)': {
-            marginRight: theme.spacing(1),
-        },
-        marginBottom: theme.spacing(1)
-    },
     header: {
         textAlign: 'left',
     },
@@ -80,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount, onRowsPerPageChange}) {
-    const classes = useStyles();
+        const classes = useStyles();
     const [, setLocation] = useLocation();
 
     const handleClick = (id)  => {
@@ -91,13 +82,8 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
     }
     useEffect(() => {
         onRowsPerPageChange(DEFAULT_PAGE_SIZE);
-    }, []);
+    }, [onRowsPerPageChange]);
 
-    const vitals = [
-        {accessor: 'abv', suffix: '%'},
-        {accessor: 'og'},
-        {accessor: 'fg'},
-    ];
     return (
         <Box className={classes.root}>
             {
@@ -113,28 +99,13 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
                                             avatar={
                                                 <ColorIcon size="large"/>
                                             }
-                                            // action={
-                                            //     <IconButton aria-label="settings">
-                                            //         <RadioButtonUnchecked />
-                                            //     </IconButton>
-                                            // }
                                             title={recipeSummary.name}
                                             subheader={recipeSummary.style}
                                             titleTypographyProps={{variant: 'h5'}}
                                             className={classes.header}
                                         />
                                         <CardContent>
-                                            <Box className={classes.stats}>
-                                                {
-                                                    vitals
-                                                        .map((vital) => (
-                                                            <>
-                                                                <Typography color={'textSecondary'} variant={'overline'}>{vital.accessor}</Typography>
-                                                                <Typography variant={'h6'}>{recipeSummary[vital.accessor]}{vital?.suffix}</Typography>
-                                                            </>
-                                                    ))
-                                                }
-                                            </Box>
+                                            <Vitals recipe={recipeSummary} filter={['abv','og','fg']}/>
                                             <Box className={classes.stats}>
                                                 <Typography color={'textSecondary'} variant={'body1'} className={classes.italic}>"En stor stark..."</Typography>
                                             </Box>
