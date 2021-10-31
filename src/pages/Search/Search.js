@@ -3,15 +3,14 @@ import makeStyles from '@mui/styles/makeStyles';
 import SearchBar from "./components/SearchBar/SearchBar";
 import Recipes from "./components/RecipesListing/Recipes";
 import {Container, Divider, useMediaQuery} from "@mui/material";
-import {useSetRecoilState} from "recoil";
-import {freeTextSearchState,} from "../../state";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {filterVisible, freeTextSearchState,} from "../../state";
 import SearchFilterDesktop from "../../components/SearchFilter/SearchFilterDesktop/SearchFilterDesktop";
 import ActionBar from './components/ActionBar/ActionBar';
 
 
 const filterWidth = '20rem';
 const DEFAULT_SHOW_TABLE = false;
-const DEFAULT_SHOW_FILTER = false;
 const DEFAULT_SHOW_FIXED = false;
 
 const useStyles = makeStyles((theme) => ({
@@ -62,9 +61,9 @@ function Search(props) {
     const setFreeTextSearchState = useSetRecoilState(freeTextSearchState);
 
     const [showTable, setShowTable] = useState(DEFAULT_SHOW_TABLE);
-    const [showFilter, setShowFilter] = useState(DEFAULT_SHOW_FILTER);
-
     const [showFixed, setShowFixed] = useState(DEFAULT_SHOW_FIXED);
+
+    const filterVisibleState = useRecoilValue(filterVisible);
 
     useEffect(() => {
         function handleScrollEvent () {
@@ -99,22 +98,21 @@ function Search(props) {
             </Container>
             <Divider />
             <Container maxWidth={'lg'} className={classes.actionContainer}>
-                <ActionBar setShowFilter={setShowFilter} showFilter={showFilter} setShowTable={setShowTable}
-                             showTable={showTable} />
+                <ActionBar setShowTable={setShowTable} showTable={showTable} />
 
             </Container>
 
             <Divider />
             <Container maxWidth={'lg'} className={classes.contentContainer}>
                 {
-                    mdUP && showFilter
-                    &&
-                    <div className={classes.contentContainerFilter}>
+                    mdUP
+                    && filterVisibleState
+                    && <div className={classes.contentContainerFilter}>
                             <SearchFilterDesktop />
                     </div>
                 }
                 <div className={classes.contentContainerResult}>
-                    <Recipes showTable={showTable} filterVisible={showFilter}/>
+                    <Recipes showTable={showTable} filterVisible={filterVisibleState}/>
                 </div>
             </Container>
         </main>

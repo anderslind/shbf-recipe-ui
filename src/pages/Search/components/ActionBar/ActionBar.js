@@ -2,8 +2,8 @@ import {Box, CircularProgress, Divider, IconButton, Tooltip, Typography, useMedi
 import {Apps, FilterList, TableChart} from "@mui/icons-material";
 import React from "react";
 import makeStyles from "@mui/styles/makeStyles";
-import {useRecoilValue} from "recoil";
-import {loadingRecipes, recipeCount} from "../../../../state";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {filterVisible, loadingRecipes, recipeCount} from "../../../../state";
 
 const useStyles = makeStyles((theme) => ({
     actionFilterFiller: {
@@ -27,11 +27,13 @@ const useStyles = makeStyles((theme) => ({
 }
 }));
 
-function ActionBar({setShowFilter, showFilter, setShowTable, showTable}) {
+function ActionBar({setShowFilter, setShowTable, showTable}) {
     const classes = useStyles();
 
     const recipeCountState = useRecoilValue(recipeCount);
     const loadingRecipesState = useRecoilValue(loadingRecipes);
+
+    const [filterVisibleState, setFilterVisibleState] = useRecoilState(filterVisible);
 
     const mdUP = useMediaQuery(theme => theme.breakpoints.up('md'));
     const hiddenSMdown = useMediaQuery(theme => theme.breakpoints.down('sm'));
@@ -42,13 +44,13 @@ function ActionBar({setShowFilter, showFilter, setShowTable, showTable}) {
                 mdUP
                 &&
                 <Box className={classes.actionFilterFiller}>
-                    <IconButton onClick={() => setShowFilter(!showFilter)} size="large">
-                        <FilterList color={showFilter ? 'primary' : 'secondary'} />
+                    <IconButton onClick={() => setFilterVisibleState(!filterVisibleState)} size="large">
+                        <FilterList color={filterVisibleState ? 'primary' : 'secondary'} />
                     </IconButton>
                     <Typography
                         color={'textSecondary'}
                         variant={'caption'}
-                        onClick={() => setShowFilter(!showFilter)}
+                        onClick={() => setFilterVisibleState(!filterVisibleState)}
                         style={{cursor: 'pointer'}}
                     >
                         Filter

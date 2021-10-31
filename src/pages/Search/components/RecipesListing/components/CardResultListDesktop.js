@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import ColorIcon from '../../../../../components/ColorIcon/ColorIcon';
 import useLocation from 'wouter/use-location';
 import Vitals from "../../../../../components/Vitals/Vitals";
+import {useRecoilValue} from "recoil";
+import {filterVisible} from "../../../../../state";
 
 const DEFAULT_PAGE_SIZE = 99;
 
@@ -25,12 +27,26 @@ const useStyles = makeStyles((theme) => ({
             borderBottomWidth: 1,
             padding: theme.spacing(5),
         },
+    },
+    rootResponsive: {
         [theme.breakpoints.down('md')]: {
             '&  .MuiGrid-item:nth-of-type(2n)': {
                 borderRightWidth: 0,
             }
         },
         [theme.breakpoints.up('md')]: {
+            '&  .MuiGrid-item:nth-of-type(3n)': {
+                borderRightWidth: 0,
+            }
+        },
+    },
+    rootResponsiveFilter: {
+        [theme.breakpoints.down('lg')]: {
+            '&  .MuiGrid-item:nth-of-type(2n)': {
+                borderRightWidth: 0,
+            }
+        },
+        [theme.breakpoints.up('lg')]: {
             '&  .MuiGrid-item:nth-of-type(3n)': {
                 borderRightWidth: 0,
             }
@@ -71,8 +87,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount, onRowsPerPageChange}) {
-        const classes = useStyles();
+    const classes = useStyles();
     const [, setLocation] = useLocation();
+
+    const filterVisibleState = useRecoilValue(filterVisible);
 
     const handleClick = (id)  => {
         setLocation(`/recipe-details/${id}`);
@@ -85,7 +103,7 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
     }, [onRowsPerPageChange]);
 
     return (
-        <Box className={classes.root}>
+        <Box className={`${classes.root} ${filterVisibleState ? 'rootResponsiveFilter' : 'rootResponsive'}`}>
             {
                 ((!!loading && recipes.length === 0) || recipes.length > 0)
                 &&
@@ -93,7 +111,14 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
                     {
                         recipes.map((recipeSummary) => {
                             return (
-                                <Grid item sm={6} md={4} key={recipeSummary.id} onClick={() => handleClick(recipeSummary.id)} className={classes.gridCell}>
+                                <Grid
+                                    item
+                                    sm={6}
+                                    md={filterVisibleState ? 6 : 4}
+                                    lg={4}
+                                    key={recipeSummary.id}
+                                    onClick={() => handleClick(recipeSummary.id)} className={classes.gridCell}
+                                >
                                     <Card className={classes.card} variant="outlined">
                                         <CardHeader
                                             avatar={

@@ -34,7 +34,7 @@ const customTheme = createTheme(adaptV4Theme({
         values: {
             xs: 0,
             sm: 500,
-            md: 760,
+            md: 900,
             lg: 1280,
             xl: 1920
         }
