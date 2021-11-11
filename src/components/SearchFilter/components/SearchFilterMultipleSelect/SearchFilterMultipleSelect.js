@@ -77,6 +77,9 @@ const useStyles = makeStyles((theme) => ({
     scrollingPlaceholder__count: {
         flexShrink: '0',
         marginRight: '1rem',
+    },
+    gray: {
+        color: theme.palette.secondary.light,
     }
 }));
 
@@ -130,12 +133,12 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
                         disableRipple
                     />
                 </ListItemIcon>
-                <ListItemText className={`${classes.listItemText} ${classes.listItemText__name}`} title={filteredOptions[index].name}>
+                <ListItemText className={`${classes.listItemText} ${classes.listItemText__name} ${filteredOptions[index].recipeOccurrences === 0 ? classes.gray : ''}`} title={filteredOptions[index].name}>
                     <Typography noWrap>
                         {filteredOptions[index].name}
                     </Typography>
                 </ListItemText>
-                <ListItemText className={classes.listItemText__right}>
+                <ListItemText className={`${classes.listItemText__right} ${filteredOptions[index].recipeOccurrences === 0 ? classes.gray : ''}`}>
                     {filteredOptions[index].recipeOccurrences}
                 </ListItemText>
             </ListItem>

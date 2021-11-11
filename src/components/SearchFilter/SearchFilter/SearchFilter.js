@@ -48,14 +48,6 @@ function SearchFilter({handleDrawerToggle}) {
                     handleDrawerToggle={handleDrawerToggle}>
                     <Box style={{marginTop: '1rem'}}>
                         <SearchFilterSlider
-                            id={'og'}
-                            label={'OG'}
-                            max={200}
-                            valueText={defaultFormat}
-                            onUpdate={onUpdate}
-                            value={[...filterState.og]}
-                        />
-                        <SearchFilterSlider
                             id={'abv'}
                             label={'ABV'}
                             max={15}
@@ -65,12 +57,12 @@ function SearchFilter({handleDrawerToggle}) {
                             value={filterState.abv.slice()}
                         />
                         <SearchFilterSlider
-                            id={'size'}
-                            label={'Storlek'}
-                            max={50}
+                            id={'og'}
+                            label={'OG'}
+                            max={200}
                             valueText={defaultFormat}
                             onUpdate={onUpdate}
-                            value={filterState.size.slice()}
+                            value={[...filterState.og]}
                         />
                         <SearchFilterSlider
                             id={'fg'}
@@ -79,6 +71,14 @@ function SearchFilter({handleDrawerToggle}) {
                             valueText={defaultFormat}
                             onUpdate={onUpdate}
                             value={filterState.fg.slice()}
+                        />
+                        <SearchFilterSlider
+                            id={'size'}
+                            label={'Storlek'}
+                            max={50}
+                            valueText={defaultFormat}
+                            onUpdate={onUpdate}
+                            value={filterState.size.slice()}
                         />
                         <SearchFilterSlider
                             id={'ibu'}

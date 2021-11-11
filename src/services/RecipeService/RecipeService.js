@@ -1,12 +1,19 @@
 import call from '../../api/Api';
+import {addInventoryFilters, addVitals} from "./RecipeServiceUtil";
 
-function search(freeText, page, size, inventoryIds = '') {
-    return call('search', {queryStr: {
-            query: freeText,
-            inventoryIds: inventoryIds,
-            page,
-            size
-    }})
+function search(freeText, page, size, vitals, inventoryIds = '') {
+    console.log('inventoryIds', inventoryIds);
+
+    let queryStr = {
+        query: freeText,
+        page,
+        size
+    };
+
+    queryStr = addVitals(queryStr, vitals)
+    queryStr = addInventoryFilters(queryStr, inventoryIds);
+
+    return call('search', {queryStr})
         .then(data => {
             return data;
         })
@@ -15,6 +22,8 @@ function search(freeText, page, size, inventoryIds = '') {
             throw err;
         });
 }
+
+
 
 function recipes(id) {
     return call(`recipes/${id}`)

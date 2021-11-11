@@ -9,8 +9,8 @@ import {
     inventory,
     inventoryKeyValueMap,
     loadingRecipes,
-    recipeCount,
-    recipeFilterIds,
+    recipeCount, recipeFilterCount,
+    recipeFilterIds, vitalsForSearch,
 } from "../../../../state";
 import {storeInventory} from "../../../../utils/InventoryUtils";
 import {captionColor} from "../../../../App";
@@ -76,6 +76,8 @@ function Recipes(props) {
     const setInventoryState = useSetRecoilState(inventory);
     const [inventoryKeyValueMapState, setInventoryKeyValueMapState] = useRecoilState(inventoryKeyValueMap);
     const recipeFilterIdsState = useRecoilValue(recipeFilterIds);
+    const recipeFilterCountState = useRecoilValue(recipeFilterCount);
+    const vitalsForSearchState = useRecoilValue(vitalsForSearch);
     const [loadingRecipesState, setLoadingRecipesState] = useRecoilState(loadingRecipes);
 
     const [searchResult, setSearchResult] = useState(EMPTY_STATE);
@@ -103,7 +105,7 @@ function Recipes(props) {
 
         setTimeout(() => {
             RecipeService
-                .search(freeTextState, clearCache ? 0 : page, rowsPerPage, recipeFilterIdsState)
+                .search(freeTextState, clearCache ? 0 : page, rowsPerPage, vitalsForSearchState, recipeFilterIdsState)
                 .then(data => {
                     if (data.inventory) {
                         if (freeTextState === '') {
@@ -152,7 +154,7 @@ function Recipes(props) {
     return (
         <Box className={classes.recipes} displayname={'Recipes'}>
             {
-                recipeFilterIdsState.length > 0
+                recipeFilterCountState > 0
                 &&
                 <Box className={classes.options} style={props.filterVisible ? {borderLeftWidth: '1px'} : null}>
                     <SelectedOptions />

@@ -52,16 +52,6 @@ function SearchFilterDesktop() {
                 label={'Vitalparametrar'}
                 expanded={expanded}
                 handleExpanded={handleChange}>
-
-                    <SearchFilterSlider
-                        id={'og'}
-                        label={'OG'}
-                        description={'Original Gravity'}
-                        max={200}
-                        valueText={defaultFormat}
-                        onUpdate={onUpdate}
-                        value={[...filterState.og]}
-                    />
                     <SearchFilterSlider
                         id={'abv'}
                         label={'ABV'}
@@ -73,13 +63,13 @@ function SearchFilterDesktop() {
                         value={filterState.abv.slice()}
                     />
                     <SearchFilterSlider
-                        id={'size'}
-                        label={'Storlek'}
-                        description={'Storlek'}
-                        max={50}
+                        id={'og'}
+                        label={'OG'}
+                        description={'Original Gravity'}
+                        max={200}
                         valueText={defaultFormat}
                         onUpdate={onUpdate}
-                        value={filterState.size.slice()}
+                        value={[...filterState.og]}
                     />
                     <SearchFilterSlider
                         id={'fg'}
@@ -91,6 +81,16 @@ function SearchFilterDesktop() {
                         value={filterState.fg.slice()}
                     />
                     <SearchFilterSlider
+                        id={'size'}
+                        label={'Storlek'}
+                        description={'Storlek'}
+                        max={50}
+                        valueText={defaultFormat}
+                        onUpdate={onUpdate}
+                        value={filterState.size.slice()}
+                        disabled
+                    />
+                    <SearchFilterSlider
                         id={'ibu'}
                         label={'IBU'}
                         description={'International Bitterness Unit'}
@@ -98,6 +98,7 @@ function SearchFilterDesktop() {
                         valueText={defaultFormat}
                         onUpdate={onUpdate}
                         value={filterState.ibu.slice()}
+                        disabled
                     />
             </SearchFilterListItemDesktop>
 

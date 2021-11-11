@@ -10,13 +10,13 @@ import {
     useTheme,
 } from "@mui/material";
 import {useLocation, useRoute} from "wouter";
-import RecipeServiceMock from "../../services/RecipeService/RecipeServiceMock";
+// import RecipeServiceMock from "../../services/RecipeService/RecipeServiceMock";
 import RecipeDialogTitle from "./components/RecipeDialogTitle/RecipeDialogTitle";
 import Vitals from "../../components/Vitals/Vitals";
 import Hops from "./components/Hops/Hops";
 import Fermentables from "./components/Fermentables/Fermentables";
 import Yeasts from "./components/Yeasts/Yeasts";
-// import RecipeService from "../../services/RecipeService/RecipeService";
+import RecipeService from "../../services/RecipeService/RecipeService";
 
 export const routePattern = '/recipe-details/:uuid';
 
@@ -52,7 +52,7 @@ function RecipeDetails() {
     }
 
     useEffect(() => {
-        RecipeServiceMock.recipes(uuid)
+        RecipeService.recipes(uuid)
             .then((response) => {
                 setRecipe(response)
             })
@@ -97,7 +97,7 @@ function RecipeDetails() {
                 : <>
                         <RecipeDialogTitle
                             handleClose={handleClose}
-                            title={`${recipe.name} ${recipe.abv}`}
+                            title={`${recipe.name} ${recipe.abv}%`}
                         />
                         <DialogContent dividers={true} className={classes.content}>
 

@@ -24,10 +24,16 @@ const recipeFilter = atom({
     key: 'recipeFilterState',
     default: EMPTY_STATE,
 });
+const vitalsForSearch = selector({
+    key: 'vitalsForSearch',
+    get: ({get}) => {
+        return (({abv, og, fg}) => ({abv, og, fg}))(get(recipeFilter));
+    }
+});
 const recipeFilterIds = selector({
     key: 'recipeFilterIds',
     get: ({get}) => {
-        return Object.values(get(recipeFilter)).flat();
+        return Object.values((({hops, yeasts, fermentables}) => ({hops, yeasts, fermentables}))(get(recipeFilter))).flat();
     }
 });
 const recipeFilterCount = selector({
@@ -57,6 +63,7 @@ export {
     inventoryKeyValueMap,
     recipeFilter,
     recipeFilterCount,
+    vitalsForSearch,
     recipeFilterIds,
     recipeCount,
     freeTextSearchState,
