@@ -101,7 +101,7 @@ function SearchFilterDesktop() {
                     />
             </SearchFilterListItemDesktop>
 
-            <SearchFilterListItemDesktop id={'fermentables'} expandId={'fermentables'} label={'Jäsbara ingredienser'} filter={filterState.fermentables} expanded={expanded} handleExpanded={handleChange}>
+            <SearchFilterListItemDesktop id={'fermentables'} expandId={'fermentables'} label={'Jäsbara'} filter={filterState.fermentables} expanded={expanded} handleExpanded={handleChange}>
                 <SearchFilterMultipleSelect id={'fermentables'} label={'Jäsbara'} values={filterState.fermentables} onUpdate={onUpdate} />
             </SearchFilterListItemDesktop>
 

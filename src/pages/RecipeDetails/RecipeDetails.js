@@ -4,19 +4,19 @@ import {
     Box,
     Dialog,
     DialogContent,
-    DialogContentText, Stack,
+    DialogContentText, Stack, TableCell as MuiTableCell,
     Typography,
     useMediaQuery,
-    useTheme
+    useTheme,
 } from "@mui/material";
 import {useLocation, useRoute} from "wouter";
-// import RecipeServiceMock from "../../services/RecipeService/RecipeServiceMock";
+import RecipeServiceMock from "../../services/RecipeService/RecipeServiceMock";
 import RecipeDialogTitle from "./components/RecipeDialogTitle/RecipeDialogTitle";
 import Vitals from "../../components/Vitals/Vitals";
 import Hops from "./components/Hops/Hops";
 import Fermentables from "./components/Fermentables/Fermentables";
 import Yeasts from "./components/Yeasts/Yeasts";
-import RecipeService from "../../services/RecipeService/RecipeService";
+// import RecipeService from "../../services/RecipeService/RecipeService";
 
 export const routePattern = '/recipe-details/:uuid';
 
@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+export const TableCell = ({children, ...props}) => (<MuiTableCell sx={{verticalAlign: 'baseline'}} {...props}>{children}</MuiTableCell>)
+export const CellMain = ({children}) => (<Typography variant={'body1'}>{children}</Typography>);
+export const CellSecondary = ({children}) => (<Typography color={'textSecondary'} variant={'caption'}>{children}</Typography>);
+
 function RecipeDetails() {
     const classes = useStyles();
     const theme = useTheme();
@@ -48,7 +52,7 @@ function RecipeDetails() {
     }
 
     useEffect(() => {
-        RecipeService.recipes(uuid)
+        RecipeServiceMock.recipes(uuid)
             .then((response) => {
                 setRecipe(response)
             })
@@ -66,7 +70,7 @@ function RecipeDetails() {
     const CenterText = ({children, ...props}) => <Text variant={'body1'} align={'center'} {...props}>{children}</Text>
 
     const RecipeDetailsPart = ({children, sx, ...props}) => {
-        const sxx = {marginBottom: '3rem', '& > *': {marginBottom: '3rem'}};
+        const sxx = {marginBottom: '1rem', '& > *': {marginBottom: '1rem'}};
 
         return (
             <Box sx={{...sxx, ...sx}} {...props}>
@@ -74,7 +78,6 @@ function RecipeDetails() {
             </Box>
         );
     };
-
     return (
         <Dialog
             className={classes.recipe}
@@ -109,11 +112,8 @@ function RecipeDetails() {
                                 spacing={{ xs: 1, sm: 2, md: 4 }}
                                 sx={{display: 'flex', justifyContent: 'space-evenly'}}
                             >
-                                <RecipeDetailsPart>
-                                    <Vitals recipe={recipe} vertical/>
-                                </RecipeDetailsPart>
-
                                 <RecipeDetailsPart sx={{flexGrow: 1, maxWidth: '35rem'}}>
+                                    <Vitals recipe={recipe} vertical/>
                                     <Hops hops={recipe.hop} />
                                     <Fermentables fermentables={recipe.fermentable} />
                                     <Yeasts yeasts={recipe.yeast} />

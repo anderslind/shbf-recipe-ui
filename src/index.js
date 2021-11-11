@@ -9,7 +9,8 @@ import {adaptV4Theme, createTheme, StyledEngineProvider, ThemeProvider} from "@m
 
 const customTheme = createTheme(adaptV4Theme({
     typography: {
-        fontFamily: 'Roboto Condensed'
+        fontFamily: 'Roboto Condensed',
+        fontSize: 16,
     },
     palette: {
         primary: {

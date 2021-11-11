@@ -3,16 +3,12 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import RecipeDetailHeader from "../RecipeDetailHeader/RecipeDetailHeader";
+import {CellMain, CellSecondary, TableCell} from "../../RecipeDetails";
 
 const useStyles = makeStyles((theme) => ({
     yeasts: {
-        display: 'flex',
-        alignItems: 'baseline'
     },
 }));
-const TableCell = ({children, ...props}) => (<MuiTableCell sx={{verticalAlign: 'baseline'}} {...props}>{children}</MuiTableCell>)
-const CellMain = ({children}) => (<Typography>{children}</Typography>);
-const CellSecondary = ({children}) => (<Typography color={'textSecondary'} variant={'subtitle2'}>{children}</Typography>);
 
 function Yeasts({yeasts}) {
     let rowIterator = 0;
@@ -20,7 +16,7 @@ function Yeasts({yeasts}) {
 
     return (
         <Box className={classes.yeasts}>
-            <RecipeDetailHeader sx={{minWidth: '8rem'}}>Jäst</RecipeDetailHeader>
+            <RecipeDetailHeader>Jäst</RecipeDetailHeader>
             <Table padding={'none'}>
                 <TableBody>
                     {

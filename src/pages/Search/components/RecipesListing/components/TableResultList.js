@@ -4,11 +4,11 @@ import {
     Paper,
     Table,
     TableBody,
-    TableCell,
+    TableCell as MuiTableCell,
     TableContainer,
     TableHead,
     TablePagination,
-    TableRow
+    TableRow, Typography, useTheme
 } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import useLocation from "wouter/use-location";
@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 function TableResultList({recipes, loading, onPageChange, onRowsPerPageChange, totalCount, rowsPerPage, page}) {
     const classes = useStyles();
+    const theme = useTheme();
 
     const rows = recipes.recipeSummaries;
     const [, setLocation] = useLocation();
@@ -50,28 +51,40 @@ function TableResultList({recipes, loading, onPageChange, onRowsPerPageChange, t
         setLocation(`/recipe-details/${id}`);
     }
 
+    const TableCell = ({children, header, ...props}) => {
+        return (
+            <MuiTableCell {...props}>
+                <Typography sx={{color: header ? theme.palette.secondary.main : ''}}>
+                    {children}
+                </Typography>
+            </MuiTableCell>
+        )
+    };
+
     return <>
         <Paper className={classes.table}>
             <TableContainer>
                 <Table className={classes.table} size="medium" aria-label="Sökresultat">
+
                     <TableHead>
                         <TableRow>
-                            <TableCell>Namn</TableCell>
+                            <TableCell header>Namn</TableCell>
                             {/*<TableCell align="right">Stil</TableCell>*/}
                             {/*<TableCell align="right">Storlek</TableCell>*/}
-                            <TableCell style={{ width: 60 }} align="right">OG</TableCell>
-                            <TableCell style={{ width: 60 }} align="right">FG</TableCell>
-                            <TableCell style={{ width: 60 }} align="right">ABV</TableCell>
+                            <TableCell header style={{ width: 60 }} align="right">OG</TableCell>
+                            <TableCell header style={{ width: 60 }} align="right">FG</TableCell>
+                            <TableCell header style={{ width: 60 }} align="right">ABV</TableCell>
                             {/*<TableCell style={{ width: 60 }} align="right">IBU</TableCell>*/}
                             {/*<TableCell style={{ width: 60 }} align="right">Färg</TableCell>*/}
                             {/*<TableCell style={{ width: 60 }} align="right">Pla</TableCell>*/}
                         </TableRow>
                     </TableHead>
+
                     <TableBody>
                         {
                             loading &&
                             <TableRow>
-                                <TableCell colSpan={5} align="center">
+                                <TableCell colSpan={4} align="center">
                                     <CircularProgress className={classes.skeleton} />
                                 </TableCell>
                             </TableRow>
@@ -79,7 +92,7 @@ function TableResultList({recipes, loading, onPageChange, onRowsPerPageChange, t
                         {
                             !loading && rows.length === 0 &&
                                 <TableRow>
-                                    <TableCell colSpan={5} align="center">
+                                    <TableCell colSpan={4} align="center">
                                         Inga resultat
                                     </TableCell>
                                 </TableRow>
@@ -100,6 +113,7 @@ function TableResultList({recipes, loading, onPageChange, onRowsPerPageChange, t
                             )
                         })}
                     </TableBody>
+
                 </Table>
             </TableContainer>
             <TablePagination

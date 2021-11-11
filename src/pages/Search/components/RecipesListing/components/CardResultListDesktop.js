@@ -131,9 +131,9 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
                                         />
                                         <CardContent>
                                             <Vitals recipe={recipeSummary} filter={['abv','og','fg']}/>
-                                            <Box className={classes.stats}>
-                                                <Typography color={'textSecondary'} variant={'body1'} className={classes.italic}>"En stor stark..."</Typography>
-                                            </Box>
+                                            {/*<Box className={classes.stats}>*/}
+                                            {/*    <Typography color={'textSecondary'} variant={'body1'} className={classes.italic}>"En stor stark..."</Typography>*/}
+                                            {/*</Box>*/}
                                         </CardContent>
                                     </Card>
                                 </Grid>

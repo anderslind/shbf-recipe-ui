@@ -3,16 +3,13 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import RecipeDetailHeader from "../RecipeDetailHeader/RecipeDetailHeader";
+import {CellMain, CellSecondary, TableCell} from "../../RecipeDetails";
 
 const useStyles = makeStyles((theme) => ({
     fermentables: {
-        display: 'flex',
-        alignItems: 'baseline'
+
     },
 }));
-const TableCell = ({children, ...props}) => (<MuiTableCell sx={{verticalAlign: 'baseline'}} {...props}>{children}</MuiTableCell>)
-const CellMain = ({children}) => (<Typography>{children}</Typography>);
-const CellSecondary = ({children}) => (<Typography color={'textSecondary'} variant={'subtitle2'}>{children}</Typography>);
 
 function Fermentables({fermentables}) {
     let rowIterator = 0;
@@ -20,7 +17,7 @@ function Fermentables({fermentables}) {
 
     return (
         <Box className={classes.fermentables}>
-            <RecipeDetailHeader sx={{minWidth: '8rem'}}>Jäsbara</RecipeDetailHeader>
+            <RecipeDetailHeader>Jäsbara</RecipeDetailHeader>
             <Table padding={'none'}>
                 <TableBody>
                     {

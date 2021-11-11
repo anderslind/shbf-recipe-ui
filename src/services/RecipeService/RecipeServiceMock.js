@@ -1,13 +1,13 @@
 function search(freeText, page, size, inventoryIds= '') {
     return Promise.resolve(mockedInitialResponse);
 }
-function recipe(id) {
+function recipes(id) {
     return Promise.resolve(recipeResponse);
 }
 
 const def = {
     search,
-    recipe
+    recipes
 };
 export default def;
 
