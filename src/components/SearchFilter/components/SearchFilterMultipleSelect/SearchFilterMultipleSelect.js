@@ -123,7 +123,7 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
     };
 
     const Row = memo(({index, isScrolling, style}) => (
-            <ListItem button key={filteredOptions[index].id} onClick={handleToggle(filteredOptions[index])} style={style}>
+            <ListItem button key={`${filteredOptions[index].id}-${index}`} onClick={handleToggle(filteredOptions[index])} style={style}>
                 <ListItemIcon>
                     <Checkbox
                         size={'small'}

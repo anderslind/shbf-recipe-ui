@@ -82,7 +82,7 @@ function SearchFilterDetails ({id, label, slide, onHide, children, handleDrawerT
                     {children}
                 </div>
 
-                <ResponsiveFooter handleDrawerToggle={handleDrawerToggle}/>
+                <ResponsiveFooter handleDrawerToggle={() => {handleDrawerToggle(); onHide()}}/>
             </div>
         </div>
 );

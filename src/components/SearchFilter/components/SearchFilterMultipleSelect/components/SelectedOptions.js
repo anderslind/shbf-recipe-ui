@@ -59,7 +59,7 @@ function SelectedOptions({filterId}) {
         }
 
         if (filterId) {
-            setOptions(filterState[filterId].map(e => ({filterId, id: e})));
+            setOptions(filterState[filterId].map(e => ({filterId, id: e, desc: getNameFromId(filterId, e)})));
         } else {
             setOptions(Object.entries(filterState).reduce((acc, current) => {
                 const filterId = current[0];

@@ -99,9 +99,7 @@ function Search(props) {
             <Divider />
             <Container maxWidth={'lg'} className={classes.actionContainer}>
                 <ActionBar setShowTable={setShowTable} showTable={showTable} />
-
             </Container>
-
             <Divider />
             <Container maxWidth={'lg'} className={classes.contentContainer}>
                 {

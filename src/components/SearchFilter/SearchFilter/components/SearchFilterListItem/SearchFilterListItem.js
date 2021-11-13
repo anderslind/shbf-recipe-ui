@@ -55,7 +55,7 @@ function SearchFilterListItem({id, label, children, handleDrawerToggle}) {
                         filterText.filterCount > 0
                         &&
                         <span className={classes.circle}>
-                            <Typography>
+                            <Typography sx={{fontSize: '1rem'}}>
                                 {
                                     filterText.filterCount > 0
                                         ? filterText.filterCount

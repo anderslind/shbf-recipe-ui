@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'stretch',
         justifyContent: 'center',
-        textAlign: 'center',
         flex: '1 1 auto',
         display: 'flex',
         '& div.MuiPaper-root': {
@@ -33,6 +32,8 @@ const useStyles = makeStyles((theme) => ({
     stats: {
         display: "flex",
         flexWrap: 'wrap',
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
         '& div:not(:last-child)': {
             marginRight: '0.7rem',
         }
@@ -84,9 +85,6 @@ function CardResultList({loading, recipes, page, onPageChange, totalCount}) {
                                     <div><Typography color={'textSecondary'} variant={'caption'}>FG</Typography> <b>{recipeSummary.fg}</b></div>
                                     {/*<div><b>IBU</b> {recipeSummary.ibu.toFixed(0)}</div>*/}
                                     {/*<div><b>EBC</b> {recipeSummary.ebc.toFixed(1)}</div>*/}
-                                </Typography>
-                                <Typography className={classes.stats} variant="overline">
-                                    <div><b>Placering</b> {/*recipeSummary.placing*/}</div>
                                 </Typography>
                             </CardContent>
                         </Card>

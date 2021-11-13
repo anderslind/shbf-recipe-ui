@@ -2,7 +2,6 @@ import call from '../../api/Api';
 import {addInventoryFilters, addVitals} from "./RecipeServiceUtil";
 
 function search(freeText, page, size, vitals, inventoryIds = '') {
-    console.log('inventoryIds', inventoryIds);
 
     let queryStr = {
         query: freeText,
