@@ -1,11 +1,17 @@
 function getFilterOptions(id, inventory, inventoryKeyValueMapState) {
-    const curriedOptionList = curryOptionListWithCount(id, inventory, inventoryKeyValueMapState);
-    for(const [key, val] of Object.entries(curriedOptionList)) {
-        if (key === id) {
-            return val;
+    const countThenName = (a, b) => {
+        const diff = b.recipeOccurrences - a.recipeOccurrences;
+        if (diff !== 0) {
+            return diff;
+        } else {
+            return a.name.localeCompare(b.name);
         }
-    }
-    return [];
+    };
+    const curriedList = curryOptionListWithCount(id, inventory, inventoryKeyValueMapState);
+    const time = new Date();
+    const sortedCurriedList = curriedList.sort(countThenName);
+    console.log('Sort time: ' + (time.getMilliseconds() - new Date().getMilliseconds()) + 'ms');
+    return sortedCurriedList;
 }
 
 function filterOptionsOnText(textFilter, options) {
@@ -24,7 +30,7 @@ function curryOptionListWithCount(id, inventory, inventoryKeyValueMapState) {
             response.push({id: key, name: value, recipeOccurrences: idCountMap.get(key) || 0})
         });
     }
-    return {[id]: response};
+    return response;
 }
 
 function createKeyValueMapForId(id, inventory) {

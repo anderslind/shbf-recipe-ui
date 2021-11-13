@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
         textAlign: 'center',
         flex: '1 1 auto',
         '& div.MuiPaper-root': {

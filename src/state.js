@@ -39,7 +39,7 @@ const recipeFilterIds = selector({
 const recipeFilterCount = selector({
     key: 'recipeFilterCountState',
     get: ({get}) => {
-        return Object.values(get(recipeFilter)).reduce((acc, arr) => arr.length > 0 ? acc + 1 : acc, 0);
+        return Object.values(get(recipeFilter)).reduce((acc, arr) => arr && arr.length > 0 ? acc + 1 : acc, 0);
     }
 });
 const recipeCount = atom({

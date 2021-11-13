@@ -34,7 +34,7 @@ function SelectedOptions({filterId}) {
     const [options, setOptions] = useState([]);
     const [filterState, setRecipeFilterState] = useRecoilState(recipeFilter);
     const inventoryKeyValueMapState = useRecoilValue(inventoryKeyValueMap);
-    const clearFilter = () => { setRecipeFilterState(FILTER_EMPTY_STATE);}
+    const   clearFilter = () => { setRecipeFilterState(FILTER_EMPTY_STATE);}
 
     const handleDelete = ({filterId, id}) => {
         if (['og','fg','abv','size','ibu'].includes(filterId)) {
@@ -88,7 +88,7 @@ function SelectedOptions({filterId}) {
                                 label={c.desc}
                                 title={c.desc}
                                 onDelete={() => handleDelete(c)}
-                                value={+c.id}
+                                value={c.id}
                                 size="small"
                                 color="secondary"
                                 variant="outlined"

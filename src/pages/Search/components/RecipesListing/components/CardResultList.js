@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexDirection: 'column',
         alignItems: 'stretch',
-        justifyContent: 'center',
         flex: '1 1 auto',
         display: 'flex',
         '& div.MuiPaper-root': {
