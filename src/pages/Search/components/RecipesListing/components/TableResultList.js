@@ -12,8 +12,7 @@ import {
 } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import useLocation from "wouter/use-location";
-
-const DEFAULT_PAGE_SIZE = 20;
+import {DEFAULT_TABLE_PAGE_SIZE} from "../Recipes";
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -36,7 +35,7 @@ function TableResultList({recipes, loading, onPageChange, onRowsPerPageChange, t
     const [, setLocation] = useLocation();
 
     useEffect(() => {
-        onRowsPerPageChange(DEFAULT_PAGE_SIZE);
+        onRowsPerPageChange(DEFAULT_TABLE_PAGE_SIZE);
     }, [onRowsPerPageChange]);
 
     const handleChangePage = (event, newPage) => {

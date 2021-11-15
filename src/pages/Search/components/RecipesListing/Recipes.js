@@ -65,7 +65,9 @@ const useStyles = makeStyles((theme, props) => ({
     }
 }));
 
-const PAGE0 = 0, DEFAULT_PAGE_SIZE = 20;
+const PAGE0 = 0
+const DEFAULT_PAGE_SIZE = 99;
+export const DEFAULT_TABLE_PAGE_SIZE = 20;
 const EMPTY_STATE = { recipeCount: 0, recipeSummaries: [], inventory: [] };
 const CLEAR_CACHE = true;
 
