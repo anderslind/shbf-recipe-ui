@@ -1,17 +1,5 @@
 function getFilterOptions(id, inventory, inventoryKeyValueMapState) {
-    const countThenName = (a, b) => {
-        const diff = b.recipeOccurrences - a.recipeOccurrences;
-        if (diff !== 0) {
-            return diff;
-        } else {
-            return a.name.localeCompare(b.name);
-        }
-    };
-    const curriedList = curryOptionListWithCount(id, inventory, inventoryKeyValueMapState);
-    const time = new Date();
-    const sortedCurriedList = curriedList.sort(countThenName);
-    console.log('Sort time: ' + (time.getMilliseconds() - new Date().getMilliseconds()) + 'ms');
-    return sortedCurriedList;
+    return curryOptionListWithCount(id, inventory, inventoryKeyValueMapState);
 }
 
 function filterOptionsOnText(textFilter, options) {
@@ -23,14 +11,24 @@ function filterOptionsOnText(textFilter, options) {
  * Iterate facets, that has no name. Lookup name, from Id. Build new structure with id, name, recipe Occurrences.
  * */
 function curryOptionListWithCount(id, inventory, inventoryKeyValueMapState) {
+    const sortFn = (a, b) => a.name.localeCompare(b.name);
+
     const idCountMap = createKeyValueMapForId(id, inventory);
-    let response = [];
+    let itemsWithCount = [];
+    let itemsWithZeroCount = [];
     if (inventoryKeyValueMapState) {
         inventoryKeyValueMapState.get(id).forEach((value, key) => {
-            response.push({id: key, name: value, recipeOccurrences: idCountMap.get(key) || 0})
+            const count = idCountMap.get(key);
+            if (count) {
+                itemsWithCount.push({id: key, name: value, recipeOccurrences: count})
+            } else {
+                itemsWithZeroCount.push({id: key, name: value, recipeOccurrences: 0})
+            }
         });
     }
-    return response;
+    itemsWithCount.sort(sortFn);
+    itemsWithZeroCount.sort(sortFn);
+    return itemsWithCount.concat(itemsWithZeroCount);
 }
 
 function createKeyValueMapForId(id, inventory) {
