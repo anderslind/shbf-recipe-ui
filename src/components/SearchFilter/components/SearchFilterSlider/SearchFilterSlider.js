@@ -24,8 +24,9 @@ function SearchFilterSlider({id, label, description, valueText, onUpdate, value,
 
     const handleChange = (event, value) => {
         setState(value);
-        onUpdate(id, value);
     }
+    const postUpdate = () => onUpdate(id, state);
+    
     return (
         <FormControl component="fieldset" className={classes.formControl} fullWidth={true}>
             <Box display={'flex'}>
@@ -46,6 +47,7 @@ function SearchFilterSlider({id, label, description, valueText, onUpdate, value,
             <Slider
                 name="my-input"
                 onChange={handleChange}
+                onChangeCommitted={postUpdate}
                 valueLabelDisplay="auto"
                 aria-labelledby="og-range-slider"
                 getAriaValueText={valuetext}
