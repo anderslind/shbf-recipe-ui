@@ -37,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
             marginRight: '0.7rem',
         }
     },
+    spinner: {
+        flexGrow: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     footer: {
         flexShrink: 0,
         padding: '1rem',
@@ -91,7 +97,7 @@ function CardResultList({loading, recipes, page, onPageChange, totalCount}) {
                 })}
             {
                 loading
-                ? <Box className={classes.footer}>
+                ? <Box className={classes.spinner}>
                         <CircularProgress />
                 </Box>
                 : <Box className={classes.footer}>

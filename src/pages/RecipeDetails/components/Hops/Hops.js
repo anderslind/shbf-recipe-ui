@@ -20,7 +20,8 @@ function Hops({hops}) {
             <Table padding={'none'}>
                 <TableBody>
                     {
-                        hops.map(hop => (
+                        hops
+                        && hops.map(hop => (
                             <TableRow key={`${hop.name}+${rowIterator}`}>
                                 <TableCell>
                                     <CellMain>{hop.name}</CellMain>

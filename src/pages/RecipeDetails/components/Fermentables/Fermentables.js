@@ -21,7 +21,8 @@ function Fermentables({fermentables}) {
             <Table padding={'none'}>
                 <TableBody>
                     {
-                        fermentables.map(fermentable => (
+                        fermentables
+                        && fermentables.map(fermentable => (
                             <TableRow key={`${fermentable.name}+${rowIterator}`}>
                                 <TableCell>
                                     <CellMain>{fermentable.name}</CellMain>

@@ -21,6 +21,7 @@ function Yeasts({yeasts}) {
                 <TableBody>
                     {
                         yeasts
+                        && yeasts
                             .sort((a, b) => a.fermentation_order > b.fermentation_order)
                             .map(yeast => (
                             <TableRow key={`${yeast.name}+${rowIterator}`}>

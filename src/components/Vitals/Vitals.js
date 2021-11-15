@@ -35,7 +35,7 @@ function Vitals({recipe, vertical, filter}) {
                     .map((vital) => (
                         <Box key={`${recipe.id}-${vital.accessor}`} sx={{display: 'flex', alignItems: 'baseline'}}>
                             <RecipeDetailHeader sx={vertical ? {minWidth: '8rem'}:{}}>{vital.desc ? vital.desc : vital.accessor}</RecipeDetailHeader>
-                            <Typography variant={'h6'}>{recipe[vital.accessor]}{vital?.suffix}</Typography>
+                            <Typography variant={'h7'}>{recipe[vital.accessor]}{vital?.suffix}</Typography>
                         </Box>
                     ))
             }

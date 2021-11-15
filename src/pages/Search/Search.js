@@ -85,6 +85,7 @@ function Search(props) {
         setFreeTextSearchState('');
     }
 
+    const smUP = useMediaQuery(theme => theme.breakpoints.up('sm'));
     const mdUP = useMediaQuery(theme => theme.breakpoints.up('md'));
 
     return (
@@ -96,11 +97,13 @@ function Search(props) {
                     onChange={onChange}
                     onClear={onClear} />
             </Container>
-            <Divider />
             <Container maxWidth={'lg'} className={classes.actionContainer}>
                 <ActionBar setShowTable={setShowTable} showTable={showTable} />
             </Container>
-            <Divider />
+            {
+                smUP
+                && <Divider />
+            }
             <Container maxWidth={'lg'} className={classes.contentContainer}>
                 {
                     mdUP

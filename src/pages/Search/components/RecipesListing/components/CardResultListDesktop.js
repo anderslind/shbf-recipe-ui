@@ -29,24 +29,24 @@ const useStyles = makeStyles((theme) => ({
     },
     rootResponsive: {
         [theme.breakpoints.down('md')]: {
-            '&  .MuiGrid-item:nth-of-type(2n)': {
+            '& .MuiGrid-item:nth-of-type(2n)': {
                 borderRightWidth: 0,
             }
         },
         [theme.breakpoints.up('md')]: {
-            '&  .MuiGrid-item:nth-of-type(3n)': {
+            '& .MuiGrid-item:nth-of-type(3n)': {
                 borderRightWidth: 0,
             }
         },
     },
     rootResponsiveFilter: {
         [theme.breakpoints.down('lg')]: {
-            '&  .MuiGrid-item:nth-of-type(2n)': {
+            '& .MuiGrid-item:nth-of-type(2n)': {
                 borderRightWidth: 0,
             }
         },
         [theme.breakpoints.up('lg')]: {
-            '&  .MuiGrid-item:nth-of-type(3n)': {
+            '& .MuiGrid-item:nth-of-type(3n)': {
                 borderRightWidth: 0,
             }
         },
@@ -71,8 +71,11 @@ const useStyles = makeStyles((theme) => ({
     header: {
         textAlign: 'left',
     },
-    progress: {
-
+    spinner: {
+        flexGrow: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     footer: {
         padding: '1rem',
@@ -102,7 +105,7 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
     }, [onRowsPerPageChange]);
 
     return (
-        <Box className={`${classes.root} ${filterVisibleState ? 'rootResponsiveFilter' : 'rootResponsive'}`}>
+        <Box className={`${classes.root} ${filterVisibleState ? classes.rootResponsiveFilter : classes.rootResponsive}`}>
             {
                 ((!!loading && recipes.length === 0) || recipes.length > 0)
                 &&
@@ -125,7 +128,7 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
                                             }
                                             title={recipeSummary.name}
                                             subheader={recipeSummary.style}
-                                            titleTypographyProps={{variant: 'h5'}}
+                                            titleTypographyProps={{variant: 'h6'}}
                                             className={classes.header}
                                         />
                                         <CardContent>
@@ -143,7 +146,9 @@ function CardResultListDesktop({loading, recipes, page, onPageChange, totalCount
             }
             {
                 loading
-                ? <CircularProgress />
+                ? <Box className={classes.spinner}>
+                        <CircularProgress />
+                </Box>
                 : <Box className={classes.footer}>
                         {
                             recipes.length < totalCount
