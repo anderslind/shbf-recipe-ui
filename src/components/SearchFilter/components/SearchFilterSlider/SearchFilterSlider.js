@@ -26,7 +26,7 @@ function SearchFilterSlider({id, label, description, valueText, onUpdate, value,
         setState(value);
     }
     const postUpdate = () => onUpdate(id, state);
-    
+
     return (
         <FormControl component="fieldset" className={classes.formControl} fullWidth={true}>
             <Box display={'flex'}>

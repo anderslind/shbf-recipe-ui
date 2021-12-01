@@ -23,6 +23,8 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        display: 'flex',
+        flexDirection: 'column',
         margin: theme.spacing(0),
         minHeight: '20rem',
         [theme.breakpoints.down('md')]: {
@@ -38,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     },
     searchIcon: {
         flex: '1 1 auto',
+    },
+    listbox: {
+        flexGrow: '1',
     },
     list: {
         flexGrow: 1,
@@ -188,18 +193,20 @@ function SearchFilterMultipleSelect({id, label, onUpdate, values}) {
                 </>
 
             }
-            <AutoSizer>
-                {({ height, width }) => (
-                    <List className={classes.list}
-                          useIsScrolling
-                          height={height-48}
-                          width={width}
-                          itemCount={filteredOptions.length}
-                          itemSize={35}>
-                        { Row }
-                    </List>
-                )}
-            </AutoSizer>
+            <Box className={classes.listbox}>
+                <AutoSizer>
+                    {({ height, width }) => (
+                        <List className={classes.list}
+                              useIsScrolling
+                              height={height-48}
+                              width={width}
+                              itemCount={filteredOptions.length}
+                              itemSize={35}>
+                            { Row }
+                        </List>
+                    )}
+                </AutoSizer>
+            </Box>
         </Box>
     );
 }

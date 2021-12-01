@@ -10,6 +10,7 @@ import SearchFilterMultipleSelect from "../components/SearchFilterMultipleSelect
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        height: 'calc(100vh - 136px)',
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,
