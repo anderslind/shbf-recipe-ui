@@ -4,6 +4,7 @@ import React from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {filterVisible, loadingRecipes, recipeCount} from "../../../../state";
+import DemoButton from "../../../../components/DemoButton/DemoButton";
 
 const useStyles = makeStyles((theme) => ({
     actionFilterFiller: {
@@ -66,6 +67,8 @@ function ActionBar({setShowFilter, setShowTable, showTable}) {
                 hiddenSMdown
                     ? null
                     : <Box className={classes.actionRight}>
+                        <DemoButton />
+                        <Divider orientation="vertical" flexItem className={classes.divider}/>
                         <Tooltip title="Visa tabell">
                             <IconButton onClick={() => setShowTable(true)} size="large">
                                 <TableChart color={showTable ? 'primary' : 'secondary'} />

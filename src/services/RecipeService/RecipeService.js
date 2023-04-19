@@ -1,7 +1,10 @@
 import call from '../../api/Api';
 import {addInventoryFilters, addVitals} from "./RecipeServiceUtil";
+import {useRecoilState} from "recoil";
+import {demo} from "../../state";
+import RecipeServiceMock from "./RecipeServiceMock";
 
-function search(freeText, page, size, vitals, inventoryIds = '') {
+function search(freeText, page, size, vitals, inventoryIds = '', demoMode = false) {
 
     let queryStr = {
         query: freeText,
@@ -12,27 +15,35 @@ function search(freeText, page, size, vitals, inventoryIds = '') {
     queryStr = addVitals(queryStr, vitals)
     queryStr = addInventoryFilters(queryStr, inventoryIds);
 
-    return call('search', {queryStr})
-        .then(data => {
-            return data;
-        })
-        .catch(err => {
-            console.error('RecipeService Search-endpoint', err);
-            throw err;
-        });
+    if (!demoMode) {
+        return call('search', {queryStr})
+            .then(data => {
+                return data;
+            })
+            .catch(err => {
+                console.error('RecipeService Search-endpoint', err);
+                throw err;
+            });
+    } else {
+        return RecipeServiceMock.search(freeText, page, size, vitals, inventoryIds)
+    }
 }
 
 
 
-function recipes(id) {
-    return call(`recipes/${id}`)
-        .then(data => {
-            return data;
-        })
-        .catch(err => {
-            console.error('RecipeService Recipes-endpoint', err);
-            throw err;
-        })
+function recipes(id, demoMode = false) {
+    if (!demoMode) {
+        return call(`recipes/${id}`)
+            .then(data => {
+                return data;
+            })
+            .catch(err => {
+                console.error('RecipeService Recipes-endpoint', err);
+                throw err;
+            })
+    } else {
+        return RecipeServiceMock.recipes(id);
+    }
 }
 
 const def = {

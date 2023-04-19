@@ -58,6 +58,10 @@ const filterVisible = atom({
     key: 'filterVisible',
     default: false
 });
+const demo = atom({
+    key: 'demo',
+    default: true
+});
 export {
     inventory,
     inventoryKeyValueMap,
@@ -68,5 +72,6 @@ export {
     recipeCount,
     freeTextSearchState,
     loadingRecipes,
-    filterVisible
+    filterVisible,
+    demo,
 }

@@ -11,6 +11,7 @@ import {
     loadingRecipes,
     recipeCount, recipeFilterCount,
     recipeFilterIds, vitalsForSearch,
+    demo
 } from "../../../../state";
 import {storeInventory} from "../../../../utils/InventoryUtils";
 import {captionColor} from "../../../../App";
@@ -81,6 +82,7 @@ function Recipes(props) {
     const recipeFilterCountState = useRecoilValue(recipeFilterCount);
     const vitalsForSearchState = useRecoilValue(vitalsForSearch);
     const [loadingRecipesState, setLoadingRecipesState] = useRecoilState(loadingRecipes);
+    const demoState = useRecoilValue(demo);
 
     const [searchResult, setSearchResult] = useState(EMPTY_STATE);
     const [searchResultCache, setSearchResultCache] = useState([]);
@@ -107,7 +109,7 @@ function Recipes(props) {
 
         setTimeout(() => {
             RecipeService
-                .search(freeTextState, clearCache ? 0 : page, rowsPerPage, vitalsForSearchState, recipeFilterIdsState)
+                .search(freeTextState, clearCache ? 0 : page, rowsPerPage, vitalsForSearchState, recipeFilterIdsState, demoState)
                 .then(data => {
                     if (data.inventory) {
                         if (freeTextState === '') {
@@ -134,7 +136,7 @@ function Recipes(props) {
     useEffect(() => {
         search(CLEAR_CACHE);
         // eslint-disable-next-line
-    }, [freeTextState, rowsPerPage, recipeFilterIdsState]);
+    }, [freeTextState, rowsPerPage, recipeFilterIdsState, demoState]);
 
     useEffect(() => {
         if (searchResultCache.length === 0) {

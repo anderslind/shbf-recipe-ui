@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import makeStyles from '@mui/styles/makeStyles';
 import SearchBar from "./components/SearchBar/SearchBar";
 import Recipes from "./components/RecipesListing/Recipes";
-import {Container, Divider, useMediaQuery} from "@mui/material";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
-import {filterVisible, freeTextSearchState,} from "../../state";
+import {Container, Divider, IconButton, useMediaQuery} from "@mui/material";
+import {useRecoilValue, useSetRecoilState} from "recoil";
+import {demo, filterVisible, freeTextSearchState,} from "../../state";
 import SearchFilterDesktop from "../../components/SearchFilter/SearchFilterDesktop/SearchFilterDesktop";
 import ActionBar from './components/ActionBar/ActionBar';
 
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     searchContainer: {
+        display: "flex",
         flexGrow: 0,
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
@@ -64,6 +65,7 @@ function Search(props) {
     const [showFixed, setShowFixed] = useState(DEFAULT_SHOW_FIXED);
 
     const filterVisibleState = useRecoilValue(filterVisible);
+    const demoState = useRecoilValue(demo);
 
     useEffect(() => {
         function handleScrollEvent () {
@@ -77,6 +79,7 @@ function Search(props) {
         window.addEventListener('scroll', handleScrollEvent, {passive: true});
         return () => window.removeEventListener('scroll', handleScrollEvent);
     }, [showFixed]);
+
 
     const onChange = (value) => {
         setFreeTextSearchState(value);

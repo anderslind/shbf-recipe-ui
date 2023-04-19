@@ -17,6 +17,8 @@ import Hops from "./components/Hops/Hops";
 import Fermentables from "./components/Fermentables/Fermentables";
 import Yeasts from "./components/Yeasts/Yeasts";
 import RecipeService from "../../services/RecipeService/RecipeService";
+import {useRecoilValue} from "recoil";
+import {demo} from "../../state";
 
 export const routePattern = '/recipe-details/:uuid';
 
@@ -46,13 +48,14 @@ function RecipeDetails() {
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [recipe, setRecipe] = useState(undefined);
+    const demoState = useRecoilValue(demo);
 
     function handleClose() {
         setLocation('/');
     }
 
     useEffect(() => {
-        RecipeService.recipes(uuid)
+        RecipeService.recipes(uuid, demoState)
             .then((response) => {
                 setRecipe(response)
             })
